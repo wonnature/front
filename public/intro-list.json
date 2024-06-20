@@ -1,5 +1,5 @@
 {
-  "logo": "/images/title1_1.png",
+  "logo": "/images/intro/title1_1.png",
   "intro": [
     {
       "title": "대표",
@@ -32,12 +32,12 @@
   ],
   "images": [
     {
-      "title": "/images/about_1_ti2.png",
-      "image": "/images/about_building.png"
+      "title": "/images/intro/about_1_ti2.png",
+      "image": "/images/intro/about_building.png"
     },
     {
-      "title": "/images/about_1_ti.png",
-      "image": "/images/organization.png"
+      "title": "/images/intro/about_1_ti.png",
+      "image": "/images/intro/organization.png"
     }
   ]
 }
