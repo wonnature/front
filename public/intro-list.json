@@ -1,0 +1,43 @@
+{
+  "logo": "/images/title1_1.png",
+  "intro": [
+    {
+      "title": "대표",
+      "content": "산학협력단장"
+    },
+    {
+      "title": "기업명",
+      "content": "원광대학교 원네이처"
+    },
+    {
+      "title": "설립",
+      "content": "2015년 9월 21일"
+    },
+    {
+      "title": "본사",
+      "content": "전라북도 익산시 익산대로 460 원광대학교 제 1호 산학협력관 2층"
+    },
+    {
+      "title": "주 생산품",
+      "content": "화장품/식품 원료, 화장품/식품, 품질관리업무 대행"
+    },
+    {
+      "title": "주요시설",
+      "content": "기기분석실, 중금속분석실, 전처리실, 미생물실, 일반실험실, 원료제조실, 포장실, 전시실, 행정관리실, 교육지원실 등"
+    },
+    {
+      "title": "주요장비",
+      "content": "품질검사장비 및 원료제조 장비 총 50여종 80여대"
+    }
+  ],
+  "images": [
+    {
+      "title": "/images/about_1_ti2.png",
+      "image": "/images/about_building.png"
+    },
+    {
+      "title": "/images/about_1_ti.png",
+      "image": "/images/organization.png"
+    }
+  ]
+}
