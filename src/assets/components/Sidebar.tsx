@@ -27,13 +27,29 @@ const Sidebar = () => {
       setIsOpen(false);
     }
 
+    if (window.innerWidth <= 1000) {
+      setActiveColor("var(--base-color)");
+    } else {
+      setActiveColor("white");
+    }
+
     window.addEventListener("resize", handleResize);
+
+    console.log(location.pathname);
+    setIsOpen(false);
+
+    if (location.pathname.includes("introduce")) {
+      setOpenCategories([0]);
+    }
+    if (location.pathname !== "/") {
+      setIsOpen(true);
+    }
 
     // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [location.pathname]);
 
   const handleResize = () => {
     console.log(window.innerWidth, isOpen, location);
@@ -46,7 +62,7 @@ const Sidebar = () => {
     }
 
     if (window.innerWidth <= 1000) {
-      setActiveColor("red");
+      setActiveColor("var(--base-color)");
     } else {
       setActiveColor("white");
     }
@@ -60,17 +76,7 @@ const Sidebar = () => {
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    console.log(location.pathname);
-    setIsOpen(false);
-
-    if (location.pathname.includes("introduce")) {
-      setOpenCategories([0]);
-    }
-    if (location.pathname !== "/") {
-      setIsOpen(true);
-    }
-  }, [location.pathname]);
+  useEffect(() => {}, [location.pathname]);
 
   return (
     <>
@@ -135,7 +141,7 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
   transition: all 0.5s;
   overflow-y: scroll;
   ${({ $isOpen, $isAnimate }) =>
-    $isOpen
+    $isOpen && window.innerWidth < 1000
       ? css`
           animation: ${slideRight} 0.3s forwards;
         `
