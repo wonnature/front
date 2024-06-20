@@ -35,6 +35,10 @@ const IntroContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  padding: 20px;
 `;
 
 const NodeList = styled.div`
@@ -48,6 +52,7 @@ const NodeList = styled.div`
 const StyledLi = styled.li`
   display: flex;
   align-items: center;
+  margin: 10px 0;
 
   &::before {
     content: "• ";
@@ -58,9 +63,11 @@ const StyledLi = styled.li`
   h3 {
     font-weight: bold;
     margin-right: 0.5rem;
+    white-space: nowrap;
   }
 
   p {
+    text-align: left;
     margin: 0;
   }
 `;

@@ -39,7 +39,8 @@ const IntroContainer = styled.div`
 `;
 
 const Content = styled.div`
-  width: 80%;
+  width: 100%;
+  max-width: 800px;
   margin-top: 2rem;
 
   h2 {

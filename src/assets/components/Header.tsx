@@ -109,7 +109,7 @@ const Container = styled.div`
   height: var(--header-height);
   position: sticky;
   top: 0px;
-  z-index: 10;
+  z-index: 110;
   background-color: white;
   padding: 15px 0;
   display: flex;
