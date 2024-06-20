@@ -21,9 +21,9 @@ const Sidebar = () => {
           <CategoryTitle onClick={() => toggleCategory(index)}>
             {category.title}
             {openCategories.includes(index) ? (
-              <MdExpandLess size={30} fill={"white"} />
+              <MdExpandLess size={30} fill={"black"} />
             ) : (
-              <MdExpandMore size={30} fill={"white"} />
+              <MdExpandMore size={30} fill={"black"} />
             )}
           </CategoryTitle>
           {openCategories.includes(index) && (
@@ -40,6 +40,7 @@ const Sidebar = () => {
           )}
         </Category>
       ))}
+      <FloatBtn>=</FloatBtn>
     </Container>
   );
 };
@@ -50,6 +51,10 @@ const Container = styled.div`
   background-color: #f8f9fa;
   padding: 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+  @media screen and (min-width: 1000px) {
+    display: none;
+  }
 `;
 
 const Category = styled.div`
@@ -61,11 +66,10 @@ const CategoryTitle = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 800;
   cursor: pointer;
   padding: 10px;
-  background-color: #9bcc68;
-  color: white;
+  color: black;
   border-radius: 5px;
 `;
 
@@ -75,10 +79,30 @@ const SubcategoryList = styled.div`
 
 const SubcategoryItem = styled.div`
   font-size: 1.1rem;
-  padding: 5px 0;
+  font-weight: 600;
+  padding: 5px 20px;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
+  }
+`;
+
+const FloatBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  color: white;
+  width: 80px;
+  height: 80px;
+  position: fixed;
+  border-radius: 100px;
+  background-color: var(--base-color);
+  left: 30px;
+  bottom: 30px;
+
+  &:hover {
+    cursor: pointer;
   }
 `;
 

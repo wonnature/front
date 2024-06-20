@@ -25,12 +25,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (!isClickMenuBtn) {
+    if (!isExtend) {
       setTimeout(() => {
         setAnimate(false);
       }, 300);
     }
-  }, [isClickMenuBtn]);
+  }, [isExtend]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -78,7 +78,10 @@ const Header = () => {
     <Container
       ref={HeaderRef}
       onMouseEnter={() => setIsExtend(true)}
-      onMouseLeave={() => setIsExtend(false)}
+      onMouseLeave={() => {
+        setIsExtend(false);
+        setAnimate(true);
+      }}
       className={isScrolled ? "scrolled" : ""}
     >
       <Logo src="/images/logo.png" alt="logo" onClick={() => navigate("/")} />
@@ -87,17 +90,11 @@ const Header = () => {
           <Tab onClick={handleNavigate}>{category.title}</Tab>
         ))}
       </Tabs>
-      <RxHamburgerMenu
-        onClick={() => {
-          setIsClickMenuBtn(!isClickMenuBtn);
-          setAnimate(true);
-        }}
-      />
-      <ExtendContiner $isHover={isExtend}>
+      <ExtendContiner $isHover={isExtend} $isAnimate={animate}>
         {categories.map((category, index) => (
           <ExtendColumn>
             {category.subcategories.map((category) => (
-              <div>{category.name}</div>
+              <Link to={category.url}>{category.name}</Link>
             ))}
           </ExtendColumn>
         ))}
@@ -128,25 +125,11 @@ const Container = styled.div`
     box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
   }
 
-  & svg {
-    position: absolute;
-    right: 32px;
-    top: 28px;
-    font-size: 25px;
-    display: none;
-    color: black;
-  }
-
   @media screen and (max-width: 1000px) {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding: 27px 0;
-
-    & svg {
-      display: block;
-    }
 
     &.scrolled {
       background-color: rgb(255, 255, 255);
@@ -156,31 +139,73 @@ const Container = styled.div`
   }
 `;
 
-const ExtendContiner = styled.div<{ $isHover: boolean }>`
-  display: ${(props) => (props.$isHover ? "flex" : "none")};
+const ExtendContiner = styled.div<{ $isHover: boolean; $isAnimate: boolean }>`
+  display: flex;
+  justify-content: flex-end;
   width: 100vw;
+  padding-right: 10%;
   height: auto;
   position: absolute;
-  top: 30px;
-  background-color: white;
+  top: var(--header-height);
+  background-color: #ffffff;
+  box-shadow: 0 4px 7px rgba(155, 204, 104, 0.15);
+
+  ${({ $isHover, $isAnimate }) =>
+    $isHover
+      ? css`
+          animation: ${slideDown} 0.3s forwards;
+        `
+      : $isAnimate
+      ? css`
+          animation: ${slideUp} 0.3s forwards;
+        `
+      : css`
+          display: none;
+        `}
+
+  @media screen and (max-width: 1500px) {
+    padding-right: 3%;
+  }
+  @media screen and (max-width: 1350px) {
+    padding-right: 1%;
+  }
+  @media screen and (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 const ExtendColumn = styled.div`
   display: flex;
-  width: 300px;
+  width: 250px;
   flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+
+  & a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 4px 0;
+    transition: color 0.3s;
+    font-size: 1.18rem;
+  }
+
+  & a:hover {
+    color: var(--base-color);
+  }
+
+  @media screen and (max-width: 1350px) {
+    width: 200px;
+  }
 `;
 
 const Logo = styled.img`
-  width: 230px;
+  width: 200px;
   padding-left: 30px;
 
   &:hover {
     cursor: pointer;
-  }
-
-  @media screen and (max-width: 1400px) {
-    padding-left: 30px;
   }
 `;
 
@@ -189,82 +214,61 @@ const Tabs = styled.div<{
   $animate: boolean;
 }>`
   height: 54px;
-  padding: 0 20%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  width: 70%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10%;
+  width: calc(100% - 200px);
+  transition: all 0.5s;
 
-  @media screen and (max-width: 1400px) {
-    width: 90%;
+  @media screen and (max-width: 1500px) {
+    padding-right: 3%;
+  }
+
+  @media screen and (max-width: 1350px) {
+    padding-right: 1%;
   }
 
   @media screen and (max-width: 1000px) {
-    background-color: white;
-    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
-    padding: 0;
-    height: auto;
-    position: absolute;
-    top: var(--header-height);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    ${({ $isClickMenuBtn, $animate }) =>
-      $isClickMenuBtn
-        ? css`
-            animation: ${slideDown} 0.3s forwards;
-          `
-        : $animate
-        ? css`
-            animation: ${slideUp} 0.3s forwards;
-          `
-        : css`
-            display: none;
-          `}
+    display: none;
   }
 `;
 
 const Tab = styled.div`
+  width: 250px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.25rem;
+  padding: 15px 0;
+  position: relative;
+  transition: color 0.3s;
 
-  & a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1.15rem;
-    padding: 15px 0;
-    position: relative;
-    transition: color 0.3s;
-
-    @media screen and (min-width: 1001px) {
-      &:before {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: #474da2;
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-      }
-
-      &:hover:before {
-        transform: scaleX(1);
-      }
-    }
+  &:hover {
+    cursor: pointer;
   }
 
-  @media screen and (max-width: 1000px) {
-    & a {
+  @media screen and (max-width: 1350px) {
+    width: 200px;
+  }
+
+  @media screen and (min-width: 1001px) {
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
       width: 100%;
-      padding: 20px 0;
+      height: 2px;
+      background: var(--base-color);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
     }
 
-    & a:hover {
-      border-bottom: 0px;
-      background-color: rgba(0, 0, 0, 0.03);
+    &:hover:before {
+      transform: scaleX(1);
     }
   }
 `;

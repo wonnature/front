@@ -1,7 +1,7 @@
 :root {
-  --header-height: 85px;
+  --header-height: 80px;
   --footer-height: 210px;
-  --base-color: #304fa3;
+  --base-color: #9bcc68;
 }
 
 @font-face {
