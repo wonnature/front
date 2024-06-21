@@ -8,7 +8,7 @@ interface Category {
   subcategories: Subcategory[];
 }
 
-export const categories: Category[] = [
+export let categories: Category[] = [
   {
     title: "회사소개",
     subcategories: [
@@ -23,7 +23,7 @@ export const categories: Category[] = [
   {
     title: "제품소개 및 구매",
     subcategories: [
-      { name: "화장품", url: "/products" },
+      { name: "화장품", url: "/product" },
       { name: "식품", url: "/purchase-info" },
       { name: "기념품", url: "/shipping-info" },
     ],
@@ -43,6 +43,13 @@ export const categories: Category[] = [
       { name: "공지사항", url: "/announcements" },
       { name: "이벤트", url: "/events" },
       { name: "고객센터", url: "/customer-service" },
+    ],
+  },
+  {
+    title: "로그인/회원가입",
+    subcategories: [
+      { name: "로그인", url: "/login" },
+      { name: "회원가입", url: "/register" },
     ],
   },
 ];

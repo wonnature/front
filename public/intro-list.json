@@ -33,11 +33,11 @@
   "images": [
     {
       "title": "/images/intro/about_1_ti2.png",
-      "image": "/images/intro/about_building.png"
+      "image": "/images/intro/about_building.jpg"
     },
     {
       "title": "/images/intro/about_1_ti.png",
-      "image": "/images/intro/organization.png"
+      "image": "/images/intro/organization.jpg"
     }
   ]
 }

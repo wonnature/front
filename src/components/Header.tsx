@@ -91,6 +91,7 @@ const Header = () => {
         ))}
       </Tabs>
       <ExtendContiner $isHover={isExtend} $isAnimate={animate}>
+        <ExtendColumn></ExtendColumn>
         {categories.map((category, index) => (
           <ExtendColumn>
             {category.subcategories.map((category) => (
@@ -181,6 +182,9 @@ const ExtendColumn = styled.div`
   align-items: center;
   padding-bottom: 10px;
 
+  &:first-child {
+    width: 230px;
+  }
   & a {
     display: flex;
     justify-content: center;

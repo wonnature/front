@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import LoadingSpinner from "./components/LoadingSpinner";
 import styled from "styled-components";
 import Home from "./pages/home/Home";
+import ProductList from "./pages/product/ProductList";
 
 const CompanyIntro = lazy(() => import("./pages/intro/CompanyIntro"));
 const Greeting = lazy(() => import("./pages/intro/Greeting"));
@@ -15,6 +16,8 @@ const Business = lazy(() => import("./pages/intro/Business"));
 const Map = lazy(() => import("./pages/intro/Map"));
 const ProductFactory = lazy(() => import("./pages/product/ProductFactory"));
 const NotPageFound = lazy(() => import("./components/NotPageFound"));
+const Login = lazy(() => import("./pages/user/Login"));
+const Product = lazy(() => import("./pages/product/Product"));
 
 const Router = () => {
   return (
@@ -25,6 +28,7 @@ const Router = () => {
           <Sidebar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/introduce">
               <Route path="intro" element={<CompanyIntro />} />
               <Route path="greeting" element={<Greeting />} />
@@ -34,6 +38,8 @@ const Router = () => {
               <Route path="map" element={<Map />} />
             </Route>
             <Route path="/product">
+              <Route path="" element={<ProductList />} />
+              <Route path=":id" element={<Product />} />
               <Route path="write" element={<ProductFactory />} />
             </Route>
             <Route path="*" element={<NotPageFound />} />
