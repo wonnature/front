@@ -93,7 +93,6 @@ const Sidebar = () => {
                     <SubcategoryItem
                       key={subIndex}
                       onClick={() => {
-                        setIsAnimate(true);
                         navigate(subcategory.url);
                       }}
                       $color={
