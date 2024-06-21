@@ -4,7 +4,9 @@ import companyIntroData from "../../../public/intro-list.json";
 const CompanyIntro = () => {
   return (
     <IntroContainer>
-      <img src={companyIntroData.logo} alt="logo" />
+      <LogoContainer>
+        <img src={companyIntroData.logo} alt="logo" />
+      </LogoContainer>
       <NodeList>
         <ul>
           {companyIntroData.intro.map((item, index) => (
@@ -18,10 +20,10 @@ const CompanyIntro = () => {
       <Content>
         <ul>
           {companyIntroData.images.map((item, index) => (
-            <li key={index}>
+            <ContentImage key={index}>
               <img src={item.title} />
               <img src={item.image} />
-            </li>
+            </ContentImage>
           ))}
         </ul>
       </Content>
@@ -41,6 +43,10 @@ const IntroContainer = styled.div`
   padding: 20px;
 `;
 
+const LogoContainer = styled.div`
+  align-self: flex-start;
+`;
+
 const NodeList = styled.div`
   ul {
     list-style-type: none;
@@ -52,7 +58,6 @@ const NodeList = styled.div`
 const StyledLi = styled.li`
   display: flex;
   align-items: center;
-  margin: 10px 0;
 
   &::before {
     content: "• ";
@@ -62,7 +67,7 @@ const StyledLi = styled.li`
 
   h3 {
     font-weight: bold;
-    margin-right: 0.5rem;
+    margin-right: 2rem;
     white-space: nowrap;
   }
 
@@ -80,5 +85,16 @@ const Content = styled.div`
   ul {
     list-style-type: none;
     padding: 0;
+  }
+`;
+
+const ContentImage = styled.li`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+
+  img {
+    margin-top: 10px;
   }
 `;
