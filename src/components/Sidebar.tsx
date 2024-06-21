@@ -29,20 +29,16 @@ const Sidebar = () => {
 
     if (window.innerWidth <= 1000) {
       setActiveColor("var(--base-color)");
+      setIsAnimate(true);
+      setIsOpen(false);
     } else {
       setActiveColor("white");
     }
 
     window.addEventListener("resize", handleResize);
 
-    console.log(location.pathname);
-    setIsOpen(false);
-
     if (location.pathname.includes("introduce")) {
       setOpenCategories([0]);
-    }
-    if (location.pathname !== "/") {
-      setIsOpen(true);
     }
 
     // Cleanup the event listener on component unmount
@@ -75,8 +71,6 @@ const Sidebar = () => {
       }, 300);
     }
   }, [isOpen]);
-
-  useEffect(() => {}, [location.pathname]);
 
   return (
     <>

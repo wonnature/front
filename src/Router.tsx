@@ -1,9 +1,9 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Sidebar from "./assets/components/Sidebar";
-import Header from "./assets/components/Header";
-import Footer from "./assets/components/Footer";
-import LoadingSpinner from "./assets/components/LoadingSpinner";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LoadingSpinner from "./components/LoadingSpinner";
 import styled from "styled-components";
 import Home from "./pages/home/Home";
 
@@ -13,6 +13,8 @@ const Purpose = lazy(() => import("./pages/intro/Purpose"));
 const History = lazy(() => import("./pages/intro/History"));
 const Business = lazy(() => import("./pages/intro/Business"));
 const Map = lazy(() => import("./pages/intro/Map"));
+const ProductFactory = lazy(() => import("./pages/product/ProductFactory"));
+const NotPageFound = lazy(() => import("./components/NotPageFound"));
 
 const Router = () => {
   return (
@@ -31,6 +33,10 @@ const Router = () => {
               <Route path="business-field" element={<Business />} />
               <Route path="map" element={<Map />} />
             </Route>
+            <Route path="/product">
+              <Route path="write" element={<ProductFactory />} />
+            </Route>
+            <Route path="*" element={<NotPageFound />} />
           </Routes>
         </BodyContainer>
         <Footer />
