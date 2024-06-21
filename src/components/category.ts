@@ -31,10 +31,10 @@ export const categories: Category[] = [
   {
     title: "화장품품질검사",
     subcategories: [
-      { name: "화장품 시험·검사 서비스", url: "/inspection-services" },
-      { name: "기계보유현황", url: "/inspection-results" },
-      { name: "품질검사 및 검사항목", url: "/inspection-apply" },
-      { name: "품질검사 신청", url: "/inspection-apply" },
+      { name: "화장품 시험·검사 서비스", url: "/qualityTest/service" },
+      { name: "기계보유현황", url: "/qualityTest/Result" },
+      { name: "품질검사 및 검사항목", url: "/qualityTest/Category" },
+      { name: "품질검사 신청", url: "/qualityTest/Apply" },
     ],
   },
   {

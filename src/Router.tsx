@@ -13,6 +13,11 @@ const Purpose = lazy(() => import("./pages/intro/Purpose"));
 const History = lazy(() => import("./pages/intro/History"));
 const Business = lazy(() => import("./pages/intro/Business"));
 const Map = lazy(() => import("./pages/intro/Map"));
+
+const Service = lazy(() => import("./pages/qualityTest/Service"));
+const Result = lazy(() => import("./pages/qualityTest/Result"));
+const Category = lazy(() => import("./pages/qualityTest/Category"));
+const Apply = lazy(() => import("./pages/qualityTest/Apply"));
 const ProductFactory = lazy(() => import("./pages/product/ProductFactory"));
 const NotPageFound = lazy(() => import("./components/NotPageFound"));
 
@@ -33,8 +38,15 @@ const Router = () => {
               <Route path="business-field" element={<Business />} />
               <Route path="map" element={<Map />} />
             </Route>
+
             <Route path="/product">
               <Route path="write" element={<ProductFactory />} />
+            </Route>
+            <Route path="/qualityTest">
+              <Route path="Service" element={<Service />} />
+              <Route path="Result" element={<Result />} />
+              <Route path="Category" element={<Category />} />
+              <Route path="Apply" element={<Apply />} />
             </Route>
             <Route path="*" element={<NotPageFound />} />
           </Routes>
