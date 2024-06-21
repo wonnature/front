@@ -8,9 +8,15 @@ const Purpose = () => {
         <img src="/images/intro/about_2_img.png" alt="logo" />
       </TitleImg>
       <SubImg>
-        <img src="/images/intro/about_2_pic_01.png" alt="logo" />
-        <img src="/images/intro/about_2_pic_02.png" alt="logo" />
-        <img src="/images/intro/about_2_pic_03.png" alt="logo" />
+        <ImageWrapper>
+          <img src="/images/intro/about_2_pic_01.png" alt="logo" />
+        </ImageWrapper>
+        <ImageWrapper>
+          <img src="/images/intro/about_2_pic_02.png" alt="logo" />
+        </ImageWrapper>
+        <ImageWrapper>
+          <img src="/images/intro/about_2_pic_03.png" alt="logo" />
+        </ImageWrapper>
       </SubImg>
       <StyledLi>
         <ul>
@@ -44,8 +50,24 @@ const IntroContainer = styled.div`
   padding: 20px;
 `;
 
-const TitleImg = styled.div``;
+const TitleImg = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+`;
 
-const SubImg = styled.div``;
+const SubImg = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+`;
 
-const StyledLi = styled.div``;
+const ImageWrapper = styled.div`
+  padding: 0 10px;
+`;
+
+const StyledLi = styled.div`
+  li::marker {
+    color: green;
+  }
+`;
