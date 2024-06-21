@@ -4,7 +4,9 @@ import companyIntroData from "../../../public/business-list.json";
 const CompanyIntro = () => {
   return (
     <IntroContainer>
-      <img src="/images/intro/title1_4.png" alt="logo" />
+      <LogoContainer>
+        <img src="/images/intro/title1_4.png" alt="logo" />
+      </LogoContainer>
 
       <TitleImg>
         <img src="/images/intro/about_4_img.png" alt="logo" />
@@ -39,19 +41,20 @@ const IntroContainer = styled.div`
   padding: 20px;
 `;
 
+const LogoContainer = styled.div`
+  align-self: flex-start;
+`;
 const TitleImg = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 30px;
+  padding: 40px 0;
 `;
 
 const NodeList = styled.div`
   ul {
     list-style-type: none;
-    padding: 0;
+    padding: 5px 0;
     text-align: center;
-    padding-bottom: 10px;
   }
 
   li {

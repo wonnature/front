@@ -3,7 +3,10 @@ import styled from "styled-components";
 const Purpose = () => {
   return (
     <IntroContainer>
-      <img src="/images/intro/title1_2.png" alt="logo" />
+      <LogoContainer>
+        <img src="/images/intro/title1_2.png" alt="logo" />
+      </LogoContainer>
+
       <TitleImg>
         <img src="/images/intro/about_2_img.png" alt="logo" />
       </TitleImg>
@@ -50,10 +53,14 @@ const IntroContainer = styled.div`
   padding: 20px;
 `;
 
+const LogoContainer = styled.div`
+  align-self: flex-start;
+`;
+
 const TitleImg = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 20px;
+  padding: 20px 0;
 `;
 
 const SubImg = styled.div`
@@ -67,6 +74,9 @@ const ImageWrapper = styled.div`
 `;
 
 const StyledLi = styled.div`
+  li {
+    padding: 5px 0;
+  }
   li::marker {
     color: green;
   }

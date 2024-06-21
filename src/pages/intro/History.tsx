@@ -4,7 +4,10 @@ import historyData from "../../../public/history-list.json";
 const Purpose = () => {
   return (
     <IntroContainer>
-      <img src="/images/intro/title1_3.png" alt="logo" />
+      <LogoContainer>
+        <img src="/images/intro/title1_3.png" alt="logo" />
+      </LogoContainer>
+
       <StyledList>
         {historyData.content.content.map((item, index) => (
           <HistoryItem key={index}>
@@ -35,11 +38,16 @@ const IntroContainer = styled.div`
   height: auto;
   padding: 20px;
 `;
+
+const LogoContainer = styled.div`
+  align-self: flex-start;
+`;
 const StyledList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  padding: 30px 0;
 `;
 
 const HistoryItem = styled.div`
@@ -47,11 +55,11 @@ const HistoryItem = styled.div`
   flex-direction: row;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 `;
 
 const HistoryLogo = styled.img`
-  margin-right: 20px;
+  margin-right: 40px;
 `;
 
 const HistoryDetails = styled.div`
@@ -73,4 +81,6 @@ const HistoryNum = styled.div`
   margin-right: 10px;
 `;
 
-const HistoryContent = styled.div``;
+const HistoryContent = styled.div`
+  padding-bottom: 5px;
+`;
