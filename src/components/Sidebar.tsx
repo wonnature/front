@@ -53,7 +53,7 @@ const Sidebar = () => {
     if (location.pathname === "/" && window.innerWidth > 1000) {
       setIsOpen(false);
     }
-    if (location.pathname !== "/") {
+    if (location.pathname !== "/" && window.innerWidth > 1000) {
       setIsOpen(true);
     }
 
@@ -66,15 +66,16 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (!isOpen) {
+      setIsAnimate(true);
       setTimeout(() => {
         setIsAnimate(false);
-      }, 300);
+      }, 300); // 애니메이션의 지속 시간과 일치하도록 설정
     }
   }, [isOpen]);
 
   return (
     <>
-      {isOpen && (
+      {(isOpen || isAnimate) && (
         <Container $isAnimate={isAnimate} $isOpen={isOpen}>
           {categories.map((category, index) => (
             <Category key={index}>
@@ -91,7 +92,10 @@ const Sidebar = () => {
                   {category.subcategories.map((subcategory, subIndex) => (
                     <SubcategoryItem
                       key={subIndex}
-                      onClick={() => navigate(subcategory.url)}
+                      onClick={() => {
+                        setIsAnimate(true);
+                        navigate(subcategory.url);
+                      }}
                       $color={
                         location.pathname === subcategory.url
                           ? activeColor
@@ -110,8 +114,10 @@ const Sidebar = () => {
 
       <FloatBtn
         onClick={() => {
-          setIsAnimate(true);
           setIsOpen(!isOpen);
+          if (isOpen) {
+            setIsAnimate(true);
+          }
         }}
       >
         =
@@ -150,7 +156,9 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
   @media screen and (min-width: 1000px ) {
     //1000px 이상일 경우 구조에 맞게 띄움
     display: flex;
-    position: relative;
+    position: sticky;
+    top: calc(var(--header-height) + 25px);
+    align-self: flex-start;
     height: 500px;
     border-radius: 15px;
     /* margin-left: -2%; */
