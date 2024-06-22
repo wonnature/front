@@ -1,0 +1,113 @@
+{
+  "headers": [
+    {
+      "text": "기기명",
+      "value": "machine"
+    },
+    {
+      "text": "모델명",
+      "value": "model"
+    },
+    {
+      "text": "제조원",
+      "value": "manufacturer"
+    }
+  ],
+  "items": [
+    {
+      "machine": "원자 흡광 분광광도계",
+      "model": "PinAAcle 900Z",
+      "manufacturer": "Perkin Elmer"
+    },
+    {
+      "machine": "초단파 융해장치",
+      "model": "Mars 6",
+      "manufacturer": "CEM"
+    },
+    {
+      "machine": "가시부 및 자외선 분광광도계",
+      "model": "UV-Vis 8453",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "유도결합 플리즈마 분광광도계",
+      "model": "Optima 8300DV",
+      "manufacturer": "Perkin Elmer"
+    },
+    {
+      "machine": "기체 크로마토크래피",
+      "model": "7890A",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "기체 크로마토크래피",
+      "model": "GC/FID/NPD",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "기체 크로마토크래피",
+      "model": "7890A",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "고성능 액체 크로마토그래피",
+      "model": "(DAD/FLD)",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "고성능 액체 크로마토그래피",
+      "model": "Agilent 1260",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "고성능 액체 크로마토그래피",
+      "model": "(DAD/RID)",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "LC Mass-Mass",
+      "model": "Agilent 6420",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "GC Mass",
+      "model": "5975 GC/MSD",
+      "manufacturer": "Agilent"
+    },
+    {
+      "machine": "자외선 차단 지수 측정장치",
+      "model": "SPF-2905",
+      "manufacturer": "Optometrics"
+    },
+    {
+      "machine": "전위차 측정장치",
+      "model": "T50",
+      "manufacturer": "Mettler"
+    },
+    {
+      "machine": "수은 측정장치",
+      "model": "MA-3000",
+      "manufacturer": "NIC"
+    },
+    {
+      "machine": "FT-IR",
+      "model": "Spectrum Two",
+      "manufacturer": "Perkin Elmer"
+    },
+    {
+      "machine": "X선회절분석기",
+      "model": "Ultima IV",
+      "manufacturer": "Rigaku"
+    },
+    {
+      "machine": "방사능검출기",
+      "model": "foodguard-KF1",
+      "manufacturer": "ORTEC"
+    },
+    {
+      "machine": "입도분석기",
+      "model": "Microtrac S3500",
+      "manufacturer": "Malvern"
+    }
+  ]
+}
