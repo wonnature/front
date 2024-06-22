@@ -87,15 +87,19 @@ const Header = () => {
       <Logo src="/images/logo.png" alt="logo" onClick={() => navigate("/")} />
       <Tabs $isClickMenuBtn={isClickMenuBtn} $animate={animate}>
         {categories.map((category) => (
-          <Tab onClick={handleNavigate}>{category.title}</Tab>
+          <Tab key={category.title} onClick={handleNavigate}>
+            {category.title}
+          </Tab>
         ))}
       </Tabs>
       <ExtendContiner $isHover={isExtend} $isAnimate={animate}>
-        <ExtendColumn></ExtendColumn>
+        <ExtendColumn></ExtendColumn> {/*로고 자리를 위한 빈 열 */}
         {categories.map((category, index) => (
-          <ExtendColumn>
+          <ExtendColumn key={category.title + index}>
             {category.subcategories.map((category) => (
-              <Link to={category.url}>{category.name}</Link>
+              <Link to={category.url} key={category.name}>
+                {category.name}
+              </Link>
             ))}
           </ExtendColumn>
         ))}
@@ -164,7 +168,7 @@ const ExtendContiner = styled.div<{ $isHover: boolean; $isAnimate: boolean }>`
           display: none;
         `}
 
-  @media screen and (max-width: 1500px) {
+  @media screen and (max-width: 1700px) {
     padding-right: 3%;
   }
   @media screen and (max-width: 1350px) {
@@ -183,7 +187,8 @@ const ExtendColumn = styled.div`
   padding-bottom: 10px;
 
   &:first-child {
-    width: 230px;
+    min-width: 200px;
+    width: 200px;
   }
   & a {
     display: flex;
@@ -201,6 +206,10 @@ const ExtendColumn = styled.div`
 
   @media screen and (max-width: 1350px) {
     width: 200px;
+
+    & a {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -224,7 +233,7 @@ const Tabs = styled.div<{
   width: calc(100% - 200px);
   transition: all 0.5s;
 
-  @media screen and (max-width: 1500px) {
+  @media screen and (max-width: 1700px) {
     padding-right: 3%;
   }
 

@@ -7,6 +7,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import styled from "styled-components";
 import Home from "./pages/home/Home";
 import ProductList from "./pages/product/ProductList";
+import TopBanner from "./components/TopBanner";
 
 const CompanyIntro = lazy(() => import("./pages/intro/CompanyIntro"));
 const Greeting = lazy(() => import("./pages/intro/Greeting"));
@@ -29,11 +30,13 @@ const Router = () => {
     <BrowserRouter>
       <Suspense fallback={<LoadingSpinner />}>
         <Header />
+        <TopBanner />
         <BodyContainer>
           <Sidebar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Login />} />
             <Route path="/introduce">
               <Route path="intro" element={<CompanyIntro />} />
               <Route path="greeting" element={<Greeting />} />
@@ -48,11 +51,11 @@ const Router = () => {
               <Route path=":id" element={<Product />} />
               <Route path="write" element={<ProductFactory />} />
             </Route>
-            <Route path="/qualityTest">
-              <Route path="Service" element={<Service />} />
-              <Route path="Result" element={<Result />} />
-              <Route path="Category" element={<Category />} />
-              <Route path="Apply" element={<Apply />} />
+            <Route path="/quality-test">
+              <Route path="service" element={<Service />} />
+              <Route path="result" element={<Result />} />
+              <Route path="category" element={<Category />} />
+              <Route path="apply" element={<Apply />} />
             </Route>
             <Route path="*" element={<NotPageFound />} />
           </Routes>
@@ -70,7 +73,7 @@ const BodyContainer = styled.section`
   flex-flow: row nowrap;
   min-height: calc(100dvh - (var(--header-height) + var(--footer-height)));
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background-color: white;
   gap: 20px;
   padding: 15px;

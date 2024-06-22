@@ -69,6 +69,15 @@ const Login = () => {
 
       setUser(null);
       navigate("/");
+
+      categories.pop();
+      categories.push({
+        title: "로그인/회원가입",
+        subcategories: [
+          { name: "로그인", url: "/login" },
+          { name: "회원가입", url: "/register" },
+        ],
+      });
     } catch (error) {
       console.error("Error:", error);
       warningAlert(error.response.data.message);
@@ -110,7 +119,7 @@ const Container = styled.div`
   ${centeredFlex}
   width: 100%;
   min-height: calc(100dvh - var(--header-height) - var(--footer-height));
-  background-color: #f0f4f8;
+  background-color: white;
   padding: 20px;
 `;
 
@@ -159,7 +168,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 100%;
   height: 45px;
-  background-color: #0288d1;
+  background-color: var(--base-color);
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -167,9 +176,9 @@ const Button = styled.button`
   font-weight: 600;
   margin-top: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
   &:hover {
-    background-color: #0277bd;
+    filter: brightness(110%);
   }
 `;
 

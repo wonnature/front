@@ -15,6 +15,9 @@ import { userState } from "../../state/userState";
 
 interface ProductData {
   title: string;
+  englishTitle: string;
+  content: string;
+  configuration: string;
   storeLink: string;
   productType: string;
   oneLineIntroduce: string;
@@ -31,23 +34,6 @@ const Product = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const response = await api.get(`/product/${id}`);
-        console.log("API Response:", response.data); // 디버깅용
-        if (response.data && response.data.content) {
-          setProductData(response.data.content);
-          setImages(response.data.content.imageUrls);
-          console.log(Object.keys(response.data.content.attributes));
-        } else {
-          console.error("예상치 못한 API 응답 구조");
-        }
-      } catch (error: any) {
-        const result = await warningAlert(error.response.data.message);
-        navigate("/product");
-        console.log(result);
-      }
-    };
     getProduct();
 
     window.scrollTo({
@@ -55,6 +41,23 @@ const Product = () => {
       behavior: "smooth",
     });
   }, []);
+
+  const getProduct = async () => {
+    try {
+      const response = await api.get(`/product/${id}`);
+      console.log("API Response:", response.data); // 디버깅용
+      if (response.data && response.data.content) {
+        setProductData(response.data.content);
+        setImages(response.data.content.imageUrls);
+        console.log(Object.keys(response.data.content.attributes));
+      } else {
+        console.error("예상치 못한 API 응답 구조");
+      }
+    } catch (error) {
+      await warningAlert(error.response.data.message || "알 수 없는 에러 발생");
+      navigate("/product");
+    }
+  };
 
   const handleShare = async () => {
     const url = `${window.location.origin}/product/${id}`;
@@ -130,17 +133,23 @@ const Product = () => {
           {images && <img src={images[0]} alt="대표이미지" />}
           <TopContent>
             <Title>{productData?.title}</Title>
-            <Introduce>
-              <div>{productData?.oneLineIntroduce}</div>
-            </Introduce>
             <Detail>
               <div>영문이름</div>
               <div>{productData?.englishTitle}</div>
             </Detail>
-            <Detail>
-              <div>제품설명</div>
-              <div>{productData?.oneLineIntroduce}</div>
-            </Detail>
+            {productData?.configuration && (
+              <Detail>
+                <div>구성</div>
+                <div>{productData?.configuration}</div>
+              </Detail>
+            )}
+            {productData?.oneLineIntroduce && (
+              <Detail>
+                <div>제품설명</div>
+                <div>{productData?.oneLineIntroduce}</div>
+              </Detail>
+            )}
+
             {productData?.storeLink && (
               <Detail>
                 <div>구매채널</div>
@@ -171,6 +180,10 @@ const Product = () => {
           </TopContent>
         </TopContainer>
         <Hr />
+        <Content
+          dangerouslySetInnerHTML={{ __html: productData?.content }}
+          className="ql-editor"
+        />
         {images?.map(
           (image: any, index) =>
             index !== 0 && <Image key={index} src={image} alt={"상품이미지"} />
@@ -193,7 +206,8 @@ const centeredFlex = css`
 const Container = styled.div`
   ${centeredFlex}
   width: 100%;
-  min-height: 100vh;
+  max-width: 800px;
+  /* min-height: 100vh; */
   padding: 20px;
 
   @media screen and (max-width: 450px) {
@@ -229,7 +243,7 @@ const TopContainer = styled.div`
     border-radius: 8px;
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 2000px) {
     flex-flow: column;
 
     & img {
@@ -246,7 +260,7 @@ const TopContent = styled.div`
   align-items: flex-start;
   gap: 10px;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 2000px) {
     width: 95%;
   }
 
@@ -296,6 +310,7 @@ const Title = styled.div`
   font-size: 1.7rem;
   font-weight: 600;
   color: #333333;
+  margin-bottom: 10px;
 `;
 
 const Introduce = styled.div`
@@ -352,6 +367,7 @@ const Content = styled.div`
   line-height: 1.5;
   color: #555555;
   padding: 0;
+  margin-bottom: 20px;
 `;
 
 const Image = styled.img`

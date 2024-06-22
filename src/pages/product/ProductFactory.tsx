@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +8,35 @@ import api from "../../api";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 
+const Size = Quill.import("formats/size");
+Size.whitelist = ["small", "medium", "large", "huge"];
+Quill.register(Size, true);
+
+const formats = [
+  "font",
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "align",
+  "color",
+  "background",
+  "size",
+  "h1",
+];
+
 const ProductFactory = () => {
   const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [englishTitle, setEnglishTitle] = useState("");
   const [oneLineIntroduce, setOneLineIntroduce] = useState("");
+  const [configuration, setConfiguration] = useState("");
   const [storeLink, setStoreLink] = useState("");
   const [productType, setProductType] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
@@ -19,6 +46,7 @@ const ProductFactory = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const inputRef = useRef(null);
+  const quillRef = useRef(null);
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
@@ -29,11 +57,23 @@ const ProductFactory = () => {
         const response = await api.get(`/product/${id}`);
 
         if (response.data && response.data.content) {
-          const { title, storeLink, imageUrls, productType } =
-            response.data.content;
+          const {
+            title,
+            englishTitle,
+            oneLineIntroduce,
+            storeLink,
+            imageUrls,
+            productType,
+            content,
+            configuration,
+          } = response.data.content;
           setTitle(title);
+          setContent(content);
+          setOneLineIntroduce(oneLineIntroduce);
+          setEnglishTitle(englishTitle);
           setStoreLink(storeLink);
           setProductType(productType);
+          setConfiguration(configuration);
           let initialImageUrls = imageUrls;
 
           const initialFiles = initialImageUrls.map((url) => ({
@@ -166,11 +206,13 @@ const ProductFactory = () => {
 
       const productData = {
         title: title,
+        content,
         imageUrls: imageUrls, // 게시글에 있는 이미지 urls들 최종 값 업로드
         storeLink: storeLink,
         productType,
         englishTitle,
         oneLineIntroduce,
+        configuration,
       };
       let response;
       if (!params.get("edit")) {
@@ -203,6 +245,33 @@ const ProductFactory = () => {
     }
   };
 
+  const handleContentChange = (value) => {
+    try {
+      setContent(value);
+    } catch (error) {
+      console.error("Error updating editor content:", error);
+    }
+  };
+
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          [{ size: ["small", false, "large", "huge"] }],
+          [{ align: [] }],
+          ["bold", "underline", "strike"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [
+            {
+              color: [],
+            },
+            { background: [] },
+          ],
+        ],
+      },
+    };
+  }, []);
+
   return (
     <Container>
       <Label>제품명</Label>
@@ -223,7 +292,16 @@ const ProductFactory = () => {
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
       />
-      <Label>제품소개</Label>
+      <Label>구성 (생략가능)</Label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={configuration}
+        onChange={(e) => setConfiguration(e.target.value)}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+      />
+      <Label>제품설명 (생략가능)</Label>
       <Input
         ref={inputRef}
         type="text"
@@ -248,7 +326,7 @@ const ProductFactory = () => {
         </TypeBtn>
       </TypeContainer>
 
-      <Label>스토어 링크</Label>
+      <Label>스토어 링크 (생략가능)</Label>
       <Input
         ref={inputRef}
         type="text"
@@ -257,6 +335,16 @@ const ProductFactory = () => {
         onChange={(e) => setStoreLink(e.target.value)}
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
+      />
+      <Label>세부 내용 (생략가능)</Label>
+      <ReactQuill //스타일은 index.css에서 수정
+        ref={quillRef}
+        value={content}
+        onChange={handleContentChange}
+        onFocus={() => setIsTitleFocused(true)}
+        onBlur={() => setIsTitleFocused(false)}
+        modules={modules}
+        formats={formats}
       />
       <FileInputLabel htmlFor="file-upload">
         이미지 추가 (첫번째 이미지가 대표 이미지)

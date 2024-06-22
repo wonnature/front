@@ -55,8 +55,8 @@ const Sidebar = () => {
   }, [location.pathname]);
 
   const handleResize = () => {
-    console.log(window.innerWidth, isOpen, location);
-    console.log(isOpen);
+    // console.log(window.innerWidth, isOpen, location);
+    // console.log(isOpen);
     if (location.pathname === "/" && window.innerWidth > 1000) {
       setIsOpen(false);
     }
@@ -119,6 +119,7 @@ const Sidebar = () => {
       )}
 
       <FloatBtn
+        $isOpen={isOpen}
         onClick={() => {
           setIsOpen(!isOpen);
           if (isOpen) {
@@ -137,15 +138,18 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
   flex-direction: column;
   min-width: 250px;
   /* height: calc(100dvh - (var(--header-height))); */
-  height: 100%;
+  height: 100dvh;
   background-color: #f8f9fa;
   padding: 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 100;
-  position: absolute;
+  position: fixed;
   left: 0px;
+  top: 0px;
+  align-self: flex-start;
   transition: all 0.5s;
   overflow-y: scroll;
+  z-index: 1000;
   ${({ $isOpen, $isAnimate }) =>
     $isOpen && window.innerWidth < 1000
       ? css`
@@ -165,11 +169,17 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
     position: sticky;
     top: calc(var(--header-height) + 25px);
     align-self: flex-start;
-    height: 500px;
+    height: 100%;
     border-radius: 15px;
     /* margin-left: -2%; */
     margin-right: 1%;
-    background-color: var(--base-color);
+    /* background-color: #9bcc68; */
+    background: linear-gradient(
+      120deg,
+      #93ef96,
+      #82d782
+    ); /* 시그널 그린에서 진한 민트 그린으로 그라데이션 */
+    z-index: 0;
   }
 `;
 
@@ -194,7 +204,7 @@ const SubcategoryList = styled.div`
 `;
 
 const SubcategoryItem = styled.div<{ $color: string }>`
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   padding: 5px 25px;
 
@@ -206,7 +216,7 @@ const SubcategoryItem = styled.div<{ $color: string }>`
   }
 `;
 
-const FloatBtn = styled.div`
+const FloatBtn = styled.div<{ $isOpen: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,9 +227,9 @@ const FloatBtn = styled.div`
   position: fixed;
   border-radius: 100px;
   background-color: var(--base-color);
-  left: 30px;
+  left: ${(props) => (props.$isOpen ? "270px" : "30px")};
   bottom: 30px;
-  z-index: 101;
+  z-index: 1001;
 
   &:hover {
     cursor: pointer;
