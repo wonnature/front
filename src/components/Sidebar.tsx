@@ -211,6 +211,7 @@ const SubcategoryItem = styled.div<{ $color: string }>`
   font-weight: 600;
   padding: 5px 25px;
   color: ${(props) => props.$color};
+  transition: color 0.5s;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
