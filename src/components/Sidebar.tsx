@@ -9,7 +9,7 @@ import { userState } from "../state/userState";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimate, setIsAnimate] = useState(false);
-  const [openCategories, setOpenCategories] = useState([]);
+  const [openCategories, setOpenCategories] = useState<number[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
   const [normalColor, setNormalColor] = useState("black");
@@ -20,7 +20,6 @@ const Sidebar = () => {
     setOpenCategories((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
-    console.log(openCategories);
   };
 
   useEffect(() => {
@@ -44,6 +43,14 @@ const Sidebar = () => {
       setOpenCategories([0]);
     }
 
+    if (location.pathname.includes("product")) {
+      setOpenCategories([1]);
+    }
+
+    if (location.pathname.includes("quality")) {
+      setOpenCategories([2]);
+    }
+
     if (location.pathname.includes("write")) {
       setOpenCategories([4]);
     }
@@ -55,8 +62,6 @@ const Sidebar = () => {
   }, [location.pathname]);
 
   const handleResize = () => {
-    // console.log(window.innerWidth, isOpen, location);
-    // console.log(isOpen);
     if (location.pathname === "/" && window.innerWidth > 1000) {
       setIsOpen(false);
     }
@@ -94,25 +99,23 @@ const Sidebar = () => {
                   <MdExpandMore size={30} fill={"black"} />
                 )}
               </CategoryTitle>
-              {openCategories.includes(index) && (
-                <SubcategoryList>
-                  {category.subcategories.map((subcategory, subIndex) => (
-                    <SubcategoryItem
-                      key={subIndex}
-                      onClick={() => {
-                        navigate(subcategory.url);
-                      }}
-                      $color={
-                        location.pathname === subcategory.url
-                          ? activeColor
-                          : normalColor
-                      }
-                    >
-                      {subcategory.name}
-                    </SubcategoryItem>
-                  ))}
-                </SubcategoryList>
-              )}
+              <SubcategoryList $isOpen={openCategories.includes(index)}>
+                {category.subcategories.map((subcategory, subIndex) => (
+                  <SubcategoryItem
+                    key={subIndex}
+                    onClick={() => {
+                      navigate(subcategory.url);
+                    }}
+                    $color={
+                      location.pathname === subcategory.url
+                        ? activeColor
+                        : normalColor
+                    }
+                  >
+                    {subcategory.name}
+                  </SubcategoryItem>
+                ))}
+              </SubcategoryList>
             </Category>
           ))}
         </Container>
@@ -137,7 +140,6 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
   display: flex;
   flex-direction: column;
   min-width: 250px;
-  /* height: calc(100dvh - (var(--header-height))); */
   height: 100dvh;
   background-color: #f8f9fa;
   padding: 10px;
@@ -171,9 +173,7 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
     align-self: flex-start;
     height: 100%;
     border-radius: 15px;
-    /* margin-left: -2%; */
     margin-right: 1%;
-    /* background-color: #9bcc68; */
     background: linear-gradient(
       120deg,
       #93ef96,
@@ -199,17 +199,18 @@ const CategoryTitle = styled.div`
   border-radius: 5px;
 `;
 
-const SubcategoryList = styled.div`
-  margin-top: 5px;
+const SubcategoryList = styled.div<{ $isOpen: boolean }>`
+  max-height: ${(props) => (props.$isOpen ? "1000px" : "0")};
+  opacity: ${(props) => (props.$isOpen ? "1" : "0")};
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
 `;
 
 const SubcategoryItem = styled.div<{ $color: string }>`
   font-size: 1.2rem;
   font-weight: 600;
   padding: 5px 25px;
-
   color: ${(props) => props.$color};
-
   cursor: pointer;
   &:hover {
     text-decoration: underline;
