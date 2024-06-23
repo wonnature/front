@@ -58,6 +58,7 @@ const NodeList = styled.div`
 const StyledLi = styled.li`
   display: flex;
   align-items: center;
+  width: 100%;
 
   &::before {
     content: "• ";
@@ -67,8 +68,9 @@ const StyledLi = styled.li`
 
   h3 {
     font-weight: bold;
-    margin-right: 2rem;
+    min-width: 100px;
     white-space: nowrap;
+    text-align: left;
   }
 
   p {
@@ -96,5 +98,6 @@ const ContentImage = styled.li`
 
   img {
     margin-top: 10px;
+    max-width: 100%;
   }
 `;

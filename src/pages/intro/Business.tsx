@@ -48,37 +48,51 @@ const TitleImg = styled.div`
   display: flex;
   justify-content: center;
   padding: 40px 0;
+
+  & img {
+    max-width: 100%;
+  }
 `;
 
 const NodeList = styled.div`
-  ul {
+  & ul {
     list-style-type: none;
     padding: 5px 0;
-    text-align: center;
+    text-align: left;
   }
 
-  li {
+  & li {
     display: flex;
     margin: 10px 0;
+  }
 
-    h3 {
-      font-weight: bold;
+  & h3 {
+    display: flex;
+    font-weight: bold;
+    margin-right: 0.5rem;
+    white-space: pre-line;
+    padding-right: 20px;
+    margin-left: 5px;
+    min-width: 200px;
+    margin-bottom: 10px;
+
+    &::before {
+      content: "• ";
+      color: green;
       margin-right: 0.5rem;
-      white-space: nowrap;
-      padding-right: 50px;
+    }
+  }
 
-      &::before {
-        content: "• ";
-        color: green;
-        margin-right: 0.5rem;
-      }
+  @media screen and (max-width: 500px) {
+    & h3 {
+      width: 120px;
+      min-width: 120px;
     }
   }
 `;
 
 const StyledLi = styled.li`
-  h3 {
-    margin-bottom: 10px;
+  & h3 {
   }
 `;
 

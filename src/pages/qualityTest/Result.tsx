@@ -53,6 +53,10 @@ const IntroContainer = styled.div`
   max-width: 800px;
   height: auto;
   padding: 20px;
+
+  & img {
+    max-width: 100%;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -61,16 +65,16 @@ const LogoContainer = styled.div`
 `;
 
 const Title = styled.div`
-  ul {
+  & ul {
     list-style-type: none;
     padding-left: 0; // ul 태그의 기본 padding-left 제거
   }
 
-  li {
+  & li {
     display: flex;
     margin: 10px 0;
 
-    h3 {
+    & h3 {
       font-weight: bold;
       margin-right: 0.5rem;
       white-space: nowrap;

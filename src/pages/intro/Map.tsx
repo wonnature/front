@@ -50,25 +50,31 @@ const TitleImg = styled.div`
   justify-content: center;
   padding-top: 20px;
   padding-bottom: 30px;
+
+  & img {
+    max-width: 100%;
+  }
 `;
 
 const NodeList = styled.div`
-  ul {
+  & ul {
     list-style-type: none;
     padding: 0;
     text-align: center;
     padding-bottom: 10px;
   }
 
-  li {
+  & li {
     display: flex;
     margin: 5px 0;
 
-    h3 {
+    & h3 {
       font-weight: bold;
       margin-right: 0.5rem;
       white-space: nowrap;
-      padding-right: 50px;
+      text-align: left;
+      width: 100px;
+      min-width: 100px;
 
       &::before {
         content: "• ";

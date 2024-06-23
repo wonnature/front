@@ -59,7 +59,13 @@ const HistoryItem = styled.div`
 `;
 
 const HistoryLogo = styled.img`
+  margin-top: 5px;
   margin-right: 40px;
+
+  @media screen and (max-width: 500px) {
+    width: 80px;
+    margin-right: 20px;
+  }
 `;
 
 const HistoryDetails = styled.div`

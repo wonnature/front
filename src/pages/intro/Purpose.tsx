@@ -12,13 +12,13 @@ const Purpose = () => {
       </TitleImg>
       <SubImg>
         <ImageWrapper>
-          <img src="/images/intro/about_2_pic_01.png" alt="logo" />
+          <img src="/images/intro/about_2_pic_01.jpg" alt="logo" />
         </ImageWrapper>
         <ImageWrapper>
-          <img src="/images/intro/about_2_pic_02.png" alt="logo" />
+          <img src="/images/intro/about_2_pic_02.jpg" alt="logo" />
         </ImageWrapper>
         <ImageWrapper>
-          <img src="/images/intro/about_2_pic_03.png" alt="logo" />
+          <img src="/images/intro/about_2_pic_03.jpg" alt="logo" />
         </ImageWrapper>
       </SubImg>
       <StyledLi>
@@ -61,12 +61,18 @@ const TitleImg = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px 0;
+
+  & img {
+    width: 100%;
+  }
 `;
 
 const SubImg = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 `;
 
 const ImageWrapper = styled.div`
@@ -74,6 +80,9 @@ const ImageWrapper = styled.div`
 `;
 
 const StyledLi = styled.div`
+  & ul {
+    padding-left: 5px;
+  }
   li {
     padding: 5px 0;
   }
