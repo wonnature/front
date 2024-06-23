@@ -79,7 +79,7 @@ const TypeBtn = styled.div<{ $isActive: boolean }>`
   position: relative;
   height: auto;
   padding: 2px 0;
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: 600;
   cursor: pointer;
   color: ${(props) => (props.$isActive ? "black" : "rgba(0,0,0,0.4)")};
@@ -92,7 +92,7 @@ const TypeBtn = styled.div<{ $isActive: boolean }>`
     left: 0;
     height: 7px;
     width: ${(props) => (props.$isActive ? "100%" : "0")};
-    background-color: green;
+    background-color: #499b4a;
     transition: width 0.3s ease;
   }
 

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -31,10 +31,12 @@ const Router = () => {
       <Suspense fallback={<LoadingSpinner />}>
         <Header />
         <TopBanner />
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
         <BodyContainer>
           <Sidebar />
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Login />} />
             <Route path="/introduce">
@@ -66,7 +68,7 @@ const Router = () => {
   );
 };
 
-const BodyContainer = styled.section`
+const BodyContainer = styled.section<{ $isHome: boolean }>`
   display: flex;
   position: relative;
   width: 100%;
@@ -76,7 +78,7 @@ const BodyContainer = styled.section`
   align-items: flex-start;
   background-color: white;
   gap: 20px;
-  padding: 15px;
+  padding: "15px";
 `;
 
 export default Router;

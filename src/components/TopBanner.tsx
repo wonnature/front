@@ -17,7 +17,13 @@ const TopBanner = () => {
       setImageUrl(3);
     }
   }, [location.pathname]);
-  return <Image src={`/images/topBanner/sub_bg${imageUrl}.jpg`}></Image>;
+  return (
+    <>
+      {location.pathname !== "/" && (
+        <Image src={`/images/topBanner/sub_bg${imageUrl}.jpg`}></Image>
+      )}
+    </>
+  );
 };
 
 const Image = styled.img`

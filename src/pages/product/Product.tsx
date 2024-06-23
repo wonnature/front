@@ -54,8 +54,12 @@ const Product = () => {
         console.error("예상치 못한 API 응답 구조");
       }
     } catch (error) {
-      await warningAlert(error.response.data.message || "알 수 없는 에러 발생");
-      navigate("/product");
+      if (error?.response) {
+        await warningAlert(
+          error.response.data.message || "알 수 없는 에러 발생"
+        );
+        navigate("/product");
+      }
     }
   };
 
@@ -188,6 +192,9 @@ const Product = () => {
           (image: any, index) =>
             index !== 0 && <Image key={index} src={image} alt={"상품이미지"} />
         )}
+        {/* <ProductListContainer>
+          {productList?.map}
+        </ProductListContainer> */}
         <ButtonContainer>
           <Button onClick={() => navigate("/product")}>목록으로</Button>
         </ButtonContainer>
@@ -407,6 +414,23 @@ const AdminContainer = styled.div`
 
   @media screen and (max-width: 1000px) {
     width: 100%;
+  }
+`;
+
+const ProductListContainer = styled.div`
+  display: flex;
+  padding: 15px;
+  gap: 10px;
+`;
+
+const ProductContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  height: 100px;
+
+  & img {
+    object-fit: scale-down;
   }
 `;
 
