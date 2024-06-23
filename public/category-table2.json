@@ -1,0 +1,98 @@
+{
+  "headers": [
+    {
+      "text": "항목",
+      "value": "category"
+    },
+    {
+      "text": "기준치",
+      "value": "criteria"
+    },
+    {
+      "text": "검사시 서요 시료량",
+      "value": "sample"
+    }
+  ],
+  "items": [
+    {
+      "category": "내용량",
+      "criteria": "97% 이상",
+      "sample": "완제품 3개, 10g (mL) 이하 제품은 5개"
+    },
+    {
+      "category": "pH",
+      "criteria": "3 ~ 9",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "납",
+      "criteria": "20 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "비소",
+      "criteria": "10 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "수은",
+      "criteria": "1 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "안티몬",
+      "criteria": "10 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "카드뮴",
+      "criteria": "5 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "디옥산",
+      "criteria": "100 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "메탄올",
+      "criteria": "0.2 (v/v)% 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "프름알데하이드",
+      "criteria": "2000 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "프탈레이트류",
+      "criteria": "총합으로써 100 µg/g 이하",
+      "sample": "최소 100 g(mL) 이상"
+    },
+    {
+      "category": "총호기성 세균류",
+      "criteria": "영/유아용 제품류 및 눈화장용 제품류: 500 개/g (mL) 이하",
+      "sample": "최소 50 g(mL) 이상"
+    },
+    {
+      "category": "총호기성 세균류",
+      "criteria": "기타 화장품 : 1000 개/g (mL) 이하",
+      "sample": "최소 50 g(mL) 이상"
+    },
+    {
+      "category": "대장균",
+      "criteria": "불검출",
+      "sample": "최소 50 g(mL) 이상"
+    },
+    {
+      "category": "녹농균",
+      "criteria": "불검출",
+      "sample": "최소 50 g(mL) 이상"
+    },
+    {
+      "category": "황색포도상구균",
+      "criteria": "불검출",
+      "sample": "최소 50 g(mL) 이상"
+    }
+  ]
+}
