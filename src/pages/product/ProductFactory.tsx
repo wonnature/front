@@ -108,7 +108,7 @@ const ProductFactory: React.FC = () => {
 
   const checkUser = async () => {
     try {
-      const response = await api.get(`/user/check`, {
+      await api.get(`/user/check`, {
         // skipInterceptor: true,
       });
     } catch (error) {
@@ -174,7 +174,7 @@ const ProductFactory: React.FC = () => {
       if (file) {
         // 파일을 로컬에서 추가한 경우
         formData.append("file", file);
-        imageUrls.push(index++); // 우선 이미지 url 대신 index 값을 삽입 후 추후 대체함
+        imageUrls.push(index++ as any); // 우선 이미지 url 대신 index 값을 삽입 후 추후 대체함
       } else {
         imageUrls.push(url!); // 수정 시 이미 업로드 된 이미지
       }

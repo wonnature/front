@@ -10,7 +10,7 @@ const Sidebar = () => {
   const [openCategories, setOpenCategories] = useState<number[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const [normalColor, setNormalColor] = useState("black");
+  const [normalColor] = useState("black");
   const [activeColor, setActiveColor] = useState("white");
 
   const toggleCategory = (index: number) => {

@@ -106,7 +106,7 @@ const Product = () => {
     if (!result.isConfirmed) return;
     else setIsDeleteing(true);
     try {
-      const response = await api.delete(`/product/${id}`);
+      await api.delete(`/product/${id}`);
       setIsDeleteing(false);
       successAlert("글 삭제가 완료되었습니다.");
       navigate("/product");
@@ -122,7 +122,7 @@ const Product = () => {
       <ProductForm>
         {user && (
           <AdminContainer>
-            <Button onClick={(e) => navigate(`/product/write?edit=${id}`)}>
+            <Button onClick={() => navigate(`/product/write?edit=${id}`)}>
               수정
             </Button>
             <Button onClick={handleDelete} disabled={isDeleteing}>
@@ -180,7 +180,7 @@ const Product = () => {
         </TopContainer>
         <Hr />
         <Content
-          dangerouslySetInnerHTML={{ __html: productData?.content }}
+          dangerouslySetInnerHTML={{ __html: productData?.content as string }}
           className="ql-editor"
         />
         {images?.map(
@@ -294,17 +294,6 @@ const Detail = styled.div`
     & :nth-child(2) {
       width: 100%;
     }
-  }
-`;
-
-const Tag = styled.div`
-  margin-top: 20px;
-  word-spacing: 15px;
-  color: var(--base-color);
-  font-size: 0.9rem;
-
-  @media screen and (max-width: 450px) {
-    word-spacing: 10px;
   }
 `;
 
