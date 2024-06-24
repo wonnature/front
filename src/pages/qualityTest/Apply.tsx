@@ -2,11 +2,28 @@ import styled from "styled-components";
 import introData from "../../../public/apply-list.json";
 
 const Apply = () => {
+  const handleDownload = () => {
+    const fileUrl = "front/public/quality.hwp";
+    const fileName = "품질검사 외뢰서 양식.hwp";
+
+    // 브라우저에서 파일 다운로드 시작
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <IntroContainer>
       <LogoContainer>
         <img src="/images/quality/title4_3.png" alt="logo" />
       </LogoContainer>
+
+      <DownloadButton onClick={handleDownload}>
+        <img src="/images/quality/download.jpg" />
+      </DownloadButton>
+
       {introData.intro.map((item, index) => (
         <IntroItem key={index}>
           <TitleImgContainer>
@@ -161,4 +178,10 @@ const Foot = styled.div`
 const FootImg = styled.div`
   margin-top: 20px;
   width: 100%;
+`;
+
+const DownloadButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 `;
