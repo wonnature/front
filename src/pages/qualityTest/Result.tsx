@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import resultData from "../../../public/result-table.json";
-
 const Result = () => {
   return (
     <IntroContainer>
