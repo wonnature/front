@@ -56,7 +56,7 @@ const Content = styled.div`
   max-width: 800px;
   margin-top: 2rem;
 
-  h2 {
+  & h2 {
     text-align: right;
     margin-top: 2rem;
     font-weight: bold;

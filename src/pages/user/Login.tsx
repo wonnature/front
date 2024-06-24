@@ -50,6 +50,7 @@ const Login = () => {
           title: "관리자권한",
           subcategories: [
             { name: "제품등록", url: "/product/write" },
+            { name: "공지등록", url: "/community/notice/write" },
             { name: "로그아웃", url: "/login" },
             { name: "고객센터", url: "/customer-service" },
           ],
