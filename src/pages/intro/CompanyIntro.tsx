@@ -57,8 +57,9 @@ const NodeList = styled.div`
 
 const StyledLi = styled.li`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
+  margin-top: 30px;
 
   &::before {
     content: "• ";
@@ -71,6 +72,7 @@ const StyledLi = styled.li`
     min-width: 100px;
     white-space: nowrap;
     text-align: left;
+    margin: 0;
   }
 
   p {
