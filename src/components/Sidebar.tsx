@@ -1,10 +1,8 @@
 import styled, { css, keyframes } from "styled-components";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { categories } from "./category";
-import { useRecoilValue } from "recoil";
-import { userState } from "../state/userState";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +12,6 @@ const Sidebar = () => {
   const location = useLocation();
   const [normalColor, setNormalColor] = useState("black");
   const [activeColor, setActiveColor] = useState("white");
-  const user = useRecoilValue(userState);
 
   const toggleCategory = (index: number) => {
     setOpenCategories((prev) =>
