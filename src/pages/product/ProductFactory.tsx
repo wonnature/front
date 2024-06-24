@@ -31,28 +31,33 @@ const formats = [
   "h1",
 ];
 
-const ProductFactory = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [englishTitle, setEnglishTitle] = useState("");
-  const [oneLineIntroduce, setOneLineIntroduce] = useState("");
-  const [configuration, setConfiguration] = useState("");
-  const [storeLink, setStoreLink] = useState("");
-  const [productType, setProductType] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState<any>([]);
-  const [isTitleFocused, setIsTitleFocused] = useState(false);
-  const user = useRecoilValue(userState);
-  const [userCheck, setUserCheck] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+interface FileObject {
+  file: File | null;
+  url: string | null;
+}
 
-  const inputRef = useRef(null);
-  const quillRef = useRef(null);
+const ProductFactory: React.FC = () => {
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [englishTitle, setEnglishTitle] = useState<string>("");
+  const [oneLineIntroduce, setOneLineIntroduce] = useState<string>("");
+  const [configuration, setConfiguration] = useState<string>("");
+  const [storeLink, setStoreLink] = useState<string>("");
+  const [productType, setProductType] = useState<string>("");
+  const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
+  const [isTitleFocused, setIsTitleFocused] = useState<boolean>(false);
+  const user = useRecoilValue(userState);
+  const [userCheck, setUserCheck] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const quillRef = useRef<ReactQuill>(null);
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
   // 글 수정 기능
   useEffect(() => {
-    const getEditData = async (id) => {
+    const getEditData = async (id: string) => {
       try {
         const response = await api.get(`/product/${id}`);
 
@@ -76,7 +81,7 @@ const ProductFactory = () => {
           setConfiguration(configuration);
           let initialImageUrls = imageUrls;
 
-          const initialFiles = initialImageUrls.map((url) => ({
+          const initialFiles = initialImageUrls.map((url: string) => ({
             file: null,
             url,
           }));
@@ -89,7 +94,7 @@ const ProductFactory = () => {
       }
     };
     if (params.get("edit")) {
-      getEditData(params.get("edit"));
+      getEditData(params.get("edit") as string);
     }
 
     checkUser();
@@ -120,7 +125,7 @@ const ProductFactory = () => {
 
   // 뒤로가기 방지
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Backspace" && !isTitleFocused) {
         event.preventDefault();
       }
@@ -132,20 +137,20 @@ const ProductFactory = () => {
     };
   }, [isTitleFocused]);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
-    const files = Array.from(e.target.files).map((file: any) => ({
+    const files = Array.from(e.target.files!).map((file) => ({
       file,
       url: null,
     }));
-    setSelectedFiles((prevFiles: any) => [...prevFiles, ...files]);
+    setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = (index: number) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const moveImage = (index, direction) => {
+  const moveImage = (index: number, direction: "up" | "down") => {
     const newFiles = [...selectedFiles];
     const targetIndex = direction === "up" ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= newFiles.length) return;
@@ -162,7 +167,7 @@ const ProductFactory = () => {
     setIsUploading(true);
 
     const formData = new FormData();
-    let imageUrls: any = []; // 서버에 업로드할 imageUrl 배열
+    let imageUrls: string[] = []; // 서버에 업로드할 imageUrl 배열
     let index = 0;
 
     for (const { file, url } of selectedFiles) {
@@ -171,7 +176,7 @@ const ProductFactory = () => {
         formData.append("file", file);
         imageUrls.push(index++); // 우선 이미지 url 대신 index 값을 삽입 후 추후 대체함
       } else {
-        imageUrls.push(url); // 수정 시 이미 업로드 된 이미지
+        imageUrls.push(url!); // 수정 시 이미 업로드 된 이미지
       }
     }
     try {
@@ -198,11 +203,6 @@ const ProductFactory = () => {
         }
         // AWS에 이미지 업로드 완료 후 링크 반환된걸 imageUrls에 저장 성공 ---
       }
-
-      // const attributesObject = attributes.reduce((acc, { key, value }) => {
-      //   if (key) acc.set(key, value);
-      //   return acc;
-      // }, new Map());
 
       const productData = {
         title: title,
@@ -245,7 +245,7 @@ const ProductFactory = () => {
     }
   };
 
-  const handleContentChange = (value) => {
+  const handleContentChange = (value: string) => {
     try {
       setContent(value);
     } catch (error) {
@@ -360,7 +360,7 @@ const ProductFactory = () => {
         {selectedFiles.map(({ file, url }, index) => (
           <ImageContainer key={index}>
             <Image
-              src={file ? URL.createObjectURL(file) : url}
+              src={file ? URL.createObjectURL(file) : url!}
               alt={`preview ${index}`}
             />
             <ImgNumber>{index + 1}</ImgNumber>

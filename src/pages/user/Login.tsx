@@ -15,20 +15,20 @@ const Login = () => {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
 
-  const handleUsernameChange = (e) => {
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login();
   };
 
-  const handleLogoutSubmit = (e) => {
+  const handleLogoutSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     logout();
   };
@@ -56,7 +56,7 @@ const Login = () => {
           ],
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error:", error);
       warningAlert(error.response.data.message);
     }
@@ -78,7 +78,7 @@ const Login = () => {
           { name: "회원가입", url: "/register" },
         ],
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error:", error);
       warningAlert(error.response.data.message);
     }

@@ -159,9 +159,6 @@ const Product = () => {
               </Detail>
             )}
 
-            <Tag>
-              <div>{productData?.tag}</div>
-            </Tag>
             <ButtonContainer>
               {productData?.storeLink && (
                 <Button
@@ -318,13 +315,13 @@ const Title = styled.div`
   margin-bottom: 10px;
 `;
 
-const Introduce = styled.div`
-  font-size: 1.3rem;
-  font-weight: 600;
-  text-align: left;
-  color: #333333;
-  margin-bottom: 10px;
-`;
+// const Introduce = styled.div`
+//   font-size: 1.3rem;
+//   font-weight: 600;
+//   text-align: left;
+//   color: #333333;
+//   margin-bottom: 10px;
+// `;
 
 const ButtonContainer = styled.div`
   ${centeredFlex}
@@ -381,14 +378,14 @@ const Image = styled.img`
   margin-top: -20px;
 `;
 
-const NaverBtn = styled.a`
-  padding: 10px 30px;
-  background-color: #03c75a;
-  font-weight: bolder;
-  font-size: 1.1rem;
-  color: white !important;
-  align-self: flex-start;
-`;
+// const NaverBtn = styled.a`
+//   padding: 10px 30px;
+//   background-color: #03c75a;
+//   font-weight: bolder;
+//   font-size: 1.1rem;
+//   color: white !important;
+//   align-self: flex-start;
+// `;
 
 const Hr = styled.hr`
   width: 100%;
@@ -415,21 +412,21 @@ const AdminContainer = styled.div`
   }
 `;
 
-const ProductListContainer = styled.div`
-  display: flex;
-  padding: 15px;
-  gap: 10px;
-`;
+// const ProductListContainer = styled.div`
+//   display: flex;
+//   padding: 15px;
+//   gap: 10px;
+// `;
 
-const ProductContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100px;
-  height: 100px;
+// const ProductContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   width: 100px;
+//   height: 100px;
 
-  & img {
-    object-fit: scale-down;
-  }
-`;
+//   & img {
+//     object-fit: scale-down;
+//   }
+// `;
 
 export default Product;
