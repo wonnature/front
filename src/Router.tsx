@@ -68,7 +68,7 @@ const Router = () => {
   );
 };
 
-const BodyContainer = styled.section<{ $isHome: boolean }>`
+const BodyContainer = styled.section`
   display: flex;
   position: relative;
   width: 100%;

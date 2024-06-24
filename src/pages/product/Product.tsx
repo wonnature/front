@@ -1,5 +1,3 @@
-import axios from "axios";
-import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
@@ -53,7 +51,7 @@ const Product = () => {
       } else {
         console.error("예상치 못한 API 응답 구조");
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error?.response) {
         await warningAlert(
           error.response.data.message || "알 수 없는 에러 발생"
