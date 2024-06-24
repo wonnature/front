@@ -161,13 +161,13 @@ const Product = () => {
 
             <ButtonContainer>
               {productData?.storeLink && (
-                <Button
+                <NaverBtn
                   style={{ background: "#13b65c" }}
                   href={productData?.storeLink}
                   target="_blank"
                 >
                   구매하기
-                </Button>
+                </NaverBtn>
               )}
               <Button
                 style={{ background: "var(--base-color)" }}
@@ -378,14 +378,19 @@ const Image = styled.img`
   margin-top: -20px;
 `;
 
-// const NaverBtn = styled.a`
-//   padding: 10px 30px;
-//   background-color: #03c75a;
-//   font-weight: bolder;
-//   font-size: 1.1rem;
-//   color: white !important;
-//   align-self: flex-start;
-// `;
+const NaverBtn = styled.a`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #03c75a;
+  font-weight: bolder;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  color: white !important;
+  align-self: flex-start;
+`;
 
 const Hr = styled.hr`
   width: 100%;

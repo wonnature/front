@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";

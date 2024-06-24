@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes, css } from "styled-components";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { categories } from "./category";
 
 const Header = () => {
