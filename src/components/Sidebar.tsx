@@ -48,6 +48,10 @@ const Sidebar = () => {
       setOpenCategories([2]);
     }
 
+    if (location.pathname.includes("community")) {
+      setOpenCategories([3]);
+    }
+
     if (location.pathname.includes("write")) {
       setOpenCategories([4]);
     }

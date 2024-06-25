@@ -8,6 +8,9 @@ import styled from "styled-components";
 import Home from "./pages/home/Home";
 import ProductList from "./pages/product/ProductList";
 import TopBanner from "./components/TopBanner";
+import NoticeFactory from "./pages/notice/NoticeFactory";
+import NoticeList from "./pages/notice/NoticeList";
+import Notice from "./pages/notice/Notice";
 
 const CompanyIntro = lazy(() => import("./pages/intro/CompanyIntro"));
 const Greeting = lazy(() => import("./pages/intro/Greeting"));
@@ -31,12 +34,10 @@ const Router = () => {
       <Suspense fallback={<LoadingSpinner />}>
         <Header />
         <TopBanner />
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
         <BodyContainer>
           <Sidebar />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Login />} />
             <Route path="/introduce">
@@ -58,6 +59,11 @@ const Router = () => {
               <Route path="result" element={<Result />} />
               <Route path="category" element={<Category />} />
               <Route path="apply" element={<Apply />} />
+            </Route>
+            <Route path="/community">
+              <Route path="notice" element={<NoticeList />} />
+              <Route path="notice/:id" element={<Notice />} />
+              <Route path="notice/write" element={<NoticeFactory />} />
             </Route>
             <Route path="*" element={<NotPageFound />} />
           </Routes>
