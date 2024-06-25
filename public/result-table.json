@@ -30,22 +30,22 @@
       "manufacturer": "Agilent"
     },
     {
-      "machine": "유도결합 플리즈마 분광광도계",
+      "machine": "유도결합 플라즈마 분광광도계",
       "model": "Optima 8300DV",
       "manufacturer": "Perkin Elmer"
     },
     {
-      "machine": "기체 크로마토크래피",
+      "machine": "기체 크로마토그래피",
       "model": "7890A",
       "manufacturer": "Agilent"
     },
     {
-      "machine": "기체 크로마토크래피",
+      "machine": "기체 크로마토그래피",
       "model": "GC/FID/NPD",
       "manufacturer": "Agilent"
     },
     {
-      "machine": "기체 크로마토크래피",
+      "machine": "기체 크로마토그래피",
       "model": "7890A",
       "manufacturer": "Agilent"
     },
@@ -76,7 +76,7 @@
     },
     {
       "machine": "자외선 차단 지수 측정장치",
-      "model": "SPF-2905",
+      "model": "SPF-290S",
       "manufacturer": "Optometrics"
     },
     {
@@ -101,13 +101,133 @@
     },
     {
       "machine": "방사능검출기",
-      "model": "foodguard-KF1",
+      "model": "Foodguard -KF1",
       "manufacturer": "ORTEC"
     },
     {
       "machine": "입도분석기",
       "model": "Microtrac S3500",
       "manufacturer": "Malvern"
+    },
+    {
+      "machine": "주사전자현미경(SEM)",
+      "model": "AIS2300C",
+      "manufacturer": "Seron"
+    },
+    {
+      "machine": "위상차현미경",
+      "model": "BX53PH",
+      "manufacturer": "Olympus"
+    },
+    {
+      "machine": "생물현미경",
+      "model": "CX31",
+      "manufacturer": "Olympus"
+    },
+    {
+      "machine": "비중계",
+      "model": "DM 40",
+      "manufacturer": "Mettler"
+    },
+    {
+      "machine": "굴절계",
+      "model": "RM 40",
+      "manufacturer": "Mettler"
+    },
+    {
+      "machine": "점도계",
+      "model": "Rheo QC",
+      "manufacturer": "Anton Paar"
+    },
+    {
+      "machine": "비중계",
+      "model": "DM 40",
+      "manufacturer": "Mettler"
+    },
+    {
+      "machine": "굴절계",
+      "model": "RM 40",
+      "manufacturer": "Mettler"
+    },
+    {
+      "machine": "pH 측정기",
+      "model": "Orion star A211",
+      "manufacturer": "Thermo"
+    },
+    {
+      "machine": "칼피셔(수분분석기)",
+      "model": "V20",
+      "manufacturer": "Mettler"
+    },
+    {
+      "machine": "항온 항습 챔버",
+      "model": "TH-G 300",
+      "manufacturer": "JEIOTECH"
+    },
+    {
+      "machine": "속실렛추출장치",
+      "model": "DH.WHM12293",
+      "manufacturer": "대한과학"
+    },
+    {
+      "machine": "회화로",
+      "model": "DH.WFH12.14",
+      "manufacturer": "대한과학"
+    },
+    {
+      "machine": "다용도 고속진탕기",
+      "model": "RS-1",
+      "manufacturer": "JEIOTECH"
+    },
+    {
+      "machine": "회전증발농축기",
+      "model": "N-1110SW",
+      "manufacturer": "EYELA"
+    },
+    {
+      "machine": "Deep freezer",
+      "model": "MDF-U54V",
+      "manufacturer": "SANYO"
+    },
+    {
+      "machine": "클린벤치",
+      "model": "BC-21E",
+      "manufacturer": "JEIOTECH"
+    },
+    {
+      "machine": "오토클레이브",
+      "model": "AC-13",
+      "manufacturer": "JEIOTECH"
+    },
+    {
+      "machine": "배양기(인큐베이터)",
+      "model": "IL-11",
+      "manufacturer": "JEIOTECH"
+    },
+    {
+      "machine": "쉐이킹인큐베이터",
+      "model": "IS-971R",
+      "manufacturer": "JEIOTECH"
+    },
+    {
+      "machine": "고속 원심분리기",
+      "model": "Combi 514R",
+      "manufacturer": "한일과학"
+    },
+    {
+      "machine": "증류수/초순수 제조장치",
+      "model": "5430R",
+      "manufacturer": "Eppendorf"
+    },
+    {
+      "machine": "항온수욕조(4구,8구)",
+      "model": "WEB-4",
+      "manufacturer": "대한과학"
+    },
+    {
+      "machine": "감압오븐",
+      "model": "OV-11",
+      "manufacturer": "JEIOTECH"
     }
   ]
 }
