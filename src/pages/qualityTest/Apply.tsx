@@ -126,7 +126,7 @@ const ContentItem = styled.div`
 `;
 
 const Title = styled.div`
-  ul {
+  & ul {
     padding-left: 20px;
   }
 `;
@@ -155,7 +155,7 @@ const ProcedureItem = styled.div`
 
 const TitleImgContainer = styled.div`
   flex-basis: 30%;
-  img {
+  & img {
     max-width: 100%;
     height: auto;
   }

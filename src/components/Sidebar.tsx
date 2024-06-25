@@ -177,8 +177,8 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
     margin-right: 1%;
     background: linear-gradient(
       120deg,
-      #93ef96,
-      #82d782
+      #afd477,
+      #afd477
     ); /* 시그널 그린에서 진한 민트 그린으로 그라데이션 */
     z-index: 0;
   }

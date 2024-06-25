@@ -15,6 +15,6 @@ const SpinnerContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  max-height: calc(100dvh - var(--header-height) - var(--footer-height));
   gap: 20px;
 `;

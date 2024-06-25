@@ -41,6 +41,7 @@ const NoticeFactory: React.FC = () => {
   const [content, setContent] = useState<string>("");
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
   const [isTitleFocused, setIsTitleFocused] = useState<boolean>(false);
+  const [isEditorFocused, setIsEditorFocused] = useState(false);
   const user = useRecoilValue(userState);
   const [userCheck, setUserCheck] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -107,7 +108,7 @@ const NoticeFactory: React.FC = () => {
   // 뒤로가기 방지
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Backspace" && !isTitleFocused) {
+      if (event.key === "Backspace" && !isTitleFocused && !isEditorFocused) {
         event.preventDefault();
       }
     };
@@ -116,7 +117,7 @@ const NoticeFactory: React.FC = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isTitleFocused]);
+  }, [isTitleFocused, isEditorFocused]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
@@ -213,7 +214,7 @@ const NoticeFactory: React.FC = () => {
 
       setIsUploading(false); // 업로드 상태를 마침
       successAlert(response.data.message);
-      navigate(`/notice/${response.data.content}`);
+      navigate(`/community/notice/${response.data.content}`);
       console.log(response.data);
     } catch (error: any) {
       setIsUploading(false); // 업로드 상태를 마침
@@ -264,14 +265,12 @@ const NoticeFactory: React.FC = () => {
         ref={quillRef}
         value={content}
         onChange={handleContentChange}
-        onFocus={() => setIsTitleFocused(true)}
-        onBlur={() => setIsTitleFocused(false)}
+        onFocus={() => setIsEditorFocused(true)}
+        onBlur={() => setIsEditorFocused(false)}
         modules={modules}
         formats={formats}
       />
-      <FileInputLabel htmlFor="file-upload">
-        파일 추가 (첫번째 파일이 대표 파일)
-      </FileInputLabel>
+      <FileInputLabel htmlFor="file-upload">파일 추가</FileInputLabel>
       <FileInput
         id="file-upload"
         type="file"
@@ -339,34 +338,6 @@ const Input = styled.input`
   padding: 10px;
 `;
 
-const TypeContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const TypeBtn = styled.button<{ $isAcitve: boolean }>`
-  width: 120px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-  border: 0;
-  text-align: center;
-  padding: 13px 0;
-  font-size: 1.15rem;
-  border-radius: 15px;
-  transition: all 0.5s;
-  cursor: pointer;
-
-  background-color: ${(props) =>
-    props.$isAcitve ? "var(--base-color)" : "rgba(200, 255, 214, 0.2);"};
-
-  &:hover {
-    filter: contrast(340deg);
-  }
-  &:focus {
-    border: none;
-    outline: none;
-  }
-`;
-
 const FileInputLabel = styled.label`
   display: inline-block;
   padding: 6px 12px;
@@ -403,7 +374,7 @@ const FileContainer = styled.div`
 
 const FileName = styled.div`
   width: 100%;
-  height: 40px;
+  height: 100px;
   padding: 10px;
   background-color: #f0f0f0;
   border: 1px solid #ddd;
@@ -439,7 +410,7 @@ const ArrowButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  padding: 15px;
+  padding: 7px;
   &:disabled {
     background: rgba(0, 0, 0, 0.2);
     cursor: not-allowed;

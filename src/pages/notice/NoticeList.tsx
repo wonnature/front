@@ -3,6 +3,7 @@ import styled from "styled-components";
 import api from "../../api";
 import { warningAlert } from "../../components/Alert";
 import { dateConvert } from "../../hoooks/date-convert";
+import { useNavigate } from "react-router-dom";
 
 interface Notice {
   id: number;
@@ -15,6 +16,8 @@ interface Notice {
 
 const NoticeList: React.FC = () => {
   const [notices, setNotices] = useState<Notice[]>([]);
+
+  const navigate = useNavigate();
 
   const getNotices = async () => {
     try {
@@ -33,22 +36,24 @@ const NoticeList: React.FC = () => {
     <Container>
       <Title>공지사항</Title>
       <NoticeListContainer>
-        <Notice>
+        <NoticeContent>
           <div>번호</div>
           <div>제목</div>
           <div>작성일</div>
           <div>조회수</div>
-        </Notice>
+        </NoticeContent>
         {notices?.map((notice) => (
-          <Notice>
+          <NoticeContent>
             <div>{notice.id}</div>
-            <div>
+            <div onClick={() => navigate(`/community/notice/${notice.id}`)}>
               {notice.title}{" "}
-              {notice?.fileUrls && <img src="/images/disk_icon.png"></img>}
+              {notice?.fileUrls.length > 0 && (
+                <img src="/images/disk_icon.png"></img>
+              )}
             </div>
             <div>{dateConvert(notice.createdDate)}</div>
             <div>{notice.hit}</div>
-          </Notice>
+          </NoticeContent>
         ))}
       </NoticeListContainer>
     </Container>
@@ -74,7 +79,7 @@ const NoticeListContainer = styled.div`
   margin: 20px 0;
 `;
 
-const Notice = styled.div`
+const NoticeContent = styled.div`
   display: flex;
   gap: 5px;
   padding: 10px;
@@ -96,6 +101,11 @@ const Notice = styled.div`
     //글제목
     min-width: 150px;
     flex-grow: 1;
+  }
+
+  & div:nth-child(2):hover {
+    cursor: pointer;
+    text-decoration-line: underline;
   }
   & div:nth-child(3) {
     //날짜

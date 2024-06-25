@@ -135,10 +135,12 @@ const Product = () => {
           {images && <img src={images[0]} alt="대표이미지" />}
           <TopContent>
             <Title>{productData?.title}</Title>
-            <Detail>
-              <div>영문이름</div>
-              <div>{productData?.englishTitle}</div>
-            </Detail>
+            {productData?.englishTitle && (
+              <Detail>
+                <div>영문이름</div>
+                <div>{productData?.englishTitle}</div>
+              </Detail>
+            )}
             {productData?.configuration && (
               <Detail>
                 <div>구성</div>

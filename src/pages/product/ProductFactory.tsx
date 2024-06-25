@@ -46,6 +46,7 @@ const ProductFactory: React.FC = () => {
   const [productType, setProductType] = useState<string>("");
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
   const [isTitleFocused, setIsTitleFocused] = useState<boolean>(false);
+  const [isEditorFocused, setIsEditorFocused] = useState(false);
   const user = useRecoilValue(userState);
   const [userCheck, setUserCheck] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -126,7 +127,7 @@ const ProductFactory: React.FC = () => {
   // 뒤로가기 방지
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Backspace" && !isTitleFocused) {
+      if (event.key === "Backspace" && !isTitleFocused && !isEditorFocused) {
         event.preventDefault();
       }
     };
@@ -135,7 +136,7 @@ const ProductFactory: React.FC = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isTitleFocused]);
+  }, [isTitleFocused, isEditorFocused]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
@@ -292,7 +293,7 @@ const ProductFactory: React.FC = () => {
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
       />
-      <Label>구성 (생략가능)</Label>
+      <Label>구성</Label>
       <Input
         ref={inputRef}
         type="text"
@@ -301,7 +302,7 @@ const ProductFactory: React.FC = () => {
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
       />
-      <Label>제품설명 (생략가능)</Label>
+      <Label>제품설명</Label>
       <Input
         ref={inputRef}
         type="text"
@@ -341,8 +342,8 @@ const ProductFactory: React.FC = () => {
         ref={quillRef}
         value={content}
         onChange={handleContentChange}
-        onFocus={() => setIsTitleFocused(true)}
-        onBlur={() => setIsTitleFocused(false)}
+        onFocus={() => setIsEditorFocused(true)}
+        onBlur={() => setIsEditorFocused(false)}
         modules={modules}
         formats={formats}
       />
