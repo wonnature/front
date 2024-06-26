@@ -58,9 +58,9 @@ const Apply = () => {
         </TitleImgContainer>
         {introData.procedure.map((item, index) => (
           <ProcedureItem key={index}>
-            <TitleImgContainer>
+            <TitleImgContainers>
               <img src={item.titleimg} alt={`procedure-img-${index}`} />
-            </TitleImgContainer>
+            </TitleImgContainers>
             <ProcedureContent>
               <Title>
                 <ul>
@@ -127,7 +127,7 @@ const ContentItem = styled.div`
 
 const Title = styled.div`
   & ul {
-    padding-left: 20px;
+    padding-left: 10px;
   }
 `;
 
@@ -150,7 +150,7 @@ const Procedure = styled.div`
 const ProcedureItem = styled.div`
   display: flex;
   width: 100%;
-  margin-bottom: 20px;
+  margin: 15px 0;
 `;
 
 const TitleImgContainer = styled.div`
@@ -159,8 +159,16 @@ const TitleImgContainer = styled.div`
     max-width: 100%;
     height: auto;
   }
+  padding-bottom: 10px;
 `;
-
+const TitleImgContainers = styled.div`
+  flex-basis: 30%;
+  & img {
+    max-width: 100%;
+    height: auto;
+    padding-left: 30px;
+  }
+`;
 const ProcedureContent = styled.div`
   flex-basis: 70%;
   display: flex;
@@ -177,11 +185,19 @@ const Foot = styled.div`
 
 const FootImg = styled.div`
   margin-top: 20px;
-  width: 100%;
+
+  & img {
+    max-width: 100%;
+  }
 `;
 
 const DownloadButton = styled.button`
-  padding: 10px 20px;
-  font-size: 16px;
   cursor: pointer;
+  border: 0;
+  margin: 30px 0;
+  & img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
