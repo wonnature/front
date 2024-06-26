@@ -43,7 +43,7 @@ const NoticeList: React.FC = () => {
           <div>조회수</div>
         </NoticeContent>
         {notices?.map((notice) => (
-          <NoticeContent>
+          <NoticeContent key={notice.id}>
             <div>{notice.id}</div>
             <div onClick={() => navigate(`/community/notice/${notice.id}`)}>
               {notice.title}{" "}
@@ -86,7 +86,7 @@ const NoticeContent = styled.div`
   border-bottom: 1px solid lightgray;
 
   &:nth-child(1) {
-    background-color: #bff1bc;
+    background-color: #aed676;
     border-radius: 15px 15px 0px 0px;
   }
 

@@ -7,12 +7,15 @@ import api from "../../api";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
+import { dateTimeConvert } from "../../hoooks/date-convert";
 
 interface NoticeProps {
   id: number;
   title: string;
   content: string;
   fileUrls: string[];
+  createdDate: string;
+  lastModifiedDate: string;
 }
 
 const Notice: React.FC = () => {
@@ -55,6 +58,18 @@ const Notice: React.FC = () => {
               </FileItem>
             ))}
           </FileList>
+          <TimeContainer>
+            <div>
+              <span>작성일</span>
+              <span>{dateTimeConvert(notice?.createdDate)}</span>
+            </div>
+            {notice.createdDate !== notice.lastModifiedDate && (
+              <div>
+                <span>수정일</span>
+                <span>{dateTimeConvert(notice?.lastModifiedDate)}</span>
+              </div>
+            )}
+          </TimeContainer>
           <hr></hr>
           <ButtonContainer>
             <button onClick={() => navigate("/community/notice")}>목록</button>
@@ -92,13 +107,22 @@ const NoticeTitle = styled.div`
   font-size: 2rem;
 `;
 
+const TimeContainer = styled.div`
+  & div {
+    display: flex;
+    gap: 10px;
+    color: gray;
+  }
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 15px;
   gap: 10px;
   & button {
-    width: 50px;
-    padding: 5px 0;
+    width: 60px;
+    padding: 8px 0;
+    color: black;
     border: 1px solid gray;
   }
 `;

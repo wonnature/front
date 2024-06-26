@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { categories } from "./category";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoClose } from "react-icons/io5";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,6 +57,7 @@ const Sidebar = () => {
     if (location.pathname.includes("write")) {
       setOpenCategories([4]);
     }
+    console.log(location.pathname);
 
     // Cleanup the event listener on component unmount
     return () => {
@@ -108,7 +111,7 @@ const Sidebar = () => {
                       navigate(subcategory.url);
                     }}
                     $color={
-                      location.pathname === subcategory.url
+                      location.pathname.includes(subcategory.url)
                         ? activeColor
                         : normalColor
                     }
@@ -131,7 +134,11 @@ const Sidebar = () => {
           }
         }}
       >
-        =
+        {isOpen ? (
+          <IoClose fill={"white"} size={50} />
+        ) : (
+          <RxHamburgerMenu stroke={"white"} strokeWidth={"1px"} size={30} />
+        )}
       </FloatBtn>
     </>
   );
@@ -236,6 +243,9 @@ const FloatBtn = styled.div<{ $isOpen: boolean }>`
 
   &:hover {
     cursor: pointer;
+  }
+  @media screen and (max-width: 360px) {
+    left: ${(props) => (props.$isOpen ? "30px" : "30px")};
   }
 
   @media screen and (min-width: 1000px) {

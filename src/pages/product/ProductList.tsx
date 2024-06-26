@@ -16,8 +16,10 @@ interface Product {
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [type, setType] = useState("화장품");
   const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const typeQuery = queryParams.get("type");
+  const [type, setType] = useState<string | any>(typeQuery || "화장품");
 
   const getProductsByType = async (type: string) => {
     try {
@@ -29,8 +31,23 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    getProductsByType(type);
+    const newSearchParams = new URLSearchParams();
+    newSearchParams.set("type", type);
+    navigate({
+      pathname: location.pathname,
+      search: `?${newSearchParams.toString()}`,
+    });
   }, [type]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const typeQuery = queryParams.get("type");
+    if (typeQuery) getProductsByType(typeQuery.toString());
+    else {
+      setType("화장품");
+      getProductsByType("화장품");
+    }
+  }, [location.search]);
   return (
     <Container>
       <TypeContainer>
@@ -92,7 +109,7 @@ const TypeBtn = styled.div<{ $isActive: boolean }>`
     left: 0;
     height: 7px;
     width: ${(props) => (props.$isActive ? "100%" : "0")};
-    background-color: #499b4a;
+    background-color: #5dba5e;
     transition: width 0.3s ease;
   }
 
@@ -113,13 +130,14 @@ const Product = styled.div`
   width: calc(33.333% - 14px);
   height: 300px;
   border-radius: 15px;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1); */
+  border: 1px solid lightgray;
   text-align: center;
   transition: 0.5s all;
   padding: 10px;
   &:hover {
     cursor: pointer;
-    transform: scale(1.03);
+    transform: scale(1.015);
   }
 
   @media screen and (max-width: 1200px) {
@@ -139,6 +157,7 @@ const ProductImg = styled.img`
 
 const ProductTitle = styled.div`
   font-size: 1.2rem;
+  font-weight: 600;
   padding: 10px 0;
 `;
 

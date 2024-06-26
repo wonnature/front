@@ -14,7 +14,8 @@ const NotPageFound: React.FC = () => {
 
 const Container = styled.div`
   width: 100%;
-  min-height: calc(100dvh - var(--header-height) - var(--footer-height));
+  max-width: 800px;
+  min-height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,9 +37,10 @@ const Button = styled.button`
   margin-top: 100px;
   font-size: 1.3rem;
   transition: all 0.5s;
+  border: 0;
 
   &:hover {
-    background-color: #2a2ac5;
+    background-color: #6ac46a;
   }
 `;
 export default NotPageFound;

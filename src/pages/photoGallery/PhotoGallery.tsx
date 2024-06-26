@@ -7,12 +7,15 @@ import api from "../../api";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
+import { dateTimeConvert } from "../../hoooks/date-convert";
 
 interface PhotoGalleryProps {
   id: number;
   title: string;
   content: string;
   imageUrls: string[];
+  createdDate: string;
+  lastModifiedDate: string;
 }
 
 const PhotoGallery: React.FC = () => {
@@ -47,6 +50,18 @@ const PhotoGallery: React.FC = () => {
       {photoGallery ? (
         <>
           <PhotoGalleryTitle>{photoGallery?.title}</PhotoGalleryTitle>
+          <TimeContainer>
+            <div>
+              <span>작성일</span>
+              <span>{dateTimeConvert(photoGallery?.createdDate)}</span>
+            </div>
+            {photoGallery.createdDate !== photoGallery.lastModifiedDate && (
+              <div>
+                <span>수정일</span>
+                <span>{dateTimeConvert(photoGallery?.lastModifiedDate)}</span>
+              </div>
+            )}
+          </TimeContainer>
           <hr></hr>
           <ButtonContainer>
             <button onClick={() => navigate("/community/photo-gallery")}>
@@ -96,9 +111,18 @@ const ButtonContainer = styled.div`
   margin-top: 15px;
   gap: 10px;
   & button {
-    width: 50px;
-    padding: 5px 0;
+    width: 60px;
+    padding: 8px 0;
+    color: black;
     border: 1px solid gray;
+  }
+`;
+
+const TimeContainer = styled.div`
+  & div {
+    display: flex;
+    gap: 10px;
+    color: gray;
   }
 `;
 
