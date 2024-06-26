@@ -29,6 +29,7 @@ const ProductFactory = lazy(() => import("./pages/product/ProductFactory"));
 const NotPageFound = lazy(() => import("./components/NotPageFound"));
 const Login = lazy(() => import("./pages/user/Login"));
 const Product = lazy(() => import("./pages/product/Product"));
+const Shipping = lazy(() => import("./pages/product/Shipping-info"));
 
 const Router = () => {
   return (
@@ -56,6 +57,7 @@ const Router = () => {
               <Route path=":id" element={<Product />} />
               <Route path="write" element={<ProductFactory />} />
             </Route>
+            <Route path="shipping-info" element={<Shipping />} />
             <Route path="/quality-test">
               <Route path="service" element={<Service />} />
               <Route path="result" element={<Result />} />
