@@ -31,6 +31,9 @@ const Login = lazy(() => import("./pages/user/Login"));
 const Product = lazy(() => import("./pages/product/Product"));
 const Shipping = lazy(() => import("./pages/product/Shipping-info"));
 const Practice = lazy(() => import("./pages/notice/Practice"));
+const PhotoGalleryList = lazy(
+  () => import("./pages/photoGallery/photoGalleryList")
+);
 
 const Router = () => {
   return (
@@ -69,6 +72,7 @@ const Router = () => {
               <Route path="notice" element={<NoticeList />} />
               <Route path="notice/:id" element={<Notice />} />
               <Route path="notice/write" element={<NoticeFactory />} />
+              <Route path="photo-gallery" element={<PhotoGalleryList />} />
               <Route path="photo-gallery/:id" element={<PhotoGallery />} />
               <Route
                 path="photo-gallery/write"
