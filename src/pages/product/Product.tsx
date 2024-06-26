@@ -224,7 +224,7 @@ const ProductForm = styled.div`
   align-items: flex-start;
   width: 100%;
   max-width: 1000px;
-  padding: 40px 30px;
+  /* padding: 40px 30px; */
   gap: 20px;
 
   @media screen and (max-width: 500px) {

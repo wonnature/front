@@ -36,7 +36,7 @@ interface FileObject {
   url: string | null;
 }
 
-const NoticeFactory: React.FC = () => {
+const PhotoGalleryFactory: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
@@ -55,13 +55,13 @@ const NoticeFactory: React.FC = () => {
   useEffect(() => {
     const getEditData = async (id: string) => {
       try {
-        const response = await api.get(`/notice/${id}`);
+        const response = await api.get(`/photo-gallery/${id}`);
 
         if (response.data && response.data.content) {
-          const { title, fileUrls, content } = response.data.content;
+          const { title, imageUrls, content } = response.data.content;
           setTitle(title);
           setContent(content);
-          let initialImageUrls = fileUrls;
+          let initialImageUrls = imageUrls;
 
           const initialFiles = initialImageUrls.map((url: string) => ({
             file: null,
@@ -149,23 +149,23 @@ const NoticeFactory: React.FC = () => {
     setIsUploading(true);
 
     const formData = new FormData();
-    let fileUrls: string[] = []; // 서버에 업로드할 imageUrl 배열
+    let imageUrls: string[] = []; // 서버에 업로드할 imageUrl 배열
     let index = 0;
 
     for (const { file, url } of selectedFiles) {
       if (file) {
         // 파일을 로컬에서 추가한 경우
         formData.append("file", file);
-        fileUrls.push(index++ as any); // 우선 이미지 url 대신 index 값을 삽입 후 추후 대체함
+        imageUrls.push(index++ as any); // 우선 이미지 url 대신 index 값을 삽입 후 추후 대체함
       } else {
-        fileUrls.push(url!); // 수정 시 이미 업로드 된 이미지
+        imageUrls.push(url!); // 수정 시 이미 업로드 된 이미지
       }
     }
     try {
       const formDataEntries = [...formData.entries()]; // 로컬에서 추가한 이미지 갯수 확인을 위한 변수
       if (formDataEntries.length >= 1) {
         const fileUploadResponse = await api.post(
-          `/notice/file`, // 서버 측 업로드 엔드포인트에 전송
+          `/photo-gallery/image`, // 서버 측 업로드 엔드포인트에 전송
           formData,
           {
             headers: {
@@ -177,24 +177,24 @@ const NoticeFactory: React.FC = () => {
         const uploadedUrls = fileUploadResponse.data.content; // 서버로부터 받은 이미지 URL 리스트
         let uploadIndex = 0;
 
-        // fileUrls 배열 중 index값을 서버에서 받은 image Url로 대체
-        for (let i = 0; i < fileUrls.length; i++) {
-          if (typeof fileUrls[i] === "number") {
-            fileUrls[i] = uploadedUrls[uploadIndex++];
+        // imageUrls 배열 중 index값을 서버에서 받은 image Url로 대체
+        for (let i = 0; i < imageUrls.length; i++) {
+          if (typeof imageUrls[i] === "number") {
+            imageUrls[i] = uploadedUrls[uploadIndex++];
           }
         }
-        // AWS에 이미지 업로드 완료 후 링크 반환된걸 fileUrls에 저장 성공 ---
+        // AWS에 이미지 업로드 완료 후 링크 반환된걸 imageUrls에 저장 성공 ---
       }
 
-      const noticeData = {
+      const photoGalleryData = {
         title: title,
         content,
-        fileUrls: fileUrls, // 게시글에 있는 이미지 urls들 최종 값 업로드
+        imageUrls: imageUrls, // 게시글에 있는 이미지 urls들 최종 값 업로드
       };
       let response;
       if (!params.get("edit")) {
         // 글 쓰기
-        response = await api.post(`/notice`, noticeData, {
+        response = await api.post(`/photo-gallery`, photoGalleryData, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -202,8 +202,8 @@ const NoticeFactory: React.FC = () => {
       } else {
         // 글 수정
         response = await api.patch(
-          `/notice/${params.get("edit")}`,
-          noticeData,
+          `/photo-gallery/${params.get("edit")}`,
+          photoGalleryData,
           {
             headers: {
               "Content-Type": "application/json",
@@ -214,7 +214,7 @@ const NoticeFactory: React.FC = () => {
 
       setIsUploading(false); // 업로드 상태를 마침
       successAlert(response.data.message);
-      navigate(`/community/notice/${response.data.content}`);
+      navigate(`/community/photo-gallery/${response.data.content}`);
       console.log(response.data);
     } catch (error: any) {
       setIsUploading(false); // 업로드 상태를 마침
@@ -260,7 +260,7 @@ const NoticeFactory: React.FC = () => {
         onFocus={() => setIsTitleFocused(true)}
         onBlur={() => setIsTitleFocused(false)}
       />
-      <Label>세부 내용</Label>
+      <Label>세부 내용 (생략가능)</Label>
       <ReactQuill //스타일은 index.css에서 수정
         ref={quillRef}
         value={content}
@@ -270,20 +270,22 @@ const NoticeFactory: React.FC = () => {
         modules={modules}
         formats={formats}
       />
-      <FileInputLabel htmlFor="file-upload">파일 추가</FileInputLabel>
+      <FileInputLabel htmlFor="file-upload">이미지 추가</FileInputLabel>
       <FileInput
         id="file-upload"
         type="file"
+        accept="image/*"
         multiple
         onChange={handleFileChange}
       />
-      <FilePreview>
+      <ImagePreview>
         {selectedFiles.map(({ file, url }, index) => (
-          <FileContainer key={index}>
-            <FileName>
-              {file ? file.name : decodeURIComponent(url?.split("-").pop())}
-            </FileName>
-            <FileNumber>{index + 1}</FileNumber>
+          <ImageContainer key={index}>
+            <Image
+              src={file ? URL.createObjectURL(file) : url!}
+              alt={`preview ${index}`}
+            />
+            <ImgNumber>{index + 1}</ImgNumber>
             <ButtonContainer>
               <ArrowButton
                 onClick={() => moveImage(index, "up")}
@@ -301,15 +303,15 @@ const NoticeFactory: React.FC = () => {
             <DeleteButton onClick={() => handleDelete(index)}>
               삭제
             </DeleteButton>
-          </FileContainer>
+          </ImageContainer>
         ))}
-      </FilePreview>
+      </ImagePreview>
       <ConfirmBtn onClick={handleSubmit} disabled={isUploading}>
         {isUploading
           ? "업로드 중..."
           : params.get("edit")
-          ? "공지 수정"
-          : "공지 등록"}
+          ? "포토갤러리 수정"
+          : "포토갤러리 등록"}
       </ConfirmBtn>
     </Container>
   );
@@ -338,6 +340,34 @@ const Input = styled.input`
   padding: 10px;
 `;
 
+const TypeContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const TypeBtn = styled.button<{ $isAcitve: boolean }>`
+  width: 120px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  border: 0;
+  text-align: center;
+  padding: 13px 0;
+  font-size: 1.15rem;
+  border-radius: 15px;
+  transition: all 0.5s;
+  cursor: pointer;
+
+  background-color: ${(props) =>
+    props.$isAcitve ? "var(--base-color)" : "rgba(200, 255, 214, 0.2);"};
+
+  &:hover {
+    filter: contrast(340deg);
+  }
+  &:focus {
+    border: none;
+    outline: none;
+  }
+`;
+
 const FileInputLabel = styled.label`
   display: inline-block;
   padding: 6px 12px;
@@ -357,15 +387,14 @@ const FileInput = styled.input`
   display: none;
 `;
 
-const FilePreview = styled.div`
+const ImagePreview = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 `;
 
-const FileContainer = styled.div`
+const ImageContainer = styled.div`
   width: calc(50% - 5px);
-  height: auto;
   position: relative;
 
   @media screen and (max-width: 550px) {
@@ -373,19 +402,14 @@ const FileContainer = styled.div`
   }
 `;
 
-const FileName = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const Image = styled.img`
   width: 100%;
-  min-height: 100px;
-  padding: 10px;
-  background-color: #f0f0f0;
+  height: 330px;
+  object-fit: cover;
   border: 1px solid #ddd;
-  word-break: break-all; //긴 단어를 줄바꿈 */
 `;
 
-const FileNumber = styled.div`
+const ImgNumber = styled.div`
   position: absolute;
   left: 5px;
   top: 5px;
@@ -411,7 +435,7 @@ const ArrowButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  padding: 7px;
+  padding: 15px;
   &:disabled {
     background: rgba(0, 0, 0, 0.2);
     cursor: not-allowed;
@@ -444,4 +468,4 @@ const ConfirmBtn = styled.button`
   }
 `;
 
-export default NoticeFactory;
+export default PhotoGalleryFactory;

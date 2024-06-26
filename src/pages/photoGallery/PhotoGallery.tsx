@@ -1,4 +1,4 @@
-// src/components/Notice.tsx
+// src/components/PhotoGallery.tsx
 
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -8,30 +8,32 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 
-interface NoticeProps {
+interface PhotoGalleryProps {
   id: number;
   title: string;
   content: string;
-  fileUrls: string[];
+  imageUrls: string[];
 }
 
-const Notice: React.FC = () => {
+const PhotoGallery: React.FC = () => {
   const { id } = useParams();
-  const [notice, setNotice] = useState<NoticeProps | null>(null);
+  const [photoGallery, setPhotoGallery] = useState<PhotoGalleryProps | null>(
+    null
+  );
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchNotice = async () => {
+    const fetchPhotoGallery = async () => {
       try {
-        const response = await api.get(`/notice/${id}`);
-        setNotice(response.data.content);
+        const response = await api.get(`/photo-gallery/${id}`);
+        setPhotoGallery(response.data.content);
       } catch (error) {
-        console.error("Error fetching notice data:", error);
+        console.error("Error fetching photo-gallery data:", error);
       }
     };
 
-    fetchNotice();
+    fetchPhotoGallery();
   }, [id]);
 
   const getFileName = (url: string) => {
@@ -41,45 +43,42 @@ const Notice: React.FC = () => {
   };
 
   return (
-    <NoticeContainer>
-      {notice ? (
+    <PhotoGalleryContainer>
+      {photoGallery ? (
         <>
-          <NoticeTitle>{notice?.title}</NoticeTitle>
-          <FileList>
-            {notice?.fileUrls.map((fileUrl, index) => (
-              <FileItem key={index}>
-                <img src="/images/disk_icon.png"></img>
-                <FileLink href={fileUrl} download>
-                  {getFileName(fileUrl)}
-                </FileLink>
-              </FileItem>
-            ))}
-          </FileList>
+          <PhotoGalleryTitle>{photoGallery?.title}</PhotoGalleryTitle>
           <hr></hr>
           <ButtonContainer>
-            <button onClick={() => navigate("/community/notice")}>목록</button>
+            <button onClick={() => navigate("/community/photo-gallery")}>
+              목록
+            </button>
             {user && (
               <button
                 onClick={() =>
-                  navigate(`/community/notice/write?edit=${notice.id}`)
+                  navigate(
+                    `/community/photo-gallery/write?edit=${photoGallery.id}`
+                  )
                 }
               >
                 수정
               </button>
             )}
           </ButtonContainer>
-          <NoticeContent
-            dangerouslySetInnerHTML={{ __html: notice?.content }}
+          <PhotoGalleryContent
+            dangerouslySetInnerHTML={{ __html: photoGallery?.content }}
           />
+          {photoGallery?.imageUrls.map((image) => (
+            <Image src={image}></Image>
+          ))}
         </>
       ) : (
         <LoadingSpinner></LoadingSpinner>
       )}
-    </NoticeContainer>
+    </PhotoGalleryContainer>
   );
 };
 
-const NoticeContainer = styled.div`
+const PhotoGalleryContainer = styled.div`
   width: 100%;
   max-width: 800px;
   padding: 20px;
@@ -88,7 +87,7 @@ const NoticeContainer = styled.div`
   margin: 20px 0;
 `;
 
-const NoticeTitle = styled.div`
+const PhotoGalleryTitle = styled.div`
   font-size: 2rem;
 `;
 
@@ -103,27 +102,14 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const NoticeContent = styled.div`
+const PhotoGalleryContent = styled.div`
   margin-bottom: 20px;
   font-size: 1.2em;
 `;
 
-const FileList = styled.ul`
-  list-style-type: none;
-  padding: 0;
+const Image = styled.img`
+  width: 100%;
+  margin: 10px 0;
 `;
 
-const FileItem = styled.li`
-  margin-bottom: 10px;
-`;
-
-const FileLink = styled.a`
-  margin-left: 5px;
-  color: #007bff;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-export default Notice;
+export default PhotoGallery;

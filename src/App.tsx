@@ -23,10 +23,10 @@ function App() {
         categories.push({
           title: "관리자권한",
           subcategories: [
-            { name: "제품등록", url: "/product/write" },
-            { name: "공지등록", url: "/community/notice/write" },
+            { name: "제품 등록", url: "/product/write" },
+            { name: "공지 등록", url: "/community/notice/write" },
+            { name: "포토갤러리 등록", url: "/community/photo-gallery/write" },
             { name: "로그아웃", url: "/login" },
-            { name: "고객센터", url: "/customer-service" },
           ],
         });
       }

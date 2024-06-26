@@ -11,6 +11,8 @@ import TopBanner from "./components/TopBanner";
 import NoticeFactory from "./pages/notice/NoticeFactory";
 import NoticeList from "./pages/notice/NoticeList";
 import Notice from "./pages/notice/Notice";
+import PhotoGalleryFactory from "./pages/photoGallery/PhotoGalleryFactory";
+import PhotoGallery from "./pages/photoGallery/PhotoGallery";
 
 const CompanyIntro = lazy(() => import("./pages/intro/CompanyIntro"));
 const Greeting = lazy(() => import("./pages/intro/Greeting"));
@@ -64,6 +66,11 @@ const Router = () => {
               <Route path="notice" element={<NoticeList />} />
               <Route path="notice/:id" element={<Notice />} />
               <Route path="notice/write" element={<NoticeFactory />} />
+              <Route path="photo-gallery/:id" element={<PhotoGallery />} />
+              <Route
+                path="photo-gallery/write"
+                element={<PhotoGalleryFactory />}
+              />
             </Route>
             <Route path="*" element={<NotPageFound />} />
           </Routes>
