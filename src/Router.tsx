@@ -29,6 +29,11 @@ const ProductFactory = lazy(() => import("./pages/product/ProductFactory"));
 const NotPageFound = lazy(() => import("./components/NotPageFound"));
 const Login = lazy(() => import("./pages/user/Login"));
 const Product = lazy(() => import("./pages/product/Product"));
+const Shipping = lazy(() => import("./pages/product/Shipping-info"));
+const Practice = lazy(() => import("./pages/notice/Practice"));
+const PhotoGalleryList = lazy(
+  () => import("./pages/photoGallery/photoGalleryList")
+);
 
 const Router = () => {
   return (
@@ -56,6 +61,7 @@ const Router = () => {
               <Route path=":id" element={<Product />} />
               <Route path="write" element={<ProductFactory />} />
             </Route>
+            <Route path="shipping-info" element={<Shipping />} />
             <Route path="/quality-test">
               <Route path="service" element={<Service />} />
               <Route path="result" element={<Result />} />
@@ -66,11 +72,13 @@ const Router = () => {
               <Route path="notice" element={<NoticeList />} />
               <Route path="notice/:id" element={<Notice />} />
               <Route path="notice/write" element={<NoticeFactory />} />
+              <Route path="photo-gallery" element={<PhotoGalleryList />} />
               <Route path="photo-gallery/:id" element={<PhotoGallery />} />
               <Route
                 path="photo-gallery/write"
                 element={<PhotoGalleryFactory />}
               />
+              <Route path="Practice" element={<Practice />} />
             </Route>
             <Route path="*" element={<NotPageFound />} />
           </Routes>
