@@ -41,7 +41,7 @@ export let categories: Category[] = [
     subcategories: [
       { name: "공지사항", url: "/community/notice" },
       { name: "포토갤러리", url: "/community/photo-gallery" },
-      { name: "이벤트", url: "/events" },
+      { name: "현장실습", url: "/community/practice" },
       { name: "고객센터", url: "/customer-service" },
     ],
   },

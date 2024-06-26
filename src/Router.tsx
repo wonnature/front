@@ -30,6 +30,7 @@ const NotPageFound = lazy(() => import("./components/NotPageFound"));
 const Login = lazy(() => import("./pages/user/Login"));
 const Product = lazy(() => import("./pages/product/Product"));
 const Shipping = lazy(() => import("./pages/product/Shipping-info"));
+const Practice = lazy(() => import("./pages/notice/Practice"));
 
 const Router = () => {
   return (
@@ -73,6 +74,7 @@ const Router = () => {
                 path="photo-gallery/write"
                 element={<PhotoGalleryFactory />}
               />
+              <Route path="Practice" element={<Practice />} />
             </Route>
             <Route path="*" element={<NotPageFound />} />
           </Routes>
