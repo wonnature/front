@@ -17,12 +17,15 @@ const PhotoGalleryList: React.FC = () => {
   const [photoGalleryList, setPhotoGalleryList] = useState<PhotoGalleryItem[]>(
     []
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
   const navigate = useNavigate();
 
   const getPhotoGalleryList = async () => {
     try {
       const response = await api.get("/photo-gallery");
       setPhotoGalleryList(response.data.content);
+      console.log(response.data.content);
     } catch (error) {
       console.error("데이터를 불러오지 못했습니다.", error);
     }
@@ -36,13 +39,24 @@ const PhotoGalleryList: React.FC = () => {
     navigate(`/community/photo-gallery/${id}`);
   };
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = photoGalleryList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <PhotoGalleryListContainer>
       <LogoContainer>
         <img src="/images/community/title5_3.png" alt="logo" />
       </LogoContainer>
       <PhotoContainer>
-        {photoGalleryList.map((item) => (
+        {currentItems.map((item) => (
           <PhotoGalleryCard
             key={item.id}
             onClick={() => handlePhotoGalleryClick(item.id)}
@@ -54,7 +68,6 @@ const PhotoGalleryList: React.FC = () => {
             </PhotoThumbnail>
             <PhotoInfo>
               <h3>{item.title}</h3>
-              <p>{item.content}</p>
               <div>
                 <span>조회수: {item.hit}</span>
                 <span>
@@ -65,6 +78,20 @@ const PhotoGalleryList: React.FC = () => {
           </PhotoGalleryCard>
         ))}
       </PhotoContainer>
+      <PaginationContainer>
+        {Array.from(
+          { length: Math.ceil(photoGalleryList.length / itemsPerPage) },
+          (_, i) => i + 1
+        ).map((pageNumber) => (
+          <PaginationButton
+            key={pageNumber}
+            onClick={() => handlePageChange(pageNumber)}
+            active={currentPage === pageNumber}
+          >
+            {pageNumber}
+          </PaginationButton>
+        ))}
+      </PaginationContainer>
     </PhotoGalleryListContainer>
   );
 };
@@ -74,9 +101,10 @@ const PhotoGalleryListContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px; // 전체 너비 조정
   height: auto;
   padding: 20px;
+  margin: 0 auto; // 가운데 정렬
 `;
 
 const LogoContainer = styled.div`
@@ -86,8 +114,14 @@ const LogoContainer = styled.div`
 
 const PhotoContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   grid-gap: 20px;
+  margin-top: 20px;
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+  }
 `;
 
 const PhotoGalleryCard = styled.div`
@@ -120,11 +154,10 @@ const PhotoInfo = styled.div`
   h3 {
     margin-top: 0;
     margin-bottom: 5px;
-  }
-
-  p {
-    margin-top: 0;
-    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   div {
@@ -132,6 +165,31 @@ const PhotoInfo = styled.div`
     justify-content: space-between;
     font-size: 0.8rem;
     color: #666;
+    padding-top: 10px;
+  }
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const PaginationButton = styled.button<{ active: boolean }>`
+  background-color: ${(props) => (props.active ? "#B0D477" : "#f1f1f1")};
+  color: ${(props) => (props.active ? "#fff" : "#333")};
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: ${(props) => (props.active ? "#0056b3" : "#e6e6e6")};
   }
 `;
 
