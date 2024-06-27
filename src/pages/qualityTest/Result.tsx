@@ -19,10 +19,7 @@ const Result = () => {
         <thead>
           <tr>
             {resultData.headers.map((header, index) => (
-              <th
-                key={index}
-                style={{ backgroundColor: "#f2f2f2" }} // 테이블 헤더를 회색으로 설정
-              >
+              <th key={index} style={{ backgroundColor: "#f2f2f2" }}>
                 {header.text}
               </th>
             ))}

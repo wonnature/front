@@ -3,34 +3,22 @@ import styled from "styled-components";
 import introData from "../../../public/category-list.json";
 import tableData from "../../../public/category-table.json";
 import tableData2 from "../../../public/category-table2.json";
-import { useTable, Column } from "react-table";
+
+interface GroupedData {
+  category: string;
+  rows: { category: string; criteria: string; sample: string }[];
+}
 
 const Category = () => {
-  const data = React.useMemo(
-    () =>
-      tableData.items.map((item) => ({
-        ...item,
-      })),
-    []
-  );
-
-  const columns: Column<{
-    col: string;
-    category2: string;
-    money: string;
-    day: string;
-  }>[] = React.useMemo(
-    () => [
-      { Header: "", accessor: "col" },
-      { Header: "검사항목", accessor: "category2" },
-      { Header: "수수료(원)", accessor: "money" },
-      { Header: "처리기간(일)", accessor: "day" },
-    ],
-    []
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data } as any);
+  const groupedData: GroupedData[] = tableData2.items.reduce((acc, item) => {
+    const existingGroup = acc.find((group) => group.category === item.category);
+    if (existingGroup) {
+      existingGroup.rows.push(item);
+    } else {
+      acc.push({ category: item.category, rows: [item] });
+    }
+    return acc;
+  }, [] as GroupedData[]);
 
   return (
     <IntroContainer>
@@ -47,30 +35,31 @@ const Category = () => {
             ))}
           </div>
         ))}
+
         <TableContainer>
-          <table {...getTableProps()}>
+          <table>
             <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
-                      {column.render("Header", { col: column.id })}
-                    </th>
-                  ))}
+              <tr>
+                <th colSpan={2} style={{ backgroundColor: "#f2f2f2" }}>
+                  {tableData.headers[0].text}
+                </th>
+                <th style={{ backgroundColor: "#f2f2f2" }}>
+                  {tableData.headers[2].text}
+                </th>
+                <th style={{ backgroundColor: "#f2f2f2" }}>
+                  {tableData.headers[3].text}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.items.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.col}</td>
+                  <td>{item.category2}</td>
+                  <td>{item.money}</td>
+                  <td>{item.day}</td>
                 </tr>
               ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    ))}
-                  </tr>
-                );
-              })}
             </tbody>
           </table>
         </TableContainer>
@@ -85,23 +74,27 @@ const Category = () => {
         <Table>
           <thead>
             <tr>
-              {tableData2.headers.map((header, index) => (
-                <th
-                  key={index}
-                  style={{ backgroundColor: "#f2f2f2" }} // 테이블 헤더를 회색으로 설정
-                >
-                  {header.text}
-                </th>
-              ))}
+              <th colSpan={2} style={{ backgroundColor: "#f2f2f2" }}>
+                {tableData2.headers[0].text}
+              </th>
+              <th style={{ backgroundColor: "#f2f2f2" }}>
+                {tableData2.headers[2].text}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {tableData2.items.map((item, index) => (
-              <tr key={index}>
-                <td>{item.category}</td>
-                <td>{item.criteria}</td>
-                <td>{item.sample}</td>
-              </tr>
+            {groupedData.map((group, index) => (
+              <React.Fragment key={index}>
+                {group.rows.map((item, rowIndex) => (
+                  <tr key={`${index}-${rowIndex}`}>
+                    {rowIndex === 0 && (
+                      <td rowSpan={group.rows.length}>{group.category}</td>
+                    )}
+                    <td>{item.criteria}</td>
+                    <td>{item.sample}</td>
+                  </tr>
+                ))}
+              </React.Fragment>
             ))}
           </tbody>
         </Table>
@@ -148,7 +141,7 @@ const TableContainer = styled.div`
     th,
     td {
       padding: 8px;
-      text-align: left;
+      text-align: center; // 가운데 정렬
       border-bottom: 1px solid #ddd;
     }
 
@@ -157,8 +150,6 @@ const TableContainer = styled.div`
     }
   }
 `;
-const Content = styled.div``;
-const Subimg = styled.img``;
 
 const Table = styled.table`
   width: 100%;
@@ -168,7 +159,9 @@ const Table = styled.table`
   th,
   td {
     padding: 10px;
-    text-align: left;
+    text-align: center; // 가운데 정렬
     border-bottom: 1px solid #ddd;
   }
 `;
+const Content = styled.div``;
+const Subimg = styled.img``;
