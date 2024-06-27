@@ -21,7 +21,7 @@ const PhotoGalleryList: React.FC = () => {
 
   const getPhotoGalleryList = async () => {
     try {
-      const response = await api.get("http://125.182.57.18:8090/photo-gallery");
+      const response = await api.get("/photo-gallery");
       setPhotoGalleryList(response.data.content);
     } catch (error) {
       console.error("데이터를 불러오지 못했습니다.", error);

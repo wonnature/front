@@ -8,6 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 import { dateTimeConvert } from "../../hoooks/date-convert";
+import { warningAlert } from "../../components/Alert";
 
 interface NoticeProps {
   id: number;
@@ -30,6 +31,8 @@ const Notice: React.FC = () => {
         const response = await api.get(`/notice/${id}`);
         setNotice(response.data.content);
       } catch (error) {
+        warningAlert(error.response.data.message);
+        navigate("/community/notice");
         console.error("Error fetching notice data:", error);
       }
     };

@@ -173,13 +173,14 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
           display: none;
         `}
 
-  @media screen and (min-width: 1000px ) {
+  @media screen and (min-width: 1000px) {
     //1000px 이상일 경우 구조에 맞게 띄움
     display: flex;
     position: sticky;
     top: calc(var(--header-height) + 25px);
     align-self: flex-start;
     height: 100%;
+    max-height: calc(100dvh - var(--header-height) - 35px);
     border-radius: 15px;
     margin-right: 1%;
     background: linear-gradient(
@@ -188,6 +189,9 @@ const Container = styled.div<{ $isOpen: boolean; $isAnimate: boolean }>`
       #afd477
     ); /* 시그널 그린에서 진한 민트 그린으로 그라데이션 */
     z-index: 0;
+  }
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 

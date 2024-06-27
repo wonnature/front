@@ -91,9 +91,9 @@ const Home = () => {
                   <span
                     onClick={() => navigate(`/community/notice/${notice.id}`)}
                   >
-                    {notice.title}
+                    {notice?.title}
                   </span>
-                  {notice?.fileUrls.length > 0 && (
+                  {notice?.fileUrls?.length > 0 && (
                     <img src="/images/disk_icon.png" />
                   )}
                 </ContentTitle>
@@ -108,21 +108,22 @@ const Home = () => {
             </span>
           </ContentSubject>
           {photoGalleries?.map(
-            (notice, index) =>
+            (photoGallery, index) =>
               index < 1 && (
-                <PhotoGalleryContainer key={notice.id}>
+                <PhotoGalleryContainer key={photoGallery?.id}>
                   <PhotoGalleryImage
-                    src={notice.imageUrls[0]}
+                    src={photoGallery.imageUrls && photoGallery.imageUrls[0]}
+                    alt="사진없음"
                     onClick={() =>
-                      navigate(`/community/photo-gallery/${notice.id}`)
+                      navigate(`/community/photo-gallery/${photoGallery?.id}`)
                     }
                   />
                   <ContentTitle
                     onClick={() =>
-                      navigate(`/community/photo-gallery/${notice.id}`)
+                      navigate(`/community/photo-gallery/${photoGallery?.id}`)
                     }
                   >
-                    {notice.title}
+                    {photoGallery?.title}
                   </ContentTitle>
                 </PhotoGalleryContainer>
               )
@@ -299,7 +300,7 @@ const ContentSubject = styled.div`
 
   & span:nth-child(1) {
     font-size: 1.5rem;
-    font-weight: 800;
+    font-weight: 700;
   }
   & span:nth-child(2) {
     color: var(--base-color);

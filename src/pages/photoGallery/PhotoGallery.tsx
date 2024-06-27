@@ -8,6 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 import { dateTimeConvert } from "../../hoooks/date-convert";
+import { warningAlert } from "../../components/Alert";
 
 interface PhotoGalleryProps {
   id: number;
@@ -32,7 +33,9 @@ const PhotoGallery: React.FC = () => {
         const response = await api.get(`/photo-gallery/${id}`);
         setPhotoGallery(response.data.content);
       } catch (error) {
-        console.error("Error fetching photo-gallery data:", error);
+        warningAlert(error.response.data.message);
+        navigate("/community/photo-gallery");
+        console.error("Error fetching notice data:", error);
       }
     };
 

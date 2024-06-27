@@ -47,7 +47,7 @@ const NoticeList: React.FC = () => {
             <div>{notice.id}</div>
             <div onClick={() => navigate(`/community/notice/${notice.id}`)}>
               {notice.title}{" "}
-              {notice?.fileUrls.length > 0 && (
+              {notice?.fileUrls?.length > 0 && (
                 <img src="/images/disk_icon.png"></img>
               )}
             </div>
