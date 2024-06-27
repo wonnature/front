@@ -23,7 +23,7 @@ const NoticeList: React.FC = () => {
     try {
       const response = await api.get("/notice");
       setNotices(response.data.content);
-    } catch (error) {
+    } catch (error: any) {
       warningAlert(error.response.data.message);
     }
   };

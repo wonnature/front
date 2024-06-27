@@ -30,7 +30,7 @@ const Category = () => {
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns, data } as any);
 
   return (
     <IntroContainer>

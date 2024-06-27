@@ -30,7 +30,7 @@ const Notice: React.FC = () => {
       try {
         const response = await api.get(`/notice/${id}`);
         setNotice(response.data.content);
-      } catch (error) {
+      } catch (error: any) {
         warningAlert(error.response.data.message);
         navigate("/community/notice");
         console.error("Error fetching notice data:", error);

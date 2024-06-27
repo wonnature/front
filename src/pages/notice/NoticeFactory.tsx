@@ -278,7 +278,7 @@ const NoticeFactory: React.FC = () => {
         onChange={handleFileChange}
       />
       <FilePreview>
-        {selectedFiles.map(({ file, url }, index) => (
+        {selectedFiles.map(({ file, url }: any, index) => (
           <FileContainer key={index}>
             <FileName>
               {file ? file.name : decodeURIComponent(url?.split("-").pop())}

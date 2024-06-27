@@ -32,7 +32,7 @@ const PhotoGallery: React.FC = () => {
       try {
         const response = await api.get(`/photo-gallery/${id}`);
         setPhotoGallery(response.data.content);
-      } catch (error) {
+      } catch (error: any) {
         warningAlert(error.response.data.message);
         navigate("/community/photo-gallery");
         console.error("Error fetching notice data:", error);
@@ -41,12 +41,6 @@ const PhotoGallery: React.FC = () => {
 
     fetchPhotoGallery();
   }, [id]);
-
-  const getFileName = (url: string) => {
-    const parts = url.split("/");
-    const encodedFileName = parts[parts.length - 1];
-    return decodeURIComponent(encodedFileName);
-  };
 
   return (
     <PhotoGalleryContainer>

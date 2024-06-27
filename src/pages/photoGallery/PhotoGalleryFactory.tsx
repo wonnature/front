@@ -340,34 +340,6 @@ const Input = styled.input`
   padding: 10px;
 `;
 
-const TypeContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const TypeBtn = styled.button<{ $isAcitve: boolean }>`
-  width: 120px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-  border: 0;
-  text-align: center;
-  padding: 13px 0;
-  font-size: 1.15rem;
-  border-radius: 15px;
-  transition: all 0.5s;
-  cursor: pointer;
-
-  background-color: ${(props) =>
-    props.$isAcitve ? "var(--base-color)" : "rgba(200, 255, 214, 0.2);"};
-
-  &:hover {
-    filter: contrast(340deg);
-  }
-  &:focus {
-    border: none;
-    outline: none;
-  }
-`;
-
 const FileInputLabel = styled.label`
   display: inline-block;
   padding: 6px 12px;
