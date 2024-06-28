@@ -125,7 +125,7 @@ const Product = () => {
             <Button onClick={() => navigate(`/product/write?edit=${id}`)}>
               수정
             </Button>
-            <Button onClick={handleDelete} disabled={isDeleteing}>
+            <Button onClick={() => handleDelete()} disabled={isDeleteing}>
               {!isDeleteing ? "삭제" : "삭제 중..."}
             </Button>
             {/* <div>조회수 : {productData?.hit}</div> */}
@@ -192,9 +192,7 @@ const Product = () => {
         {/* <ProductListContainer>
           {productList?.map}
         </ProductListContainer> */}
-        <ButtonContainer>
-          <Button onClick={() => navigate("/product")}>목록으로</Button>
-        </ButtonContainer>
+        <Button onClick={() => navigate("/product")}>목록으로</Button>
       </ProductForm>
     </Container>
   );

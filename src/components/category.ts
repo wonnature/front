@@ -42,14 +42,10 @@ export let categories: Category[] = [
       { name: "공지사항", url: "/community/notice" },
       { name: "포토갤러리", url: "/community/photo-gallery" },
       { name: "현장실습", url: "/community/practice" },
-      { name: "고객센터", url: "/customer-service" },
     ],
   },
   {
-    title: "로그인/회원가입",
-    subcategories: [
-      { name: "로그인", url: "/login" },
-      { name: "회원가입", url: "/register" },
-    ],
+    title: "관리자",
+    subcategories: [{ name: "로그인", url: "/login" }],
   },
 ];

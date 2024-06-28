@@ -5,8 +5,6 @@ import styled from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../state/userState";
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["small", "medium", "large", "huge"];

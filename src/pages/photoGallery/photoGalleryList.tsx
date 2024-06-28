@@ -20,7 +20,7 @@ const PhotoGalleryList: React.FC = () => {
     []
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage] = useState(12);
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 

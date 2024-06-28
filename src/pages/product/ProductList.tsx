@@ -3,6 +3,8 @@ import api from "../../api";
 import { useEffect, useState } from "react";
 import { warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
 
 interface Product {
   englishTitle: string;
@@ -20,6 +22,7 @@ const ProductList = () => {
   const queryParams = new URLSearchParams(location.search);
   const typeQuery = queryParams.get("type");
   const [type, setType] = useState<string | any>(typeQuery || "화장품");
+  const user = useRecoilValue(userState);
 
   const getProductsByType = async (type: string) => {
     try {
@@ -61,6 +64,11 @@ const ProductList = () => {
           식품
         </TypeBtn>
       </TypeContainer>
+      {user?.role === "ADMIN" && (
+        <ButtonContainer>
+          <button onClick={() => navigate("/product/write")}>제품 등록</button>
+        </ButtonContainer>
+      )}
       <ProductContainer>
         {products?.map((product) => (
           <Product
@@ -82,6 +90,23 @@ const Container = styled.div`
   width: 100%;
   max-width: 1000px;
   padding: 20px;
+
+  @media screen and (max-width: 500px) {
+    padding: 5px;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  margin: -10px 0 10px 10px;
+  gap: 10px;
+  & button {
+    background-color: var(--base-color);
+    border-radius: 10px;
+    color: white;
+    padding: 8px 10px;
+    border: 1px solid gray;
+  }
 `;
 
 const TypeContainer = styled.div`
@@ -96,11 +121,15 @@ const TypeBtn = styled.div<{ $isActive: boolean }>`
   position: relative;
   height: auto;
   padding: 2px 0;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   font-weight: 600;
   cursor: pointer;
   color: ${(props) => (props.$isActive ? "black" : "rgba(0,0,0,0.4)")};
   transition: color 0.5s;
+
+  @media screen and (max-width: 500px) {
+    font-size: 2.2rem;
+  }
 
   &::before {
     content: "";
@@ -129,9 +158,8 @@ const ProductContainer = styled.div`
 const Product = styled.div`
   width: calc(33.333% - 14px);
   height: 300px;
-  border-radius: 15px;
-  /* box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1); */
-  border: 1px solid lightgray;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   text-align: center;
   transition: 0.5s all;
   padding: 10px;

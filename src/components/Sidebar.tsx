@@ -203,8 +203,8 @@ const CategoryTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.3rem;
-  font-weight: 800;
+  font-size: 1.28rem;
+  font-weight: 700;
   cursor: pointer;
   padding: 10px 15px;
   color: black;

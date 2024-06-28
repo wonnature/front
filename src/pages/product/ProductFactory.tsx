@@ -322,7 +322,7 @@ const ProductFactory: React.FC = () => {
         </TypeBtn>
       </TypeContainer>
 
-      <Label>스토어 링크 (생략가능)</Label>
+      <Label>스토어 링크</Label>
       <Input
         ref={inputRef}
         type="text"

@@ -8,7 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 import { dateTimeConvert } from "../../hoooks/date-convert";
-import { warningAlert } from "../../components/Alert";
+import { confirm, successAlert, warningAlert } from "../../components/Alert";
 
 interface PhotoGalleryProps {
   id: number;
@@ -24,6 +24,7 @@ const PhotoGallery: React.FC = () => {
   const [photoGallery, setPhotoGallery] = useState<PhotoGalleryProps | null>(
     null
   );
+  const [isDeleteing, setIsDeleteing] = useState(false);
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
@@ -41,6 +42,24 @@ const PhotoGallery: React.FC = () => {
 
     fetchPhotoGallery();
   }, [id]);
+
+  const handleDelete = async () => {
+    if (isDeleteing) return; //삭제중이면 리턴
+
+    const result = await confirm("정말 글을 삭제하시겠습니까?");
+    if (!result.isConfirmed) return;
+    else setIsDeleteing(true);
+    try {
+      await api.delete(`/photo-gallery/${id}`);
+      setIsDeleteing(false);
+      successAlert("글 삭제가 완료되었습니다.");
+      navigate("/community/photo-gallery");
+    } catch (error: any) {
+      setIsDeleteing(false);
+      const result = await warningAlert(error.response.data.message);
+      console.log(result);
+    }
+  };
 
   return (
     <PhotoGalleryContainer>
@@ -64,16 +83,24 @@ const PhotoGallery: React.FC = () => {
             <button onClick={() => navigate("/community/photo-gallery")}>
               목록
             </button>
-            {user && (
-              <button
-                onClick={() =>
-                  navigate(
-                    `/community/photo-gallery/write?edit=${photoGallery.id}`
-                  )
-                }
-              >
-                수정
-              </button>
+            {user?.role === "ADMIN" && (
+              <>
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/community/photo-gallery/write?edit=${photoGallery.id}`
+                    )
+                  }
+                >
+                  수정
+                </button>
+                <button
+                  style={{ background: "tomato" }}
+                  onClick={() => handleDelete()}
+                >
+                  삭제
+                </button>
+              </>
             )}
           </ButtonContainer>
           <PhotoGalleryContent

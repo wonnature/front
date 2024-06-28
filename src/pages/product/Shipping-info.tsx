@@ -4,7 +4,7 @@ const Shipping = () => {
   return (
     <IntroContainer>
       <LogoContainer>
-        <img src="/images/intro/pro_title_1.png" alt="logo" />
+        <img src="/images/intro/pro_title_4.png" alt="logo" />
       </LogoContainer>
 
       <TitleImg>

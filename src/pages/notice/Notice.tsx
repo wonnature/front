@@ -8,12 +8,13 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 import { dateTimeConvert } from "../../hoooks/date-convert";
-import { warningAlert } from "../../components/Alert";
+import { confirm, successAlert, warningAlert } from "../../components/Alert";
 import { NoticeProps } from "../\btypes/NoticeProps";
 
 const Notice: React.FC = () => {
   const { id } = useParams();
   const [notice, setNotice] = useState<NoticeProps | null>(null);
+  const [isDeleteing, setIsDeleteing] = useState(false);
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
@@ -31,6 +32,24 @@ const Notice: React.FC = () => {
 
     fetchNotice();
   }, [id]);
+
+  const handleDelete = async () => {
+    if (isDeleteing) return; //삭제중이면 리턴
+
+    const result = await confirm("정말 글을 삭제하시겠습니까?");
+    if (!result.isConfirmed) return;
+    else setIsDeleteing(true);
+    try {
+      await api.delete(`/notice/${id}`);
+      setIsDeleteing(false);
+      successAlert("글 삭제가 완료되었습니다.");
+      navigate("/community/notice");
+    } catch (error: any) {
+      setIsDeleteing(false);
+      const result = await warningAlert(error.response.data.message);
+      console.log(result);
+    }
+  };
 
   const getFileName = (url: string) => {
     const parts = url.split("/");
@@ -68,14 +87,22 @@ const Notice: React.FC = () => {
           <hr></hr>
           <ButtonContainer>
             <button onClick={() => navigate("/community/notice")}>목록</button>
-            {user && (
-              <button
-                onClick={() =>
-                  navigate(`/community/notice/write?edit=${notice.id}`)
-                }
-              >
-                수정
-              </button>
+            {user?.role === "ADMIN" && (
+              <>
+                <button
+                  onClick={() =>
+                    navigate(`/community/notice/write?edit=${notice.id}`)
+                  }
+                >
+                  수정
+                </button>
+                <button
+                  style={{ background: "tomato" }}
+                  onClick={() => handleDelete()}
+                >
+                  삭제
+                </button>
+              </>
             )}
           </ButtonContainer>
           <NoticeContent
