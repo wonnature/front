@@ -80,6 +80,10 @@ const Router = () => {
               />
               <Route path="Practice" element={<Practice />} />
             </Route>
+            <Route
+              path="/register"
+              element={<div>현재는 관리자만 로그인 가능합니다.</div>}
+            />
             <Route path="*" element={<NotPageFound />} />
           </Routes>
         </BodyContainer>

@@ -42,8 +42,6 @@ const PhotoGalleryFactory: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
   const [isTitleFocused, setIsTitleFocused] = useState<boolean>(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
-  const user = useRecoilValue(userState);
-  const [userCheck, setUserCheck] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -82,24 +80,17 @@ const PhotoGalleryFactory: React.FC = () => {
     checkUser();
   }, []);
 
-  useEffect(() => {
-    if (userCheck) loginCheck();
-    else setUserCheck(true);
-    console.log("usercheck: ", user);
-  }, [user]);
-
   const checkUser = async () => {
     try {
-      await api.get(`/user/check`, {
+      const response = await api.get(`/user/check`, {
         // skipInterceptor: true,
       });
+      if (response?.data?.content?.role !== "ADMIN") {
+        warningAlert("관리자 로그인을 해주세요.");
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error:", error);
-    }
-  };
-
-  const loginCheck = async () => {
-    if (user === null) {
       warningAlert("관리자 로그인을 해주세요.");
       navigate("/login");
     }
@@ -230,6 +221,12 @@ const PhotoGalleryFactory: React.FC = () => {
     }
   };
 
+  const getFileName = (url: string) => {
+    const parts = url.split("/");
+    const encodedFileName = parts[parts.length - 1];
+    return decodeURIComponent(encodedFileName);
+  };
+
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -286,6 +283,7 @@ const PhotoGalleryFactory: React.FC = () => {
               alt={`preview ${index}`}
             />
             <ImgNumber>{index + 1}</ImgNumber>
+            <PhotoName>{file ? file.name : getFileName(url!)}</PhotoName>
             <ButtonContainer>
               <ArrowButton
                 onClick={() => moveImage(index, "up")}
@@ -393,12 +391,23 @@ const ImgNumber = styled.div`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: 6px;
   right: 0;
   display: flex;
   flex-direction: row;
   gap: 5px;
   margin: 10px;
+`;
+
+const PhotoName = styled.div`
+  max-width: 50%;
+  padding: 5px;
+  position: absolute;
+  bottom: 13px;
+  left: 6px;
+  word-break: break-all;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ArrowButton = styled.button`

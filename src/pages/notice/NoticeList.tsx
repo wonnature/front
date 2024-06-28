@@ -4,6 +4,8 @@ import api from "../../api";
 import { warningAlert } from "../../components/Alert";
 import { dateConvert } from "../../hoooks/date-convert";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
 
 interface Notice {
   id: number;
@@ -16,6 +18,7 @@ interface Notice {
 
 const NoticeList: React.FC = () => {
   const [notices, setNotices] = useState<Notice[]>([]);
+  const user = useRecoilValue(userState);
 
   const navigate = useNavigate();
 
@@ -35,6 +38,14 @@ const NoticeList: React.FC = () => {
   return (
     <Container>
       <Title>공지사항</Title>
+      {user?.role === "ADMIN" && (
+        <ButtonContainer>
+          <button onClick={() => navigate("/community/notice/write")}>
+            공지 작성
+          </button>
+        </ButtonContainer>
+      )}
+
       <NoticeListContainer>
         <NoticeContent>
           <div>번호</div>
@@ -70,6 +81,19 @@ const Container = styled.div`
 const Title = styled.div`
   font-size: 1.8rem;
   font-weight: 700;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  margin-top: 15px;
+  gap: 10px;
+  & button {
+    background-color: var(--base-color);
+    border-radius: 10px;
+    color: white;
+    padding: 8px 10px;
+    border: 1px solid gray;
+  }
 `;
 
 const NoticeListContainer = styled.div`

@@ -118,7 +118,8 @@ const centeredFlex = css`
 const Container = styled.div`
   ${centeredFlex}
   width: 100%;
-  min-height: calc(100dvh - var(--header-height) - var(--footer-height));
+  max-width: 800px;
+  margin-top: 20px;
   background-color: white;
   padding: 20px;
 `;

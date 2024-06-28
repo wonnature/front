@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
+import { PhotoGalleryProps } from "../\btypes/PhotoGalleryProps";
+import { NoticeProps } from "../\btypes/NoticeProps";
 
 const SliderSettings = {
   dots: true,
@@ -25,24 +27,10 @@ const bannerImages = [
   "/images/homeBanner/banner_06.jpg",
 ];
 
-interface NoticeProps {
-  id: number;
-  title: string;
-  content: string;
-  fileUrls: string[];
-}
-
-interface PhotoGalleryProps {
-  id: number;
-  title: string;
-  content: string;
-  imageUrls: string[];
-}
-
 const Home = () => {
-  const [notices, setNotices] = useState<[NoticeProps] | null>(null);
+  const [notices, setNotices] = useState<NoticeProps[] | null>(null);
   const [photoGalleries, setPhotoGalleries] = useState<
-    [PhotoGalleryProps] | null
+    PhotoGalleryProps[] | null
   >(null);
   const navigate = useNavigate();
 
@@ -111,13 +99,16 @@ const Home = () => {
             (photoGallery, index) =>
               index < 1 && (
                 <PhotoGalleryContainer key={photoGallery?.id}>
-                  <PhotoGalleryImage
-                    src={photoGallery.imageUrls && photoGallery.imageUrls[0]}
-                    alt="사진없음"
-                    onClick={() =>
-                      navigate(`/community/photo-gallery/${photoGallery?.id}`)
-                    }
-                  />
+                  {photoGallery.imageUrls.length > 0 && (
+                    <PhotoGalleryImage
+                      src={photoGallery.imageUrls && photoGallery.imageUrls[0]}
+                      alt="사진없음"
+                      onClick={() =>
+                        navigate(`/community/photo-gallery/${photoGallery?.id}`)
+                      }
+                    />
+                  )}
+
                   <ContentTitle
                     onClick={() =>
                       navigate(`/community/photo-gallery/${photoGallery?.id}`)

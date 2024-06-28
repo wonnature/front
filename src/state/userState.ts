@@ -1,10 +1,11 @@
 import { atom } from "recoil";
 
-// interface User {
-//   id: number;
-//   username: string;
-// }
-export const userState = atom<number | null>({
+interface UserProps {
+  id: number;
+  username: string;
+  role: string;
+}
+export const userState = atom<UserProps | null>({
   key: "userState",
   default: null,
 });

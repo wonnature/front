@@ -5,8 +5,6 @@ import styled from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../state/userState";
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["small", "medium", "large", "huge"];
@@ -47,8 +45,6 @@ const ProductFactory: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
   const [isTitleFocused, setIsTitleFocused] = useState<boolean>(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
-  const user = useRecoilValue(userState);
-  const [userCheck, setUserCheck] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -101,24 +97,17 @@ const ProductFactory: React.FC = () => {
     checkUser();
   }, []);
 
-  useEffect(() => {
-    if (userCheck) loginCheck();
-    else setUserCheck(true);
-    console.log("usercheck: ", user);
-  }, [user]);
-
   const checkUser = async () => {
     try {
-      await api.get(`/user/check`, {
+      const response = await api.get(`/user/check`, {
         // skipInterceptor: true,
       });
+      if (response?.data?.content?.role !== "ADMIN") {
+        warningAlert("관리자 로그인을 해주세요.");
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error:", error);
-    }
-  };
-
-  const loginCheck = async () => {
-    if (user === null) {
       warningAlert("관리자 로그인을 해주세요.");
       navigate("/login");
     }
@@ -254,6 +243,12 @@ const ProductFactory: React.FC = () => {
     }
   };
 
+  const getFileName = (url: string) => {
+    const parts = url.split("/");
+    const encodedFileName = parts[parts.length - 1];
+    return decodeURIComponent(encodedFileName);
+  };
+
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -365,6 +360,7 @@ const ProductFactory: React.FC = () => {
               alt={`preview ${index}`}
             />
             <ImgNumber>{index + 1}</ImgNumber>
+            <PhotoName>{file ? file.name : getFileName(url!)}</PhotoName>
             <ButtonContainer>
               <ArrowButton
                 onClick={() => moveImage(index, "up")}
@@ -498,9 +494,20 @@ const ImgNumber = styled.div`
   background-color: rgb(0, 0, 0, 0.6);
 `;
 
+const PhotoName = styled.div`
+  max-width: 50%;
+  padding: 5px;
+  position: absolute;
+  bottom: 13px;
+  left: 6px;
+  word-break: break-all;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
 const ButtonContainer = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: 6px;
   right: 0;
   display: flex;
   flex-direction: row;

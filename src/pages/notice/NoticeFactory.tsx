@@ -5,8 +5,6 @@ import styled from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../state/userState";
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["small", "medium", "large", "huge"];
@@ -42,8 +40,6 @@ const NoticeFactory: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
   const [isTitleFocused, setIsTitleFocused] = useState<boolean>(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
-  const user = useRecoilValue(userState);
-  const [userCheck, setUserCheck] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -79,27 +75,20 @@ const NoticeFactory: React.FC = () => {
       getEditData(params.get("edit") as string);
     }
 
-    checkUser();
+    checkUser(); //세션만료 체크
   }, []);
-
-  useEffect(() => {
-    if (userCheck) loginCheck();
-    else setUserCheck(true);
-    console.log("usercheck: ", user);
-  }, [user]);
 
   const checkUser = async () => {
     try {
-      await api.get(`/user/check`, {
+      const response = await api.get(`/user/check`, {
         // skipInterceptor: true,
       });
+      if (response?.data?.content?.role !== "ADMIN") {
+        warningAlert("관리자 로그인을 해주세요.");
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error:", error);
-    }
-  };
-
-  const loginCheck = async () => {
-    if (user === null) {
       warningAlert("관리자 로그인을 해주세요.");
       navigate("/login");
     }

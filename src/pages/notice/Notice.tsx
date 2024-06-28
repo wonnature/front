@@ -9,15 +9,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 import { dateTimeConvert } from "../../hoooks/date-convert";
 import { warningAlert } from "../../components/Alert";
-
-interface NoticeProps {
-  id: number;
-  title: string;
-  content: string;
-  fileUrls: string[];
-  createdDate: string;
-  lastModifiedDate: string;
-}
+import { NoticeProps } from "../\btypes/NoticeProps";
 
 const Notice: React.FC = () => {
   const { id } = useParams();
