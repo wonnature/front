@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "../../state/userState";
 import { headerState } from "../../state/headerState";
 
