@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes, css } from "styled-components";
-import { categories } from "./category";
+import { useRecoilValue } from "recoil";
+import { headerState } from "../state/headerState";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Header = () => {
   const [isClickMenuBtn, setIsClickMenuBtn] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isExtend, setIsExtend] = useState(false);
+  const categories = useRecoilValue(headerState);
   const HeaderRef = useRef<HTMLDivElement | null>(null);
 
   const handleCloseMenu = () => {

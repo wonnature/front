@@ -3,9 +3,9 @@ import styled, { css } from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { userState } from "../../state/userState";
-import { categories } from "../../components/category";
+import { headerState } from "../../state/headerState";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -13,6 +13,7 @@ const Login = () => {
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
+  const [categories, setCategories] = useRecoilState(headerState);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -45,16 +46,21 @@ const Login = () => {
       navigate("/");
 
       if (response.data?.content?.role === "ADMIN") {
-        categories.pop();
-        categories.push({
-          title: "관리자권한",
-          subcategories: [
-            { name: "제품 등록", url: "/product/write" },
-            { name: "공지 등록", url: "/community/notice/write" },
-            { name: "포토갤러리 등록", url: "/community/photo-gallery/write" },
-            { name: "로그아웃", url: "/login" },
-          ],
-        });
+        setCategories((prev) => [
+          ...prev,
+          {
+            title: "관리자권한",
+            subcategories: [
+              { name: "제품 등록", url: "/product/write" },
+              { name: "공지 등록", url: "/community/notice/write" },
+              {
+                name: "포토갤러리 등록",
+                url: "/community/photo-gallery/write",
+              },
+              { name: "로그아웃", url: "/login" },
+            ],
+          },
+        ]);
       }
     } catch (error: any) {
       console.error("Error:", error);
@@ -67,14 +73,11 @@ const Login = () => {
       const response = await api.get("/user/logout");
       successAlert(response.data.message);
 
+      if (user?.role === "ADMIN") {
+        setCategories((prev) => prev.slice(0, -1));
+      }
       setUser(null);
       navigate("/");
-
-      categories.pop();
-      categories.push({
-        title: "관리자",
-        subcategories: [{ name: "로그인", url: "/login" }],
-      });
     } catch (error: any) {
       console.error("Error:", error);
       warningAlert(error.response.data.message);
