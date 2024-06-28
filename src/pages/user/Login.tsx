@@ -13,7 +13,7 @@ const Login = () => {
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
-  const [categories, setCategories] = useRecoilState(headerState);
+  const setCategories = useSetRecoilState(headerState);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
