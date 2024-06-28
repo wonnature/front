@@ -208,7 +208,7 @@ const centeredFlex = css`
 const Container = styled.div`
   ${centeredFlex}
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   /* min-height: 100vh; */
   padding: 20px;
 
