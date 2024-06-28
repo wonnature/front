@@ -19,9 +19,14 @@ const Container = styled.div`
   padding: 30px 0;
   background-color: #f7f7f7;
   color: gray;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+
   text-align: center;
   border-top: 1px solid lightgray;
+
+  & div {
+    font-size: 0.85rem;
+  }
 
   & img {
     margin-bottom: 10px;
