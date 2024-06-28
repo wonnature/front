@@ -99,12 +99,10 @@ const PhotoGalleryList: React.FC = () => {
 const PhotoGalleryListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
-  max-width: 1200px; // 전체 너비 조정
+  max-width: 800px;
   height: auto;
   padding: 20px;
-  margin: 0 auto; // 가운데 정렬
 `;
 
 const LogoContainer = styled.div`
