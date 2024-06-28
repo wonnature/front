@@ -34,7 +34,9 @@ const NoticeList: React.FC = () => {
 
   return (
     <Container>
-      <Title>공지사항</Title>
+      <LogoContainer>
+        <img src="/images/community/title5_1.png" alt="logo" />
+      </LogoContainer>
       <NoticeListContainer>
         <NoticeContent>
           <div>번호</div>
@@ -65,11 +67,13 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 800px;
+  height: auto;
+  padding: 20px;
 `;
 
-const Title = styled.div`
-  font-size: 1.8rem;
-  font-weight: 700;
+const LogoContainer = styled.div`
+  align-self: flex-start;
+  padding-bottom: 5px;
 `;
 
 const NoticeListContainer = styled.div`
