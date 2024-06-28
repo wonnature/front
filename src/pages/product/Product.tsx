@@ -234,6 +234,7 @@ const TopContainer = styled.div`
   ${centeredFlex}
   width: 100%;
   height: auto;
+  min-height: 390px;
   flex-flow: row nowrap;
   align-items: center;
   gap: 60px;
@@ -245,7 +246,7 @@ const TopContainer = styled.div`
     border-radius: 8px;
   }
 
-  @media screen and (max-width: 2000px) {
+  @media screen and (max-width: 1000px) {
     flex-flow: column;
 
     & img {
@@ -262,7 +263,7 @@ const TopContent = styled.div`
   align-items: flex-start;
   gap: 10px;
 
-  @media screen and (max-width: 2000px) {
+  @media screen and (max-width: 1000px) {
     width: 95%;
   }
 

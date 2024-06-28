@@ -156,13 +156,15 @@ const ProductContainer = styled.div`
 `;
 
 const Product = styled.div`
+  display: flex;
+  flex-direction: column;
   width: calc(33.333% - 14px);
   height: 300px;
   border: 1px solid #ddd;
   border-radius: 5px;
   text-align: center;
   transition: 0.5s all;
-  padding: 10px;
+  /* padding: 10px; */
   &:hover {
     cursor: pointer;
     transform: scale(1.015);
@@ -180,13 +182,20 @@ const Product = styled.div`
 const ProductImg = styled.img`
   width: 100%;
   height: 75%;
+  padding: 10px 15px;
   object-fit: scale-down;
 `;
 
 const ProductTitle = styled.div`
-  font-size: 1.2rem;
-  font-weight: 600;
-  padding: 10px 0;
+  font-size: 1.1rem;
+  height: 25%;
+  font-weight: 400;
+  /* background-color: #f1faee; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 0 0 3px 3px;
 `;
 
 export default ProductList;

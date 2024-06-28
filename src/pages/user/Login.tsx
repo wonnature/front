@@ -72,11 +72,8 @@ const Login = () => {
 
       categories.pop();
       categories.push({
-        title: "로그인/회원가입",
-        subcategories: [
-          { name: "로그인", url: "/login" },
-          { name: "회원가입", url: "/register" },
-        ],
+        title: "관리자",
+        subcategories: [{ name: "로그인", url: "/login" }],
       });
     } catch (error: any) {
       console.error("Error:", error);
@@ -87,7 +84,7 @@ const Login = () => {
     <Container>
       {!user ? (
         <LoginForm onSubmit={handleLoginSubmit}>
-          <Title>회원 로그인</Title>
+          <Title>관리자 로그인</Title>
           <Label>유저이름</Label>
           <Input type="text" value={username} onChange={handleUsernameChange} />
           <Label>비밀번호</Label>
