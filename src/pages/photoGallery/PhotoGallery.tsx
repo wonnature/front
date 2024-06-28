@@ -108,9 +108,10 @@ const ButtonContainer = styled.div`
   margin-top: 15px;
   gap: 10px;
   & button {
-    width: 60px;
-    padding: 8px 0;
-    color: black;
+    background-color: var(--base-color);
+    border-radius: 6px;
+    color: white;
+    padding: 8px 15px;
     border: 1px solid gray;
   }
 `;

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
 
 interface PhotoGalleryItem {
   id: number;
@@ -19,6 +21,7 @@ const PhotoGalleryList: React.FC = () => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   const getPhotoGalleryList = async () => {
@@ -55,6 +58,13 @@ const PhotoGalleryList: React.FC = () => {
       <LogoContainer>
         <img src="/images/community/title5_3.png" alt="logo" />
       </LogoContainer>
+      {user?.role === "ADMIN" && (
+        <ButtonContainer>
+          <button onClick={() => navigate("/community/notice/write")}>
+            포토갤러리 작성
+          </button>
+        </ButtonContainer>
+      )}
       <PhotoContainer>
         {currentItems.map((item) => (
           <PhotoGalleryCard
@@ -100,7 +110,7 @@ const PhotoGalleryListContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   height: auto;
   padding: 20px;
 `;
@@ -110,12 +120,29 @@ const LogoContainer = styled.div`
   padding-bottom: 5px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  margin-top: 15px;
+  gap: 10px;
+  & button {
+    background-color: var(--base-color);
+    border-radius: 10px;
+    color: white;
+    padding: 8px 10px;
+    border: 1px solid gray;
+  }
+`;
+
 const PhotoContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 20px;
   margin-top: 20px;
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+  }
   @media (max-width: 450px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(6, 1fr);
