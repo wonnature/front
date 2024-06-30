@@ -112,7 +112,7 @@ const ButtonContainer = styled.div`
 const TypeContainer = styled.div`
   display: flex;
   width: 100%;
-  gap: 35px;
+  gap: 32px;
   padding-left: 10px;
   margin-bottom: 20px;
 `;

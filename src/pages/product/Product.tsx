@@ -266,10 +266,6 @@ const TopContent = styled.div`
   @media screen and (max-width: 1000px) {
     width: 95%;
   }
-
-  @media screen and (max-width: 500px) {
-    width: 90%;
-  }
 `;
 
 const Detail = styled.div`
@@ -332,6 +328,7 @@ const Button = styled.button`
   cursor: pointer;
   transition: filter 0.3s;
   border-radius: 10px;
+  padding: 0;
 
   &:hover {
     filter: brightness(80%);

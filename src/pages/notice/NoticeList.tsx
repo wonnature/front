@@ -53,7 +53,7 @@ const NoticeList: React.FC = () => {
           <div>번호</div>
           <div>제목</div>
           <div>작성일</div>
-          <div>조회수</div>
+          <div>조회</div>
         </NoticeContent>
         {notices?.map((notice) => (
           <NoticeContent key={notice.id}>
@@ -124,14 +124,14 @@ const NoticeContent = styled.div`
 
   & div:nth-child(1) {
     //번호
-    width: 35px;
+    min-width: 30px;
     text-align: center;
     margin-right: 15px;
   }
 
   & div:nth-child(2) {
     //글제목
-    min-width: 150px;
+    min-width: 100px;
     flex-grow: 1;
   }
 
@@ -141,12 +141,12 @@ const NoticeContent = styled.div`
   }
   & div:nth-child(3) {
     //날짜
-    width: 80px;
+    min-width: 60px;
     text-align: center;
   }
   & div:nth-child(4) {
     //조회수
-    width: 60px;
+    min-width: 40px;
     text-align: center;
   }
 `;
