@@ -270,7 +270,7 @@ const NoticeFactory: React.FC = () => {
         {selectedFiles.map(({ file, url }: any, index) => (
           <FileContainer key={index}>
             <FileName>
-              {file ? file.name : decodeURIComponent(url?.split("-").pop())}
+              {file ? file.name : decodeURIComponent(url?.split("/").pop())}
             </FileName>
             <FileNumber>{index + 1}</FileNumber>
             <ButtonContainer>
@@ -368,7 +368,7 @@ const FileName = styled.div`
   justify-content: center;
   width: 100%;
   min-height: 100px;
-  padding: 10px;
+  padding: 10px 60px;
   background-color: #f0f0f0;
   border: 1px solid #ddd;
   word-break: break-all; //긴 단어를 줄바꿈 */
