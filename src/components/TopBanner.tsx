@@ -16,6 +16,9 @@ const TopBanner = () => {
     if (location.pathname.includes("quality-test")) {
       setImageUrl(3);
     }
+    if (location.pathname.includes("community")) {
+      setImageUrl(4);
+    }
   }, [location.pathname]);
   return (
     <>
