@@ -10,20 +10,10 @@ import {
 import api from "../../api";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
-
-interface ProductData {
-  title: string;
-  englishTitle: string;
-  content: string;
-  configuration: string;
-  storeLink: string;
-  productType: string;
-  oneLineIntroduce: string;
-  hit: number;
-}
+import { ProductProps } from "../\btypes/ProductProps";
 
 const Product = () => {
-  const [productData, setProductData] = useState<ProductData | null>(null);
+  const [productData, setProductData] = useState<ProductProps | null>(null);
   const [images, setImages] = useState<[string] | null>(null);
   const [isDeleteing, setIsDeleteing] = useState(false);
   const { id } = useParams();

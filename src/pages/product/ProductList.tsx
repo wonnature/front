@@ -3,25 +3,16 @@ import api from "../../api";
 import { useEffect, useState } from "react";
 import { warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
-
-interface Product {
-  englishTitle: string;
-  oneLineIntroduce: string;
-  productType: string;
-  storeLink: string;
-  title: string;
-  imageUrls: [string];
-  id: number;
-}
+import { productState } from "../../state/productState";
 
 const ProductList = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useRecoilState(productState);
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(location.search);
-  const typeQuery = queryParams.get("type");
-  const [type, setType] = useState<string | any>(typeQuery || "화장품");
+  const [type, setType] = useState<string | any>(
+    localStorage.getItem("productType") || "화장품"
+  );
   const user = useRecoilValue(userState);
 
   const getProductsByType = async (type: string) => {
@@ -34,33 +25,32 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    const newSearchParams = new URLSearchParams();
-    newSearchParams.set("type", type);
-    navigate({
-      pathname: location.pathname,
-      search: `?${newSearchParams.toString()}`,
-    });
+    const storedType = localStorage.getItem("productType");
+    if (!products?.length || storedType !== type) {
+      localStorage.setItem("productType", type);
+      getProductsByType(type);
+    }
   }, [type]);
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const typeQuery = queryParams.get("type");
-    if (typeQuery) getProductsByType(typeQuery.toString());
-    else {
-      setType("화장품");
-      getProductsByType("화장품");
+  const handleTypeChange = (newType: string) => {
+    if (type !== newType) {
+      setType(newType);
     }
-  }, [location.search]);
+  };
+
   return (
     <Container>
       <TypeContainer>
         <TypeBtn
           $isActive={type === "화장품"}
-          onClick={() => setType("화장품")}
+          onClick={() => handleTypeChange("화장품")}
         >
           화장품
         </TypeBtn>
-        <TypeBtn $isActive={type === "식품"} onClick={() => setType("식품")}>
+        <TypeBtn
+          $isActive={type === "식품"}
+          onClick={() => handleTypeChange("식품")}
+        >
           식품
         </TypeBtn>
       </TypeContainer>
