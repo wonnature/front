@@ -1,7 +1,41 @@
 import styled from "styled-components";
+import React, { useEffect } from "react";
 import companyIntroData from "../../../public/map-list.json";
 
-const Map = () => {
+const Map: React.FC = () => {
+  useEffect(() => {
+    const { kakao } = window as any;
+    const container = document.getElementById("map");
+    const options = {
+      center: new kakao.maps.LatLng(35.96636749448932, 126.9592558736621),
+      level: 2,
+    };
+
+    const map = new kakao.maps.Map(container, options);
+
+    const markerPosition = new kakao.maps.LatLng(
+      35.96636749448932,
+      126.9592558736621
+    );
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+
+    marker.setMap(map);
+
+    const iwContent = `<div style="text-align:center;padding:2px;width:210px;">전북특별자치도 익산시 익산대로 460</div>`;
+    const infowindow = new kakao.maps.InfoWindow({
+      content: iwContent,
+    });
+    infowindow.open(map, marker);
+
+    kakao.maps.event.addListener(marker, "click", () => {
+      window.open(
+        "https://map.kakao.com/link/map/㈜ 원네이처, 35.96636749448932, 126.9592558736621"
+      );
+    });
+  }, []);
+
   return (
     <IntroContainer>
       <LogoContainer>
@@ -25,6 +59,7 @@ const Map = () => {
           ))}
         </ul>
       </NodeList>
+      <MapContainer id="map"></MapContainer>
     </IntroContainer>
   );
 };
@@ -86,12 +121,38 @@ const NodeList = styled.div`
 `;
 
 const StyledLi = styled.li`
-  h3 {
+  & h3 {
     margin-bottom: 10px;
+  }
+  & ul {
+    padding-top: 10px;
+    margin-left: 10px;
   }
 `;
 
 const ContentItem = styled.li`
   text-align: left;
   margin-left: 20px;
+`;
+
+const MapContainer = styled.div`
+  width: 60%;
+  height: 500px;
+  border: 1px solid #ddd;
+
+  @media screen and (max-width: 1400px) {
+    width: 70%;
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
+
+  @media screen and (max-width: 900px) {
+    height: 400px;
+  }
+
+  @media screen and (max-width: 700px) {
+    height: 300px;
+  }
 `;
