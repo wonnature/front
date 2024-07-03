@@ -83,7 +83,7 @@ const LogoContainer = styled.div`
 const TitleImg = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 20px;
+  padding-top: 40px;
   padding-bottom: 30px;
 
   & img {
@@ -136,23 +136,8 @@ const ContentItem = styled.li`
 `;
 
 const MapContainer = styled.div`
-  width: 60%;
+  width: 100%;
   height: 500px;
+
   border: 1px solid #ddd;
-
-  @media screen and (max-width: 1400px) {
-    width: 70%;
-  }
-
-  @media screen and (max-width: 1200px) {
-    width: 90%;
-  }
-
-  @media screen and (max-width: 900px) {
-    height: 400px;
-  }
-
-  @media screen and (max-width: 700px) {
-    height: 300px;
-  }
 `;
