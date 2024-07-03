@@ -6,8 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
-import { PhotoGalleryProps } from "../\btypes/PhotoGalleryProps";
-import { NoticeProps } from "../\btypes/NoticeProps";
+import { PhotoGalleryProps } from "../types/PhotoGalleryProps";
+import { NoticeProps } from "../types/NoticeProps";
 
 const SliderSettings = {
   dots: true,

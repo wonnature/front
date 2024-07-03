@@ -10,7 +10,7 @@ import {
 import api from "../../api";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
-import { ProductProps } from "../\btypes/ProductProps";
+import { ProductProps } from "../types/ProductProps";
 
 const Product = () => {
   const [productData, setProductData] = useState<ProductProps | null>(null);
