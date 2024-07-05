@@ -135,6 +135,9 @@ const PhotoGalleryFactory: React.FC = () => {
   const handleSubmit = async () => {
     if (isUploading) return;
     // 업로드 중이면 리턴
+    if (!title) return warningAlert("제목을 작성해주세요.");
+    if (selectedFiles.length < 1)
+      return warningAlert("사진을 1개 이상 첨부해주세요.");
     setIsUploading(true);
 
     const formData = new FormData();

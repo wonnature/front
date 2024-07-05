@@ -154,6 +154,11 @@ const ProductFactory: React.FC = () => {
   const handleSubmit = async () => {
     if (isUploading) return;
     // 업로드 중이면 리턴
+    if (!title) return warningAlert("제품 이름을 작성해주세요.");
+    if (!productType) return warningAlert("제품 유형을 선택해주세요.");
+    if (selectedFiles.length < 1)
+      return warningAlert("사진을 1개 이상 첨부해주세요.");
+
     setIsUploading(true);
 
     const formData = new FormData();
