@@ -35,7 +35,6 @@ const HistoryFactory: React.FC = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const quillRef = useRef<ReactQuill>(null);
-  const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
   // 글 수정 기능
