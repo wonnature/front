@@ -9,15 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { PhotoGalleryProps } from "../types/PhotoGalleryProps";
 import { NoticeProps } from "../types/NoticeProps";
 
-const SliderSettings = {
-  dots: true,
-  infinite: true,
-  arrows: true, // 좌,우 버튼
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
-
 const bannerImages = [
   "/images/homeBanner/banner_01.jpg",
   "/images/homeBanner/banner_02.jpg",
@@ -28,6 +19,16 @@ const bannerImages = [
 ];
 
 const Home = () => {
+  const SliderSettings = {
+    dots: true,
+    infinite: true,
+    arrows: true, // 좌,우 버튼
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true, // 자동 슬라이드 추가
+    autoplaySpeed: 2000, // 자동 슬라이드 속도 (3초)
+  };
   const [notices, setNotices] = useState<NoticeProps[] | null>(null);
   const [photoGalleries, setPhotoGalleries] = useState<
     PhotoGalleryProps[] | null
@@ -186,13 +187,16 @@ const StyledSlider = styled(Slider)`
   .slick-prev {
     width: 40px;
     height: 50px;
-    /* background-color: rgba(0, 0, 0, 0.5); */
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
-    color: white;
+    &:hover {
+      &:before {
+        color: black;
+      }
+    }
   }
 
   .slick-next {
@@ -208,7 +212,7 @@ const StyledSlider = styled(Slider)`
     justify-content: center;
     align-items: center;
     margin-top: 2px;
-    color: black;
+    color: grey;
   }
 
   .slick-prev {
@@ -219,7 +223,7 @@ const StyledSlider = styled(Slider)`
   }
 
   .slick-dots li button:before {
-    font-size: 16px;
+    font-size: 12px;
     color: black;
   }
 
