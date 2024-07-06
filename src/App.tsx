@@ -31,6 +31,10 @@ function App() {
                 name: "포토갤러리 등록",
                 url: "/community/photo-gallery/write",
               },
+              {
+                name: "연혁 수정",
+                url: "/introduce/history/write",
+              },
               { name: "로그아웃", url: "/login" },
             ],
           },

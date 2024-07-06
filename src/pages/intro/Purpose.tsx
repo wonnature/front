@@ -83,10 +83,10 @@ const StyledLi = styled.div`
   & ul {
     padding-left: 5px;
   }
-  li {
+  & li {
     padding: 5px 0;
   }
-  li::marker {
+  & li::marker {
     color: green;
   }
 `;

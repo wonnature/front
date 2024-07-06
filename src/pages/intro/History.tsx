@@ -1,33 +1,49 @@
 import styled from "styled-components";
-import historyData from "../../../public/history-list.json";
+import { useEffect, useState } from "react";
+import api from "../../api";
+import { warningAlert } from "../../components/Alert";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/userState";
 
-const Purpose = () => {
+const History = () => {
+  const [history, setHistory] = useState("");
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    getHistory();
+  }, []);
+
+  const getHistory = async () => {
+    try {
+      const response = await api.get("/history");
+      setHistory(response.data.content.content);
+    } catch (error: any) {
+      warningAlert(error.response.data.message);
+    }
+  };
   return (
     <IntroContainer>
       <LogoContainer>
         <img src="/images/intro/title1_3.png" alt="logo" />
       </LogoContainer>
-
-      <StyledList>
-        {historyData.content.content.map((item, index) => (
-          <HistoryItem key={index}>
-            <HistoryLogo src={item.logo} alt={`History Logo ${index}`} />
-            <HistoryDetails>
-              {item.history.map((event, eventIndex) => (
-                <HistoryEvent key={eventIndex}>
-                  <HistoryNum>{event.num}</HistoryNum>
-                  <HistoryContent>{event.content}</HistoryContent>
-                </HistoryEvent>
-              ))}
-            </HistoryDetails>
-          </HistoryItem>
-        ))}
-      </StyledList>
+      {user?.role === "ADMIN" && (
+        <ButtonContainer>
+          <button onClick={() => navigate("/introduce/history/write")}>
+            연혁 수정
+          </button>
+        </ButtonContainer>
+      )}
+      <HistoryContent
+        className="ql-editor"
+        dangerouslySetInnerHTML={{ __html: history }}
+      />
     </IntroContainer>
   );
 };
 
-export default Purpose;
+export default History;
 
 const IntroContainer = styled.div`
   display: flex;
@@ -42,51 +58,21 @@ const IntroContainer = styled.div`
 const LogoContainer = styled.div`
   align-self: flex-start;
 `;
-const StyledList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 30px 0;
-`;
-
-const HistoryItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-  margin-bottom: 40px;
-`;
-
-const HistoryLogo = styled.img`
-  margin-top: 5px;
-  margin-right: 40px;
-
-  @media screen and (max-width: 500px) {
-    width: 80px;
-    margin-right: 20px;
-  }
-`;
-
-const HistoryDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
-`;
-
-const HistoryEvent = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const HistoryNum = styled.div`
-  font-weight: bold;
-  margin-right: 10px;
-`;
 
 const HistoryContent = styled.div`
-  padding-bottom: 5px;
+  width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-self: flex-start;
+  margin: 15px 0 10px 10px;
+  gap: 10px;
+  & button {
+    background-color: var(--base-color);
+    border-radius: 10px;
+    color: white;
+    padding: 8px 10px;
+    border: 1px solid gray;
+  }
 `;

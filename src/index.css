@@ -101,15 +101,27 @@ a:visited {
 .ql-blank {
   min-height: 200px; /* 원하는 최소 높이로 설정 */
 }
-.ql-editor {
-  font-size: 1.3rem !important;
-  color: black !important;
+.quill .ql-editor {
+  max-height: calc(100dvh - 500px);
+}
+.ql-editor * {
+  font-size: 1.15rem;
+  color: black;
+}
+.ql-editor strong {
+  font-weight: bold;
+}
+.ql-editor ul {
+  padding: 0;
+}
+.ql-editor li {
+  margin: 15px 0;
 }
 .ql-size-small {
   font-size: 0.9rem !important;
 }
 .ql-size-large {
-  font-size: 1.8rem !important;
+  font-size: 1.9rem !important;
 }
 .ql-size-huge {
   font-size: 2.5rem !important;

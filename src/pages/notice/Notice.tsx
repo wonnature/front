@@ -107,6 +107,7 @@ const Notice: React.FC = () => {
           </ButtonContainer>
           <NoticeContent
             dangerouslySetInnerHTML={{ __html: notice?.content }}
+            className="ql-editor"
           />
         </>
       ) : (

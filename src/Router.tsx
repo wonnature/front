@@ -13,6 +13,7 @@ import NoticeList from "./pages/notice/NoticeList";
 import Notice from "./pages/notice/Notice";
 import PhotoGalleryFactory from "./pages/photoGallery/PhotoGalleryFactory";
 import PhotoGallery from "./pages/photoGallery/PhotoGallery";
+import HistoryFactory from "./pages/intro/HistoryFactory";
 
 const CompanyIntro = lazy(() => import("./pages/intro/CompanyIntro"));
 const Greeting = lazy(() => import("./pages/intro/Greeting"));
@@ -52,6 +53,7 @@ const Router = () => {
               <Route path="greeting" element={<Greeting />} />
               <Route path="purpose" element={<Purpose />} />
               <Route path="history" element={<History />} />
+              <Route path="history/write" element={<HistoryFactory />} />
               <Route path="business-field" element={<Business />} />
               <Route path="map" element={<Map />} />
             </Route>

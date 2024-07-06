@@ -10,6 +10,7 @@ import { headerState } from "../../state/headerState";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isWaiting, setIsWaiting] = useState<boolean>(false); //로그인 요청 동시에 여러번 못하게
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
@@ -34,6 +35,9 @@ const Login = () => {
   };
 
   const login = async () => {
+    if (isWaiting) return;
+
+    setIsWaiting(true);
     try {
       const response = await api.post(`/user/login`, {
         username,
@@ -57,14 +61,20 @@ const Login = () => {
                 name: "포토갤러리 등록",
                 url: "/community/photo-gallery/write",
               },
+              {
+                name: "연혁 수정",
+                url: "/introduce/history/write",
+              },
               { name: "로그아웃", url: "/login" },
             ],
           },
         ]);
       }
+      setIsWaiting(false);
     } catch (error: any) {
       console.error("Error:", error);
       warningAlert(error.response.data.message);
+      setIsWaiting(false);
     }
   };
 
@@ -96,7 +106,7 @@ const Login = () => {
             value={password}
             onChange={handlePasswordChange}
           />
-          <Button type="submit">로그인</Button>
+          <Button type="submit">{isWaiting ? "로그인중..." : "로그인"}</Button>
         </LoginForm>
       ) : (
         <LoginForm onSubmit={handleLogoutSubmit}>

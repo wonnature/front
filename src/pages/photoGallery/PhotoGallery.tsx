@@ -105,6 +105,7 @@ const PhotoGallery: React.FC = () => {
           </ButtonContainer>
           <PhotoGalleryContent
             dangerouslySetInnerHTML={{ __html: photoGallery?.content }}
+            className="ql-editor"
           />
           {photoGallery?.imageUrls.map((image) => (
             <Image src={image}></Image>
