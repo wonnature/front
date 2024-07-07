@@ -91,9 +91,7 @@ const Home = () => {
         <Content>
           <ContentSubject>
             <span>제품</span>
-            <span onClick={() => navigate("/community/photo-gallery")}>
-              more
-            </span>
+            <span onClick={() => navigate("/product")}>more</span>
           </ContentSubject>
           {products?.map(
             (product, index) =>
