@@ -18,17 +18,18 @@ const bannerImages = [
   "/images/homeBanner/banner_06.jpg",
 ];
 
+const SliderSettings = {
+  dots: true,
+  infinite: true,
+  arrows: true, // 좌,우 버튼
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true, // 자동 슬라이드 추가
+  autoplaySpeed: 3000, // 자동 슬라이드 속도 (3초)
+};
+
 const Home = () => {
-  const SliderSettings = {
-    dots: true,
-    infinite: true,
-    arrows: true, // 좌,우 버튼
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true, // 자동 슬라이드 추가
-    autoplaySpeed: 2000, // 자동 슬라이드 속도 (3초)
-  };
   const [notices, setNotices] = useState<NoticeProps[] | null>(null);
   const [photoGalleries, setPhotoGalleries] = useState<
     PhotoGalleryProps[] | null
@@ -224,7 +225,7 @@ const StyledSlider = styled(Slider)`
 
   .slick-dots li button:before {
     font-size: 12px;
-    color: black;
+    color: gray;
   }
 
   .slick-dots li.slick-active button:before {
