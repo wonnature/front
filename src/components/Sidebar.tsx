@@ -238,14 +238,15 @@ const FloatBtn = styled.div<{ $isOpen: boolean }>`
   align-items: center;
   font-size: 3rem;
   color: white;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   position: fixed;
   border-radius: 100px;
   background-color: var(--base-color);
   left: ${(props) => (props.$isOpen ? "270px" : "30px")};
   bottom: 30px;
   z-index: 1001;
+  border: 3px solid white;
 
   &:hover {
     cursor: pointer;
