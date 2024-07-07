@@ -153,7 +153,7 @@ const TimeContainer = styled.div`
 `;
 
 const PhotoGalleryContent = styled.div`
-  margin-bottom: 20px;
+  margin: 20px 0;
   font-size: 1.2em;
 `;
 

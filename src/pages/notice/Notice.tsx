@@ -152,7 +152,7 @@ const ButtonContainer = styled.div`
 `;
 
 const NoticeContent = styled.div`
-  margin-bottom: 20px;
+  margin: 20px 0;
   font-size: 1.2em;
 `;
 

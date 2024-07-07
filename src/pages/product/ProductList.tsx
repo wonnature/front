@@ -157,7 +157,7 @@ const Product = styled.div`
   /* padding: 10px; */
   &:hover {
     cursor: pointer;
-    transform: scale(1.015);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 
   @media screen and (max-width: 1200px) {

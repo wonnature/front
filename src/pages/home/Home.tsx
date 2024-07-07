@@ -31,14 +31,12 @@ const SliderSettings = {
 
 const Home = () => {
   const [notices, setNotices] = useState<NoticeProps[] | null>(null);
-  const [photoGalleries, setPhotoGalleries] = useState<
-    PhotoGalleryProps[] | null
-  >(null);
+  const [products, setProducts] = useState<PhotoGalleryProps[] | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     getNotices();
-    getPhotoGalleries();
+    getProductsByType("화장품");
   }, []);
 
   const getNotices = async () => {
@@ -50,12 +48,12 @@ const Home = () => {
     }
   };
 
-  const getPhotoGalleries = async () => {
+  const getProductsByType = async (type: string) => {
     try {
-      const response = await api.get("/photo-gallery");
-      setPhotoGalleries(response.data.content);
+      const response = await api.get(`/product?type=${type}`);
+      setProducts(response.data.content);
     } catch (error: any) {
-      warningAlert(error?.response?.data?.message);
+      await warningAlert(error.response.data.message);
     }
   };
 
@@ -92,31 +90,27 @@ const Home = () => {
         </Content>
         <Content>
           <ContentSubject>
-            <span>포토갤러리</span>
+            <span>제품</span>
             <span onClick={() => navigate("/community/photo-gallery")}>
               more
             </span>
           </ContentSubject>
-          {photoGalleries?.map(
-            (photoGallery, index) =>
+          {products?.map(
+            (product, index) =>
               index < 1 && (
-                <PhotoGalleryContainer key={photoGallery?.id}>
-                  {photoGallery.imageUrls.length > 0 && (
+                <PhotoGalleryContainer key={product?.id}>
+                  {product.imageUrls.length > 0 && (
                     <PhotoGalleryImage
-                      src={photoGallery.imageUrls && photoGallery.imageUrls[0]}
+                      src={product.imageUrls && product.imageUrls[0]}
                       alt="사진없음"
-                      onClick={() =>
-                        navigate(`/community/photo-gallery/${photoGallery?.id}`)
-                      }
+                      onClick={() => navigate(`/product/${product?.id}`)}
                     />
                   )}
 
                   <ContentTitle
-                    onClick={() =>
-                      navigate(`/community/photo-gallery/${photoGallery?.id}`)
-                    }
+                    onClick={() => navigate(`/product/${product?.id}`)}
                   >
-                    {photoGallery?.title}
+                    {product?.title}
                   </ContentTitle>
                 </PhotoGalleryContainer>
               )

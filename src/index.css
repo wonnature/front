@@ -99,10 +99,12 @@ a:visited {
 .ql-container,
 .ql-editor,
 .ql-blank {
-  min-height: 200px; /* 원하는 최소 높이로 설정 */
+  padding: 0;
 }
 .quill .ql-editor {
   max-height: calc(100dvh - 500px);
+  min-height: 200px; /* 원하는 최소 높이로 설정 */
+  padding: 15px;
 }
 .ql-editor * {
   font-size: 1.15rem;
