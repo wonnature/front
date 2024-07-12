@@ -46,7 +46,7 @@ export const headerState = atom<HeaderProps[]>({
         { name: "공지사항", url: "/community/notice" },
         { name: "포토갤러리", url: "/community/photo-gallery" },
         { name: "현장실습", url: "/community/practice" },
-        { name: "로그인", url: "/login" },
+        { name: "로그인/로그아웃", url: "/login" },
       ],
     },
   ],

@@ -63,33 +63,46 @@ const Board: React.FC = () => {
 
   return (
     <BoardContainer>
-      <LogoContainer>
-        <img src={imgUrl} alt="logo" />
-      </LogoContainer>
-      {board?.isContentTop ? (
+      {board ? (
         <>
-          {/* <BoardTitle>{board?.title}</BoardTitle> */}
-          <BoardContent
-            dangerouslySetInnerHTML={{ __html: board?.content }}
-            className="ql-editor"
-          />
-          <ImageContainer>
-            {board?.imageUrls.map((image) => (
-              <Image src={image}></Image>
-            ))}
-          </ImageContainer>
+          <LogoContainer>
+            <img src={imgUrl} alt="logo" />
+          </LogoContainer>
+          {user?.role === "ADMIN" && (
+            <AdminButton onClick={() => navigate("/board/write")}>
+              수정
+            </AdminButton>
+          )}
+          {board?.isContentTop ? (
+            <>
+              {/* <BoardTitle>{board?.title}</BoardTitle> */}
+              <BoardContent
+                dangerouslySetInnerHTML={{ __html: board?.content }}
+                className="ql-editor"
+              />
+              <ImageContainer>
+                {board?.imageUrls.map((image) => (
+                  <Image src={image}></Image>
+                ))}
+              </ImageContainer>
+            </>
+          ) : (
+            <>
+              <ImageContainer>
+                {board?.imageUrls.map((image) => (
+                  <Image src={image}></Image>
+                ))}
+              </ImageContainer>
+              <BoardContent
+                dangerouslySetInnerHTML={{ __html: board?.content }}
+                className="ql-editor"
+              />
+            </>
+          )}
         </>
       ) : (
         <>
-          <ImageContainer>
-            {board?.imageUrls.map((image) => (
-              <Image src={image}></Image>
-            ))}
-          </ImageContainer>
-          <BoardContent
-            dangerouslySetInnerHTML={{ __html: board?.content }}
-            className="ql-editor"
-          />
+          <LoadingSpinner />
         </>
       )}
     </BoardContainer>
@@ -103,6 +116,14 @@ const BoardContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 5px;
   margin: 20px 0;
+`;
+
+const AdminButton = styled.button`
+  width: 100px;
+  height: 35px;
+  background-color: var(--base-color);
+  border: 0;
+  color: white;
 `;
 
 const BoardContent = styled.div`
