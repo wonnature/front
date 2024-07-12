@@ -13,19 +13,9 @@ import NoticeList from "./pages/notice/NoticeList";
 import Notice from "./pages/notice/Notice";
 import PhotoGalleryFactory from "./pages/photoGallery/PhotoGalleryFactory";
 import PhotoGallery from "./pages/photoGallery/PhotoGallery";
-import HistoryFactory from "./pages/intro/HistoryFactory";
+import Board from "./pages/board/Board";
 
-const CompanyIntro = lazy(() => import("./pages/intro/CompanyIntro"));
-const Greeting = lazy(() => import("./pages/intro/Greeting"));
-const Purpose = lazy(() => import("./pages/intro/Purpose"));
-const History = lazy(() => import("./pages/intro/History"));
-const Business = lazy(() => import("./pages/intro/Business"));
 const Map = lazy(() => import("./pages/intro/Map"));
-
-const Service = lazy(() => import("./pages/qualityTest/Service"));
-const Result = lazy(() => import("./pages/qualityTest/Result"));
-const Category = lazy(() => import("./pages/qualityTest/Category"));
-const Apply = lazy(() => import("./pages/qualityTest/Apply"));
 const ProductFactory = lazy(() => import("./pages/product/ProductFactory"));
 const NotPageFound = lazy(() => import("./components/NotPageFound"));
 const Login = lazy(() => import("./pages/user/Login"));
@@ -35,6 +25,7 @@ const Practice = lazy(() => import("./pages/notice/Practice"));
 const PhotoGalleryList = lazy(
   () => import("./pages/photoGallery/photoGalleryList")
 );
+const BoardFactory = lazy(() => import("./pages/board/BoardFactory"));
 
 const Router = () => {
   return (
@@ -48,14 +39,10 @@ const Router = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Login />} />
+            <Route path="/board/write" element={<BoardFactory />} />
             <Route path="/introduce">
-              <Route path="intro" element={<CompanyIntro />} />
-              <Route path="greeting" element={<Greeting />} />
-              <Route path="purpose" element={<Purpose />} />
-              <Route path="history" element={<History />} />
-              <Route path="history/write" element={<HistoryFactory />} />
-              <Route path="business-field" element={<Business />} />
               <Route path="map" element={<Map />} />
+              <Route path="*" element={<Board />} />
             </Route>
 
             <Route path="/product">
@@ -65,10 +52,7 @@ const Router = () => {
             </Route>
             <Route path="shipping-info" element={<Shipping />} />
             <Route path="/quality-test">
-              <Route path="service" element={<Service />} />
-              <Route path="result" element={<Result />} />
-              <Route path="category" element={<Category />} />
-              <Route path="apply" element={<Apply />} />
+              <Route path="*" element={<Board />} />
             </Route>
             <Route path="/community">
               <Route path="notice" element={<NoticeList />} />

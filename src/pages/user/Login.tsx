@@ -62,14 +62,14 @@ const Login = () => {
                 url: "/community/photo-gallery/write",
               },
               {
-                name: "연혁 수정",
-                url: "/introduce/history/write",
+                name: "게시판 수정",
+                url: "/board/write",
               },
               { name: "로그아웃", url: "/login" },
             ],
           },
         ]);
-      }
+      } //App.tsx도 수정해야함
       setIsWaiting(false);
     } catch (error: any) {
       console.error("Error:", error);
