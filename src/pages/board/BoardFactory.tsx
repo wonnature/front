@@ -270,6 +270,9 @@ const BoardFactory: React.FC = () => {
           ],
         ],
       },
+      clipboard: {
+        matchVisual: false,
+      },
     };
   }, []);
 

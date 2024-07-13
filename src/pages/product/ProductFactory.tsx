@@ -270,6 +270,9 @@ const ProductFactory: React.FC = () => {
           ],
         ],
       },
+      clipboard: {
+        matchVisual: false,
+      },
     };
   }, []);
 
