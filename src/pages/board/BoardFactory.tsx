@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { successAlert, warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
+import DropdownMenu from "./DropdownMenu";
 
 const Size = Quill.import("formats/size");
 Size.whitelist = ["small", "medium", "large", "huge"];
@@ -29,71 +30,37 @@ const formats = [
   "h1",
 ];
 
+const menuItems = [
+  { name: "학교기업 '원네이처'", url: "/introduce/intro" },
+  { name: "인사말", url: "/introduce/greeting" },
+  { name: "설립목적", url: "/introduce/purpose" },
+  { name: "연혁", url: "/introduce/history" },
+  { name: "사업분야", url: "/introduce/business-field" },
+  { name: "화장품 시험·검사 서비스", url: "/quality-test/service" },
+  { name: "기계보유현황", url: "/quality-test/result" },
+  { name: "품질검사 및 검사항목", url: "/quality-test/category" },
+  { name: "품질검사 신청", url: "/quality-test/apply" },
+];
+
 interface FileObject {
   file: File | null;
   url: string | null;
 }
 
-const ProductFactory: React.FC = () => {
-  const [title, setTitle] = useState<string>("");
+const BoardFactory: React.FC = () => {
   const [content, setContent] = useState<string>("");
-  const [englishTitle, setEnglishTitle] = useState<string>("");
-  const [oneLineIntroduce, setOneLineIntroduce] = useState<string>("");
-  const [configuration, setConfiguration] = useState<string>("");
-  const [storeLink, setStoreLink] = useState<string>("");
-  const [productType, setProductType] = useState<string>("");
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
-  const [isTitleFocused, setIsTitleFocused] = useState<boolean>(false);
+  const [isContentTop, setIsContentTop] = useState(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [selectedValue, setSelectedValue] = useState("");
 
-  const inputRef = useRef<HTMLInputElement>(null);
   const quillRef = useRef<ReactQuill>(null);
   const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
   // 글 수정 기능
   useEffect(() => {
-    const getEditData = async (id: string) => {
-      try {
-        const response = await api.get(`/product/${id}`);
-
-        if (response.data && response.data.content) {
-          const {
-            title,
-            englishTitle,
-            oneLineIntroduce,
-            storeLink,
-            imageUrls,
-            productType,
-            content,
-            configuration,
-          } = response.data.content;
-          setTitle(title);
-          setContent(content);
-          setOneLineIntroduce(oneLineIntroduce);
-          setEnglishTitle(englishTitle);
-          setStoreLink(storeLink);
-          setProductType(productType);
-          setConfiguration(configuration);
-          let initialImageUrls = imageUrls;
-
-          const initialFiles = initialImageUrls.map((url: string) => ({
-            file: null,
-            url,
-          }));
-          setSelectedFiles((prevFiles) => [...prevFiles, ...initialFiles]);
-        }
-      } catch (error: any) {
-        const result = await warningAlert(error.response.data.message);
-        navigate("/write"); // 수정이 아닌 그냥 글쓰기로 이동
-        console.log(result);
-      }
-    };
-    if (params.get("edit")) {
-      getEditData(params.get("edit") as string);
-    }
-
     checkUser();
   }, []);
 
@@ -113,10 +80,55 @@ const ProductFactory: React.FC = () => {
     }
   };
 
+  const getEditData = async (pathname: string) => {
+    try {
+      const response = await api.get(`/board?pathname=${pathname}`);
+
+      if (response.data.content) {
+        const { imageUrls, content, isContentTop } = response.data.content;
+        const transformedContent = convertSpacesToNbsp(content); // 여기서 공백을 변환
+        setContent(transformedContent);
+        setIsContentTop(isContentTop);
+        let initialImageUrls = imageUrls;
+
+        const initialFiles = initialImageUrls.map((url: string) => ({
+          file: null,
+          url,
+        }));
+        setSelectedFiles((prevFiles) => [...prevFiles, ...initialFiles]);
+        if (imageUrls.length === 0) setSelectedFiles([]);
+      } else {
+        setContent("내용을 작성해주세요");
+        setSelectedFiles([]);
+      }
+    } catch (error: any) {
+      const result = await warningAlert(error.response.data.message);
+      navigate("/write"); // 수정이 아닌 그냥 글쓰기로 이동
+      console.log(result);
+    }
+  };
+
+  const convertSpacesToNbsp = (htmlString: string) => {
+    return htmlString.replace(/ {2,}/g, (match) => {
+      return match
+        .split("")
+        .map(() => "&nbsp;")
+        .join("");
+    });
+  };
+
+  const convertNbspToSpaces = (text: string) => {
+    return text.replace(/'\u00A0'/g, " ");
+  };
+
+  useEffect(() => {
+    if (selectedValue) getEditData(selectedValue);
+  }, [selectedValue]);
+
   // 뒤로가기 방지
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Backspace" && !isTitleFocused && !isEditorFocused) {
+      if (event.key === "Backspace" && !isEditorFocused) {
         event.preventDefault();
       }
     };
@@ -125,7 +137,7 @@ const ProductFactory: React.FC = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isTitleFocused, isEditorFocused]);
+  }, [isEditorFocused]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
@@ -138,6 +150,13 @@ const ProductFactory: React.FC = () => {
 
   const handleDelete = (index: number) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleSelectionChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedUrl = event.target.value;
+    setSelectedValue(selectedUrl);
   };
 
   const moveImage = (index: number, direction: "up" | "down") => {
@@ -154,11 +173,6 @@ const ProductFactory: React.FC = () => {
   const handleSubmit = async () => {
     if (isUploading) return;
     // 업로드 중이면 리턴
-    if (!title) return warningAlert("제품 이름을 작성해주세요.");
-    if (!productType) return warningAlert("제품 유형을 선택해주세요.");
-    if (selectedFiles.length < 1)
-      return warningAlert("사진을 1개 이상 첨부해주세요.");
-
     setIsUploading(true);
 
     const formData = new FormData();
@@ -178,7 +192,7 @@ const ProductFactory: React.FC = () => {
       const formDataEntries = [...formData.entries()]; // 로컬에서 추가한 이미지 갯수 확인을 위한 변수
       if (formDataEntries.length >= 1) {
         const fileUploadResponse = await api.post(
-          `/product/image`, // 서버 측 업로드 엔드포인트에 전송
+          `/board/image`, // 서버 측 업로드 엔드포인트에 전송
           formData,
           {
             headers: {
@@ -199,40 +213,26 @@ const ProductFactory: React.FC = () => {
         // AWS에 이미지 업로드 완료 후 링크 반환된걸 imageUrls에 저장 성공 ---
       }
 
-      const productData = {
-        title: title,
-        content,
+      const boardData = {
+        content: convertNbspToSpaces(content),
+        isContentTop,
+        pathName: selectedValue,
         imageUrls: imageUrls, // 게시글에 있는 이미지 urls들 최종 값 업로드
-        storeLink: storeLink,
-        productType,
-        englishTitle,
-        oneLineIntroduce,
-        configuration,
       };
-      let response;
-      if (!params.get("edit")) {
-        // 글 쓰기
-        response = await api.post(`/product`, productData, {
+
+      const response = await api.patch(
+        `/board?pathname=${selectedValue}`,
+        boardData,
+        {
           headers: {
             "Content-Type": "application/json",
           },
-        });
-      } else {
-        // 글 수정
-        response = await api.patch(
-          `/product/${params.get("edit")}`,
-          productData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      }
+        }
+      );
 
       setIsUploading(false); // 업로드 상태를 마침
       successAlert(response.data.message);
-      navigate(`/product/${response.data.content}`);
+      navigate(`${selectedValue}`);
       console.log(response.data);
     } catch (error: any) {
       setIsUploading(false); // 업로드 상태를 마침
@@ -278,69 +278,29 @@ const ProductFactory: React.FC = () => {
 
   return (
     <Container>
-      <Label>제품명</Label>
-      <Input
-        ref={inputRef}
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        onFocus={() => setIsTitleFocused(true)}
-        onBlur={() => setIsTitleFocused(false)}
+      <Label>수정할 게시판</Label>
+      <DropdownMenu
+        items={menuItems}
+        onSelectionChange={handleSelectionChange}
       />
-      <Label>영문이름</Label>
-      <Input
-        ref={inputRef}
-        type="text"
-        value={englishTitle}
-        onChange={(e) => setEnglishTitle(e.target.value)}
-        onFocus={() => setIsTitleFocused(true)}
-        onBlur={() => setIsTitleFocused(false)}
-      />
-      <Label>구성</Label>
-      <Input
-        ref={inputRef}
-        type="text"
-        value={configuration}
-        onChange={(e) => setConfiguration(e.target.value)}
-        onFocus={() => setIsTitleFocused(true)}
-        onBlur={() => setIsTitleFocused(false)}
-      />
-      <Label>제품설명</Label>
-      <Input
-        ref={inputRef}
-        type="text"
-        value={oneLineIntroduce}
-        onChange={(e) => setOneLineIntroduce(e.target.value)}
-        onFocus={() => setIsTitleFocused(true)}
-        onBlur={() => setIsTitleFocused(false)}
-      />
-      <Label>제품 유형</Label>
-      <TypeContainer>
-        <TypeBtn
-          $isAcitve={productType === "화장품"}
-          onClick={() => setProductType("화장품")}
-        >
-          화장품
-        </TypeBtn>
-        <TypeBtn
-          $isAcitve={productType === "식품"}
-          onClick={() => setProductType("식품")}
-        >
-          식품
-        </TypeBtn>
-      </TypeContainer>
-
-      <Label>스토어 링크</Label>
-      <Input
-        ref={inputRef}
-        type="text"
-        value={storeLink}
-        placeholder="ex) https://smartstore.naver.com/wonnature/products/xxxxx"
-        onChange={(e) => setStoreLink(e.target.value)}
-        onFocus={() => setIsTitleFocused(true)}
-        onBlur={() => setIsTitleFocused(false)}
-      />
-      <Label>세부 내용 (생략가능)</Label>
+      <Label>본문이 사진 상단에 위치</Label>
+      <RadioButtonContainer>
+        <RadioButton
+          type="radio"
+          name="isContentTop"
+          checked={isContentTop}
+          onChange={() => setIsContentTop(true)}
+        />
+        <span onClick={() => setIsContentTop(true)}>예</span>
+        <RadioButton
+          type="radio"
+          name="isContentTop"
+          checked={!isContentTop}
+          onChange={() => setIsContentTop(false)}
+        />
+        <span onClick={() => setIsContentTop(false)}>아니오</span>
+      </RadioButtonContainer>
+      <Label>세부 내용</Label>
       <ReactQuill //스타일은 index.css에서 수정
         ref={quillRef}
         value={content}
@@ -350,9 +310,7 @@ const ProductFactory: React.FC = () => {
         modules={modules}
         formats={formats}
       />
-      <FileInputLabel htmlFor="file-upload">
-        이미지 추가 (첫번째 이미지가 대표 이미지)
-      </FileInputLabel>
+      <FileInputLabel htmlFor="file-upload">이미지 추가</FileInputLabel>
       <FileInput
         id="file-upload"
         type="file"
@@ -361,7 +319,7 @@ const ProductFactory: React.FC = () => {
         onChange={handleFileChange}
       />
       <ImagePreview>
-        {selectedFiles.map(({ file, url }, index) => (
+        {selectedFiles?.map(({ file, url }, index) => (
           <ImageContainer key={index}>
             <Image
               src={file ? URL.createObjectURL(file) : url!}
@@ -390,11 +348,7 @@ const ProductFactory: React.FC = () => {
         ))}
       </ImagePreview>
       <ConfirmBtn onClick={handleSubmit} disabled={isUploading}>
-        {isUploading
-          ? "업로드 중..."
-          : params.get("edit")
-          ? "제품 수정"
-          : "제품 등록"}
+        {isUploading ? "업로드 중..." : "게시판 수정"}
       </ConfirmBtn>
     </Container>
   );
@@ -417,38 +371,17 @@ const Label = styled.div`
   font-weight: 600;
 `;
 
-const Input = styled.input`
-  width: 100%;
-  height: 40px;
-  padding: 10px;
-`;
-
-const TypeContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const TypeBtn = styled.button<{ $isAcitve: boolean }>`
-  width: 120px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-  border: 0;
-  text-align: center;
-  padding: 13px 0;
-  font-size: 1.15rem;
-  border-radius: 15px;
-  transition: all 0.5s;
-  cursor: pointer;
-
-  background-color: ${(props) =>
-    props.$isAcitve ? "var(--base-color)" : "rgba(200, 255, 214, 0.2);"};
+const RadioButtonContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
 
   &:hover {
-    filter: contrast(340deg);
+    cursor: pointer;
   }
-  &:focus {
-    border: none;
-    outline: none;
-  }
+`;
+
+const RadioButton = styled.input`
+  margin: 0 5px;
 `;
 
 const FileInputLabel = styled.label`
@@ -502,6 +435,16 @@ const ImgNumber = styled.div`
   background-color: rgb(0, 0, 0, 0.6);
 `;
 
+const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 6px;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin: 10px;
+`;
+
 const PhotoName = styled.div`
   max-width: 50%;
   padding: 5px;
@@ -511,16 +454,6 @@ const PhotoName = styled.div`
   word-break: break-all;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
-`;
-
-const ButtonContainer = styled.div`
-  position: absolute;
-  bottom: 6px;
-  right: 0;
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  margin: 10px;
 `;
 
 const ArrowButton = styled.button`
@@ -562,4 +495,4 @@ const ConfirmBtn = styled.button`
   }
 `;
 
-export default ProductFactory;
+export default BoardFactory;

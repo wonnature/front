@@ -244,6 +244,9 @@ const PhotoGalleryFactory: React.FC = () => {
           ],
         ],
       },
+      clipboard: {
+        matchVisual: false,
+      },
     };
   }, []);
 

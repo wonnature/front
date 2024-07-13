@@ -32,8 +32,8 @@ function App() {
                 url: "/community/photo-gallery/write",
               },
               {
-                name: "연혁 수정",
-                url: "/introduce/history/write",
+                name: "게시판 수정",
+                url: "/board/write",
               },
               { name: "로그아웃", url: "/login" },
             ],
