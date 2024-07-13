@@ -30,7 +30,12 @@ const formats = [
   "h1",
 ];
 
-const menuItems = [
+interface DropdownProps {
+  name: string;
+  url: string;
+}
+
+const menuItems: DropdownProps[] = [
   { name: "학교기업 '원네이처'", url: "/introduce/intro" },
   { name: "인사말", url: "/introduce/greeting" },
   { name: "설립목적", url: "/introduce/purpose" },
@@ -56,7 +61,6 @@ const BoardFactory: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState("");
 
   const quillRef = useRef<ReactQuill>(null);
-  const params = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
   // 글 수정 기능

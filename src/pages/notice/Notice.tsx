@@ -7,7 +7,7 @@ import api from "../../api";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
-import { dateTimeConvert } from "../../hoooks/date-convert";
+import { dateTimeConvert } from "../../hooks/date-convert";
 import { confirm, successAlert, warningAlert } from "../../components/Alert";
 import { NoticeProps } from "../types/NoticeProps";
 

@@ -1,6 +1,15 @@
 import styled from "styled-components";
+import { DropdownProps } from "../types/DropdownProps";
 
-function DropdownMenu({ items, onSelectionChange }) {
+interface DropdownMenuProps {
+  items: DropdownProps[];
+  onSelectionChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+const DropdownMenu: React.FC<DropdownMenuProps> = ({
+  items,
+  onSelectionChange,
+}) => {
   return (
     <Select onChange={onSelectionChange}>
       <option value="">-- 선택하세요 --</option>
@@ -11,7 +20,7 @@ function DropdownMenu({ items, onSelectionChange }) {
       ))}
     </Select>
   );
-}
+};
 
 const Select = styled.select`
   height: 35px;

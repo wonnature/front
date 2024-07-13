@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../api";
 import { warningAlert } from "../../components/Alert";
-import { dateConvert } from "../../hoooks/date-convert";
+import { dateConvert } from "../../hooks/date-convert";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
