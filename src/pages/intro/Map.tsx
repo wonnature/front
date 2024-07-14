@@ -74,6 +74,7 @@ const IntroContainer = styled.div`
   max-width: 800px;
   height: auto;
   padding: 20px;
+  border: 1px solid rgb(221, 221, 221);
 `;
 
 const LogoContainer = styled.div`
