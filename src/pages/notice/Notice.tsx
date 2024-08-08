@@ -119,7 +119,7 @@ const Notice: React.FC = () => {
 
 const NoticeContainer = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;

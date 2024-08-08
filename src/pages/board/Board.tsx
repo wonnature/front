@@ -31,7 +31,10 @@ const Board: React.FC = () => {
       try {
         const response = await api.get(`/board?pathname=${location.pathname}`);
         if (response.data.content) setBoard(response.data.content);
-        else warningAlert("해당 게시판은 존재하지 않습니다.");
+        else {
+          warningAlert("해당 게시판은 존재하지 않습니다.");
+          navigate("/");
+        }
       } catch (error: any) {
         warningAlert(error.response.data.message);
         navigate("/");
@@ -82,7 +85,7 @@ const Board: React.FC = () => {
               />
               <ImageContainer>
                 {board?.imageUrls.map((image) => (
-                  <Image src={image}></Image>
+                  <Image key={image} src={image}></Image>
                 ))}
               </ImageContainer>
             </>

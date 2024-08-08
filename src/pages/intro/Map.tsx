@@ -71,14 +71,12 @@ const IntroContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   height: auto;
-  padding: 20px;
+  padding: 25px;
   border: 1px solid #ddd;
   border-radius: 5px;
   margin: 20px 0;
-}
-
 `;
 
 const LogoContainer = styled.div`

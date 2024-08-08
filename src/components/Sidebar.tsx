@@ -59,9 +59,7 @@ const Sidebar = () => {
     if (location.pathname.includes("write")) {
       setOpenCategories([4]);
     }
-    console.log(location.pathname);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };

@@ -43,7 +43,7 @@ const IntroContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   height: auto;
   padding: 20px;
 `;
