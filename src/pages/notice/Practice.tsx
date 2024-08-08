@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+// 현장실습
 const Practice = () => {
   return (
     <IntroContainer>

@@ -14,10 +14,10 @@ import Notice from "./pages/notice/Notice";
 import PhotoGalleryFactory from "./pages/photoGallery/PhotoGalleryFactory";
 import PhotoGallery from "./pages/photoGallery/PhotoGallery";
 import Board from "./pages/board/Board";
+import NotPageFound from "./components/NotPageFound";
 
 const Map = lazy(() => import("./pages/intro/Map"));
 const ProductFactory = lazy(() => import("./pages/product/ProductFactory"));
-const NotPageFound = lazy(() => import("./components/NotPageFound"));
 const Login = lazy(() => import("./pages/user/Login"));
 const Product = lazy(() => import("./pages/product/Product"));
 const Shipping = lazy(() => import("./pages/product/Shipping-info"));
