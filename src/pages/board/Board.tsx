@@ -8,6 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 import { warningAlert } from "../../components/Alert";
+import { useQuery } from "@tanstack/react-query";
 
 interface BoardProps {
   id: number;
@@ -19,31 +20,29 @@ interface BoardProps {
   lastModifiedDate: string;
 }
 
+const fetchBoard = async (pathname: string) => {
+  const response = await api.get(`/board?pathname=${pathname}`);
+  return response.data.content;
+};
+
 const Board: React.FC = () => {
-  const [board, setBoard] = useState<BoardProps | null>(null);
   const [imgUrl, setImgUrl] = useState("");
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const {
+    data: board,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["board", location.pathname],
+    queryFn: () => fetchBoard(location.pathname),
+    staleTime: 1000 * 60 * 5, //5분
+  });
+
   useEffect(() => {
-    const fetchBoard = async () => {
-      try {
-        const response = await api.get(`/board?pathname=${location.pathname}`);
-        if (response.data.content) setBoard(response.data.content);
-        else {
-          warningAlert("해당 게시판은 존재하지 않습니다.");
-          navigate("/");
-        }
-      } catch (error: any) {
-        warningAlert(error.response.data.message);
-        navigate("/");
-        console.error("Error fetching notice data:", error);
-      }
-    };
-
-    fetchBoard();
-
     if (location.pathname === "/introduce/intro")
       setImgUrl("/images/intro/title1_1.png");
     if (location.pathname === "/introduce/greeting")
@@ -63,6 +62,29 @@ const Board: React.FC = () => {
     if (location.pathname === "/quality-test/apply")
       setImgUrl("/images/quality/title4_3.png");
   }, [location.pathname]);
+
+  if (isLoading) {
+    return (
+      <BoardContainer>
+        <h2>게시판 불러오는 중...</h2>
+      </BoardContainer>
+    );
+  }
+
+  if (isError) {
+    warningAlert(
+      (error as any).response?.data?.message ||
+        "알 수 없는 오류가 발생했습니다."
+    );
+    navigate("/"); // 에러 발생 시 메인 페이지로 리디렉션
+    return null;
+  }
+
+  if (!board) {
+    warningAlert("해당 게시판은 존재하지 않습니다.");
+    navigate("/"); // 데이터가 없는 경우 메인 페이지로 리디렉션
+    return null;
+  }
 
   return (
     <BoardContainer>

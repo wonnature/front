@@ -4,6 +4,9 @@ import { useSetRecoilState } from "recoil";
 import { userState } from "./state/userState";
 import api from "./api";
 import { headerState } from "./state/headerState";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -46,7 +49,9 @@ function App() {
   };
   return (
     <>
-      <Router />
+      <QueryClientProvider client={queryClient}>
+        <Router />
+      </QueryClientProvider>
     </>
   );
 }
