@@ -36,10 +36,11 @@ const Board: React.FC = () => {
     isLoading,
     isError,
     error,
-  } = useQuery({
+  } = useQuery<BoardProps>({
     queryKey: ["board", location.pathname],
     queryFn: () => fetchBoard(location.pathname),
     staleTime: 1000 * 60 * 5, //5분
+    retry: 0, // 재시도 횟수를 1회로 설정
   });
 
   useEffect(() => {

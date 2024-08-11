@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import api from "../../api";
 import { warningAlert } from "../../components/Alert";
@@ -6,34 +5,46 @@ import { dateConvert } from "../../hooks/date-convert";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
+import { NoticeProps } from "../types/NoticeProps";
+import { useQuery } from "@tanstack/react-query";
 
-interface Notice {
-  id: number;
-  title: string;
-  content: string;
-  createdDate: string;
-  fileUrls: [string];
-  hit: number;
-}
+const getNotices = async () => {
+  const response = await api.get("/notice");
+  return response.data.content;
+};
 
 const NoticeList: React.FC = () => {
-  const [notices, setNotices] = useState<Notice[]>([]);
   const user = useRecoilValue(userState);
 
   const navigate = useNavigate();
 
-  const getNotices = async () => {
-    try {
-      const response = await api.get("/notice");
-      setNotices(response.data.content);
-    } catch (error: any) {
-      warningAlert(error.response.data.message);
-    }
-  };
+  // 공지 API 호출
+  const {
+    data: notices,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<NoticeProps[]>({
+    queryKey: ["notices"],
+    queryFn: () => getNotices(),
+    staleTime: 1000 * 60 * 5, //5분
+    retry: 0, // 재시도 횟수를 0회로 설정
+  });
 
-  useEffect(() => {
-    getNotices();
-  }, []);
+  if (isLoading) {
+    return (
+      <Container>
+        <h2>공지사항 불러오는 중...</h2>
+      </Container>
+    );
+  }
+
+  if (isError) {
+    warningAlert(
+      (error as any).response?.data?.message ||
+        "공지를 불러오는 중 오류가 발생했습니다."
+    );
+  }
 
   return (
     <Container>

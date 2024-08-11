@@ -5,4 +5,5 @@ export interface NoticeProps {
   fileUrls: string[];
   createdDate: string;
   lastModifiedDate: string;
+  hit: number;
 }

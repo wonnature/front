@@ -11,10 +11,9 @@ import api from "../../api";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
 import { ProductProps } from "../types/ProductProps";
+import { useQuery } from "@tanstack/react-query";
 
 const Product = () => {
-  const [productData, setProductData] = useState<ProductProps | null>(null);
-  const [images, setImages] = useState<[string] | null>(null);
   const [isDeleteing, setIsDeleteing] = useState(false);
   const { id } = useParams();
   const user = useRecoilValue(userState);
@@ -22,34 +21,26 @@ const Product = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getProduct();
-
     window.scrollTo({
       top: 0, // 헤더 높이까지 고려해서 연산
       behavior: "smooth",
     });
   }, []);
 
-  const getProduct = async () => {
-    try {
+  const {
+    data: productData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<ProductProps>({
+    queryKey: ["product", id],
+    queryFn: async () => {
       const response = await api.get(`/product/${id}`);
-      console.log("API Response:", response.data); // 디버깅용
-      if (response.data && response.data.content) {
-        setProductData(response.data.content);
-        setImages(response.data.content.imageUrls);
-        console.log(Object.keys(response.data.content.attributes));
-      } else {
-        console.error("예상치 못한 API 응답 구조");
-      }
-    } catch (error: any) {
-      if (error?.response) {
-        await warningAlert(
-          error.response.data.message || "알 수 없는 에러 발생"
-        );
-        navigate("/product");
-      }
-    }
-  };
+      return response.data.content;
+    },
+    staleTime: 1000 * 60 * 5, //5분
+    retry: 0, // 재시도 횟수를 0회로 설정
+  });
 
   const handleShare = async () => {
     const url = `${window.location.origin}/product/${id}`;
@@ -107,6 +98,19 @@ const Product = () => {
     }
   };
 
+  if (isError) {
+    warningAlert(
+      (error as any).response?.data?.message ||
+        "제품을 불러오는 중 오류가 발생했습니다."
+    );
+  }
+
+  if (isLoading) {
+    <Container>
+      <h2>제품 불러오는 중...</h2>
+    </Container>;
+  }
+
   return (
     <Container>
       <ProductForm>
@@ -122,7 +126,9 @@ const Product = () => {
           </AdminContainer>
         )}
         <TopContainer>
-          {images && <img src={images[0]} alt="대표이미지" />}
+          {productData?.imageUrls && (
+            <img src={productData?.imageUrls[0]} alt="대표이미지" />
+          )}
           <TopContent>
             <Title>{productData?.title}</Title>
             {productData?.englishTitle && (
@@ -175,7 +181,7 @@ const Product = () => {
           dangerouslySetInnerHTML={{ __html: productData?.content as string }}
           className="ql-editor"
         />
-        {images?.map(
+        {productData?.imageUrls?.map(
           (image: any, index) =>
             index !== 0 && <Image key={index} src={image} alt={"상품이미지"} />
         )}
@@ -198,7 +204,7 @@ const centeredFlex = css`
 const Container = styled.div`
   ${centeredFlex}
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   /* min-height: 100vh; */
   padding: 20px;
 

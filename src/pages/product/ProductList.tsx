@@ -3,33 +3,37 @@ import api from "../../api";
 import { useEffect, useState } from "react";
 import { warningAlert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userState } from "../../state/userState";
-import { productState } from "../../state/productState";
+import { useQuery } from "@tanstack/react-query";
+import { ProductProps } from "../types/ProductProps";
+
+const getProductsByType = async (type: string) => {
+  const response = await api.get(`/product?type=${type}`);
+  return response.data.content;
+};
 
 const ProductList = () => {
-  const [products, setProducts] = useRecoilState(productState);
   const navigate = useNavigate();
   const [type, setType] = useState<string | any>(
     localStorage.getItem("productType") || "화장품"
   );
   const user = useRecoilValue(userState);
 
-  const getProductsByType = async (type: string) => {
-    try {
-      const response = await api.get(`/product?type=${type}`);
-      setProducts(response.data.content);
-    } catch (error: any) {
-      await warningAlert(error.response.data.message);
-    }
-  };
+  const {
+    data: products,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<ProductProps[]>({
+    queryKey: ["products", type],
+    queryFn: () => getProductsByType(type),
+    staleTime: 1000 * 60 * 5, //5분
+    retry: 0, // 재시도 횟수를 0회로 설정
+  });
 
   useEffect(() => {
-    const storedType = localStorage.getItem("productType");
-    if (!products?.length || storedType !== type) {
-      localStorage.setItem("productType", type);
-      getProductsByType(type);
-    }
+    localStorage.setItem("productType", type);
   }, [type]);
 
   const handleTypeChange = (newType: string) => {
@@ -37,6 +41,23 @@ const ProductList = () => {
       setType(newType);
     }
   };
+
+  if (isLoading) {
+    return (
+      <Container>
+        <h2>상품 불러오는 중...</h2>
+      </Container>
+    );
+  }
+
+  if (isError) {
+    warningAlert(
+      (error as any).response?.data?.message ||
+        "알 수 없는 오류가 발생했습니다."
+    );
+    navigate("/"); // 에러 발생 시 메인 페이지로 리디렉션
+    return null;
+  }
 
   return (
     <Container>

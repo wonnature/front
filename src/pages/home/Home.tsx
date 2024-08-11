@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -6,8 +5,9 @@ import "slick-carousel/slick/slick-theme.css";
 import { warningAlert } from "../../components/Alert";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
-import { PhotoGalleryProps } from "../types/PhotoGalleryProps";
 import { NoticeProps } from "../types/NoticeProps";
+import { useQuery } from "@tanstack/react-query";
+import { ProductProps } from "../types/ProductProps";
 
 const bannerImages = [
   "/images/homeBanner/banner_01.jpg",
@@ -29,33 +29,62 @@ const SliderSettings = {
   autoplaySpeed: 3000, // 자동 슬라이드 속도 (3초)
 };
 
+const getProductsByType = async (type: string) => {
+  const response = await api.get(`/product?type=${type}`);
+  return response.data.content;
+};
+
+const getNotices = async () => {
+  const response = await api.get("/notice");
+  return response.data.content;
+};
+
 const Home = () => {
-  const [notices, setNotices] = useState<NoticeProps[] | null>(null);
-  const [products, setProducts] = useState<PhotoGalleryProps[] | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getNotices();
-    getProductsByType("화장품");
-  }, []);
+  // 상품 API 호출
+  const {
+    data: products,
+    isLoading: isLoadingProducts,
+    isError: isErrorProducts,
+    error: errorProducts,
+  } = useQuery<ProductProps[]>({
+    queryKey: ["products", "화장품"],
+    queryFn: () => getProductsByType("화장품"),
+    staleTime: 1000 * 60 * 5, //5분
+    retry: 0, // 재시도 횟수를 0회로 설정
+  });
 
-  const getNotices = async () => {
-    try {
-      const response = await api.get("/notice");
-      setNotices(response.data.content);
-    } catch (error: any) {
-      warningAlert(error?.response?.data?.message);
-    }
-  };
+  // 공지 API 호출
+  const {
+    data: notices,
+    isLoading: isLoadingNotices,
+    isError: isErrorNotices,
+    error: errorNotices,
+  } = useQuery<NoticeProps[]>({
+    queryKey: ["notices"],
+    queryFn: () => getNotices(),
+    staleTime: 1000 * 60 * 5, //5분
+    retry: 0, // 재시도 횟수를 0회로 설정
+  });
 
-  const getProductsByType = async (type: string) => {
-    try {
-      const response = await api.get(`/product?type=${type}`);
-      setProducts(response.data.content);
-    } catch (error: any) {
-      await warningAlert(error.response.data.message);
-    }
-  };
+  if (isErrorProducts) {
+    warningAlert(
+      (errorProducts as any).response?.data?.message ||
+        "상품 정보를 불러오는 중 오류가 발생했습니다."
+    );
+    navigate("/");
+    return null;
+  }
+
+  if (isErrorNotices) {
+    warningAlert(
+      (errorNotices as any).response?.data?.message ||
+        "공지를 불러오는 중 오류가 발생했습니다."
+    );
+    navigate("/");
+    return null;
+  }
 
   return (
     <Container>
@@ -72,20 +101,24 @@ const Home = () => {
             <span>공지사항</span>
             <span onClick={() => navigate("/community/notice")}>more</span>
           </ContentSubject>
-          {notices?.map(
-            (notice, index) =>
-              index < 5 && (
-                <ContentTitle key={notice.id}>
-                  <span
-                    onClick={() => navigate(`/community/notice/${notice.id}`)}
-                  >
-                    {notice?.title}
-                  </span>
-                  {notice?.fileUrls?.length > 0 && (
-                    <img src="/images/disk_icon.png" />
-                  )}
-                </ContentTitle>
-              )
+          {isLoadingNotices ? (
+            <h2>공지사항 불러오는 중...</h2>
+          ) : (
+            notices?.map(
+              (notice, index) =>
+                index < 5 && (
+                  <ContentTitle key={notice.id}>
+                    <span
+                      onClick={() => navigate(`/community/notice/${notice.id}`)}
+                    >
+                      {notice?.title}
+                    </span>
+                    {notice?.fileUrls?.length > 0 && (
+                      <img src="/images/disk_icon.png" />
+                    )}
+                  </ContentTitle>
+                )
+            )
           )}
         </Content>
         <Content>
@@ -93,25 +126,29 @@ const Home = () => {
             <span>제품</span>
             <span onClick={() => navigate("/product")}>more</span>
           </ContentSubject>
-          {products?.map(
-            (product, index) =>
-              index < 1 && (
-                <PhotoGalleryContainer key={product?.id}>
-                  {product.imageUrls.length > 0 && (
-                    <PhotoGalleryImage
-                      src={product.imageUrls && product.imageUrls[0]}
-                      alt="사진없음"
-                      onClick={() => navigate(`/product/${product?.id}`)}
-                    />
-                  )}
+          {isLoadingProducts ? (
+            <h2>제품 불러오는 중...</h2>
+          ) : (
+            products?.map(
+              (product, index) =>
+                index < 1 && (
+                  <PhotoGalleryContainer key={product?.id}>
+                    {product.imageUrls.length > 0 && (
+                      <PhotoGalleryImage
+                        src={product.imageUrls && product.imageUrls[0]}
+                        alt="사진없음"
+                        onClick={() => navigate(`/product/${product?.id}`)}
+                      />
+                    )}
 
-                  <ContentTitle
-                    onClick={() => navigate(`/product/${product?.id}`)}
-                  >
-                    {product?.title}
-                  </ContentTitle>
-                </PhotoGalleryContainer>
-              )
+                    <ContentTitle
+                      onClick={() => navigate(`/product/${product?.id}`)}
+                    >
+                      {product?.title}
+                    </ContentTitle>
+                  </PhotoGalleryContainer>
+                )
+            )
           )}
         </Content>
         <CallContainer>
