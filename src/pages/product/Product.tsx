@@ -266,9 +266,12 @@ const TopContent = styled.div`
 
 const Detail = styled.div`
   display: flex;
-  font-size: 1.1rem;
   color: rgba(0, 0, 0, 0.7);
   width: 100%;
+
+  & div {
+    font-size: 1.15rem;
+  }
   & :nth-child(1) {
     width: 100px;
   }
@@ -282,7 +285,7 @@ const Detail = styled.div`
     width: 100%;
     font-size: 1rem;
     & :nth-child(1) {
-      width: 100px;
+      width: 120px;
     }
     & :nth-child(2) {
       width: 100%;
